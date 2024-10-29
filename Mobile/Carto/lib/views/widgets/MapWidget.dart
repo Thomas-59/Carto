@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
-class MapWidget extends StatelessWidget {
+class MapWidget extends StatefulWidget {
   final bool isDarkMode;
-  final MapController _mapController = MapController();
 
-  MapWidget({super.key, required this.isDarkMode});
+  const MapWidget({super.key, required this.isDarkMode});
+
+  @override
+  _MapWidgetState createState() => _MapWidgetState();
+}
+
+class _MapWidgetState extends State<MapWidget> {
+  final MapController _mapController = MapController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +28,7 @@ class MapWidget extends StatelessWidget {
         TileLayer(
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           userAgentPackageName: 'com.example.app',
-          tileBuilder:  isDarkMode ? darkModeTileBuilder : _lightModeTileBuilder,
+          tileBuilder:  widget.isDarkMode ? darkModeTileBuilder : _lightModeTileBuilder,
         ),
       ],
     );
