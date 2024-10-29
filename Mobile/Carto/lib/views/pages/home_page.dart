@@ -14,13 +14,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    MapWidget map = MapWidget(isDarkMode: _isDarkMode);
     return LayoutBuilder(
         builder: (context, constraints) {
           return Scaffold(
             body:
-              //page);
             Center(
-              child: MapWidget(isDarkMode: _isDarkMode),
+              child: map,
             ),
             floatingActionButton: FloatingActionButton(
               child: Icon(!_isDarkMode ? Icons.light_mode : Icons.dark_mode),

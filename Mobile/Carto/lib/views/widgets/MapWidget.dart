@@ -2,18 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
-class MapWidget extends StatefulWidget {
+class MapWidget extends StatelessWidget {
   final bool isDarkMode;
-
-  const MapWidget({super.key, required this.isDarkMode});
-
-  @override
-  _MapWidgetState createState() => _MapWidgetState();
-
-}
-
-class _MapWidgetState extends State<MapWidget> {
   final MapController _mapController = MapController();
+
+  MapWidget({super.key, required this.isDarkMode});
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +20,9 @@ class _MapWidgetState extends State<MapWidget> {
       ),
       children: [
         TileLayer(
-          urlTemplate: widget.isDarkMode
-              ? 'https://tile.openstreetmap.org/dark/{z}/{x}/{y}.png'
-              : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           userAgentPackageName: 'com.example.app',
-          tileBuilder:  widget.isDarkMode ? darkModeTileBuilder : _lightModeTileBuilder,
+          tileBuilder:  isDarkMode ? darkModeTileBuilder : _lightModeTileBuilder,
         ),
       ],
     );
@@ -52,7 +43,6 @@ class _MapWidgetState extends State<MapWidget> {
       child: tileWidget,
     );
   }
-
 
   void setCoordinate(double latitude, double longitude) {
     _mapController.move(LatLng(latitude, longitude), 15);
