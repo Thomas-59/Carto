@@ -32,7 +32,7 @@ public class EstablishmentDto {
                 .build();
     }
 
-    public Boolean validate(){
+    public boolean validate(){
         return  !this.name.isBlank() &&
                 !this.cityName.isBlank() &&
                 !this.description.isBlank() &&

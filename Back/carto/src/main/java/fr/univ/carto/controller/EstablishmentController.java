@@ -51,9 +51,30 @@ public class EstablishmentController {
                     .longitude(establishmentDto.getLongitude())
                     .latitude(establishmentDto.getLatitude())
                     .build();
-            return new ResponseEntity<Long>(this.establishmentService.createEstablishment(establishmentBo), HttpStatus.CREATED);
+            return new ResponseEntity<>(this.establishmentService.createEstablishment(establishmentBo), HttpStatus.CREATED);
         } else {
             throw new InvalidEstablishmentException("invalid establishment");
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<Object> updateEstablishment(@RequestBody EstablishmentDto establishmentDto) throws EstablishmentNotFoundException,InvalidEstablishmentException{
+        if(establishmentDto.validate()){
+            if(establishmentDto.getId()==null){
+                throw new InvalidEstablishmentException("no id given");
+            }
+            EstablishmentBo establishmentBo = EstablishmentBo.builder()
+                    .id(establishmentDto.getId())
+                    .latitude(establishmentDto.getLatitude())
+                    .longitude(establishmentDto.getLongitude())
+                    .name(establishmentDto.getName())
+                    .description(establishmentDto.getDescription())
+                    .cityName(establishmentDto.getCityName())
+                    .build();
+            establishmentService.update(establishmentBo);
+            return ResponseEntity.ok().build();
+        }else {
+            throw new InvalidEstablishmentException("Invalid Establishment given");
         }
     }
 }

@@ -37,4 +37,9 @@ public class EstablishmentService {
         EstablishmentEntity establishmentEntity = EstablishmentEntity.fromBo(establishmentBo);
         return this.establishmentRepository.save(establishmentEntity).getId();
     }
+
+    public void update(EstablishmentBo establishmentBo) throws EstablishmentNotFoundException {
+        this.getEstablishmentById(establishmentBo.getId());
+        this.establishmentRepository.save(EstablishmentEntity.fromBo(establishmentBo));
+    }
 }
