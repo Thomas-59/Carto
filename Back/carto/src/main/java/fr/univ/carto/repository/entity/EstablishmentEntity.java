@@ -11,7 +11,8 @@ import lombok.Setter;
 @Table(name = "establishment")
 public class EstablishmentEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "establishment_generator")
+    @SequenceGenerator(name = "establishment_generator", sequenceName = "establishment_seq", allocationSize = 1)
     private Long id;
 
     private String name;

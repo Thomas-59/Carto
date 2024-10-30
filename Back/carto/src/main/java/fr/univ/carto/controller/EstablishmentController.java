@@ -2,13 +2,12 @@ package fr.univ.carto.controller;
 
 import fr.univ.carto.controller.dto.EstablishmentDto;
 import fr.univ.carto.exception.EstablishmentNotFoundException;
+import fr.univ.carto.exception.InvalidEstablishmentException;
 import fr.univ.carto.service.EstablishmentService;
 import fr.univ.carto.service.bo.EstablishmentBo;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,5 +39,21 @@ public class EstablishmentController {
                 .cityName(establishmentBo.getCityName())
                 .build();
         return ResponseEntity.ok(establishmentDto);
+    }
+
+    @PostMapping
+    public ResponseEntity<Long> createEstablishment(@RequestBody EstablishmentDto establishmentDto) throws InvalidEstablishmentException {
+        if(establishmentDto.validate()){
+            EstablishmentBo establishmentBo = EstablishmentBo.builder()
+                    .cityName(establishmentDto.getCityName())
+                    .name(establishmentDto.getName())
+                    .description(establishmentDto.getDescription())
+                    .longitude(establishmentDto.getLongitude())
+                    .latitude(establishmentDto.getLatitude())
+                    .build();
+            return new ResponseEntity<Long>(this.establishmentService.createEstablishment(establishmentBo), HttpStatus.CREATED);
+        } else {
+            throw new InvalidEstablishmentException("invalid establishment");
+        }
     }
 }

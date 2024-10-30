@@ -59,3 +59,4 @@ CREATE TABLE Schedule (
 
 CREATE INDEX idx_establishment_games_establishment ON Establishment_Games(idEstablishment);
 CREATE INDEX idx_schedule_establishment ON Schedule(idEstablishment);
+CREATE SEQUENCE establishment_seq;

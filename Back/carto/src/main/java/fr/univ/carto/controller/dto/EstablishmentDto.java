@@ -32,5 +32,16 @@ public class EstablishmentDto {
                 .build();
     }
 
+    public Boolean validate(){
+        return  !this.name.isBlank() &&
+                !this.cityName.isBlank() &&
+                !this.description.isBlank() &&
+                this.latitude != null &&
+                this.longitude != null &&
+                this.latitude>=-90 &&
+                this.latitude<=90 &&
+                this.longitude>=-180 &&
+                this.longitude<=180;
 
+    }
 }

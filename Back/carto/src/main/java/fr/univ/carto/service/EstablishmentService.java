@@ -32,4 +32,9 @@ public class EstablishmentService {
             throw new EstablishmentNotFoundException("No establishment found for given id");
         }
     }
+
+    public Long createEstablishment(EstablishmentBo establishmentBo) {
+        EstablishmentEntity establishmentEntity = EstablishmentEntity.fromBo(establishmentBo);
+        return this.establishmentRepository.save(establishmentEntity).getId();
+    }
 }
