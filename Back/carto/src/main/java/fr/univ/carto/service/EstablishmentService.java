@@ -42,4 +42,9 @@ public class EstablishmentService {
         this.getEstablishmentById(establishmentBo.getId());
         this.establishmentRepository.save(EstablishmentEntity.fromBo(establishmentBo));
     }
+
+    public void deleteEstablishment(Long id) throws EstablishmentNotFoundException{
+        this.getEstablishmentById(id);
+        this.establishmentRepository.deleteById(id);
+    }
 }

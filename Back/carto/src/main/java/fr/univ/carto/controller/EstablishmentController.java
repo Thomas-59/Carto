@@ -77,4 +77,10 @@ public class EstablishmentController {
             throw new InvalidEstablishmentException("Invalid Establishment given");
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteEstablishment(@PathVariable Long id) throws EstablishmentNotFoundException {
+        this.establishmentService.deleteEstablishment(id);
+        return ResponseEntity.accepted().build();
+    }
 }
