@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/MapWidget.dart';
+import '../widgets/map_widget.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -23,9 +23,10 @@ class _MyHomePageState extends State<MyHomePage> {
               child: map,
             ),
             floatingActionButton: FloatingActionButton(
-              child: Icon(!_isDarkMode ? Icons.light_mode : Icons.dark_mode),
+              child: Icon(_isDarkMode ? Icons.dark_mode : Icons.light_mode),
               onPressed: () {
                 setState(() {
+                  map.setCoordinate(55.63294, 30.05843);
                   _isDarkMode = !_isDarkMode;
                 });
               },
