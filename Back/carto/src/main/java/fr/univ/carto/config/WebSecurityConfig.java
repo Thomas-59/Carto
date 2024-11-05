@@ -1,6 +1,6 @@
 package fr.univ.carto.config;
 
-import lombok.RequiredArgsConstructor;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +21,11 @@ public class WebSecurityConfig {
         http.sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .cors(cors -> cors
-                        .configurationSource(corsConfigurationSource()));
+                        .configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf.disable())  // Désactive CSRF pour éviter d'autres erreurs 403
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest()
+                        .permitAll()); // Autorise toutes les requêtes
         return http.build();
     }
 
