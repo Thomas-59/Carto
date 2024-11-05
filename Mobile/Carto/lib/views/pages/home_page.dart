@@ -26,7 +26,6 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Icon(_isDarkMode ? Icons.dark_mode : Icons.light_mode),
               onPressed: () {
                 setState(() {
-                  map.setCoordinate(55.63294, 30.05843);
                   _isDarkMode = !_isDarkMode;
                 });
               },

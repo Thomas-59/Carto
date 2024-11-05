@@ -1,9 +1,11 @@
 import 'package:carto/models/establishment_data.dart';
-import 'package:carto/views/service/establishment_service.dart';
+import 'package:carto/views/services/establishment_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import '../../models/establishment.dart';
+import '../services/location_service.dart';
 
 class MapWidget extends StatefulWidget {
   final bool isDarkMode;
@@ -25,8 +27,24 @@ class MapWidget extends StatefulWidget {
 class _MapWidgetState extends State<MapWidget> {
   final MapController _mapController = MapController();
   final EstablishmentService establishmentService = EstablishmentService();
+  Position? _currentPosition;
+  final LocationService _locationService = LocationService();
 
+  @override
+  void initState() {
+    super.initState();
+    _locationService.startLocationUpdates((position) {
+      setState(() {
+        _currentPosition = position;
+      });
+    });
+  }
 
+  @override
+  void dispose() {
+    _locationService.stopLocationUpdates();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +68,18 @@ class _MapWidgetState extends State<MapWidget> {
                   child: Icon(Icons.location_on, color: Colors.red, size: 40),
                 );
               }).toList();
+              
+              markers.add(Marker( // Marker for user position
+                width: 80.0,
+                height: 80.0,
+                point: LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
+                child: Icon(Icons.circle_rounded, color: Colors.blue, size: 20),
+              ));
+              
     return FlutterMap(
       mapController: _mapController,
-      options: const MapOptions(
-        initialCenter: LatLng(50.63294, 3.05843),
+      options: MapOptions(
+        initialCenter: LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
         initialZoom: 15,
         minZoom: 6,
         maxZoom: 19,
@@ -71,6 +97,7 @@ class _MapWidgetState extends State<MapWidget> {
         ),
     );
   }
+  
   // Différents filtres de couleur pour les modes de carte
   Widget _lightModeTileBuilder(BuildContext context, Widget tileWidget, TileImage tile) {
     return ColorFiltered(
