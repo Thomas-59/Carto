@@ -29,6 +29,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   map.setCoordinate(55.63294, 30.05843);
                   _isDarkMode = !_isDarkMode;
                 });
+                Navigator.pushNamed(
+                  context,
+                  '/suggestion',
+                );
               },
             ),
           );
