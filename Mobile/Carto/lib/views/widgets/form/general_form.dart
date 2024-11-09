@@ -2,7 +2,7 @@ import 'package:carto/enum/price_enum.dart';
 import 'package:flutter/material.dart';
 
 import 'form_fields/my_form_field.dart';
-import 'form_fields/price_button.dart';
+import 'other_fields/price_button.dart';
 
 class GeneralForm extends StatefulWidget {
   final ValueChanged<bool> formIsValid;
@@ -55,7 +55,10 @@ class _GeneralFormState extends State<GeneralForm> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text("Générale"),
+        const Text(
+          "Générale",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         const Divider(
             color: Colors.black
         ),

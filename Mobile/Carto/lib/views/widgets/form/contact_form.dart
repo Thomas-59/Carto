@@ -58,7 +58,10 @@ class _ContactFormState extends State<ContactForm> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text("Contacte"),
+        const Text(
+          "Contacte",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         const Divider(
             color: Colors.black
         ),
