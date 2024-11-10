@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 @Builder
@@ -43,5 +45,17 @@ public class EstablishmentDto {
                 this.longitude>=-180 &&
                 this.longitude<=180;
 
+    }
+    @Override
+    public boolean equals(Object object){
+        if(object instanceof EstablishmentDto establishmentDto){
+            return Objects.equals(this.id, establishmentDto.id) &&
+                    Objects.equals(this.latitude, establishmentDto.getLatitude()) &&
+                    Objects.equals(this.longitude, establishmentDto.getLongitude()) &&
+                    Objects.equals(this.description, establishmentDto.getDescription()) &&
+                    Objects.equals(this.cityName, establishmentDto.getCityName()) &&
+                    Objects.equals(this.name, establishmentDto.getName());
+        }
+        return false;
     }
 }
