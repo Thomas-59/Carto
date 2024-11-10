@@ -1,3 +1,4 @@
+import 'package:carto/enum/price_enum.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/form/contact_form.dart';
@@ -14,11 +15,23 @@ class SuggestionPage extends StatefulWidget {
 class _SuggestionPageState extends State<SuggestionPage> {
   late Widget _generalForm;
   late Widget _contactForm;
-  late Widget _openingHourForm;
+  late final Widget _openingHourForm;
 
-  bool generalFormIsValid = false;
-  bool contactFormIsValid = false;
+  bool _generalFormIsValid = false;
+  bool _contactFormIsValid = false;
 
+  // GeneralForm
+  String _name = "";
+  String _address = "";
+  PriceEnum _gamePrice = PriceEnum.medium;
+  bool _nearTransport = false;
+  bool _pmrAccess = false;
+
+  // ContactForm
+  String _mail = "";
+  String _phoneNumber = "";
+
+  // OpeningHourForm
   List<bool> _weekOpening = <bool> [
     true,
     true,
@@ -29,20 +42,33 @@ class _SuggestionPageState extends State<SuggestionPage> {
     true
   ];
 
-  List<List<TimeOfDay>> _weekOpeningHour = <List<TimeOfDay>> [
-    <TimeOfDay> [const TimeOfDay(hour: 0, minute: 0), const TimeOfDay(hour: 0, minute: 0)],
-    <TimeOfDay> [const TimeOfDay(hour: 0, minute: 0), const TimeOfDay(hour: 0, minute: 0)],
-    <TimeOfDay> [const TimeOfDay(hour: 0, minute: 0), const TimeOfDay(hour: 0, minute: 0)],
-    <TimeOfDay> [const TimeOfDay(hour: 0, minute: 0), const TimeOfDay(hour: 0, minute: 0)],
-    <TimeOfDay> [const TimeOfDay(hour: 0, minute: 0), const TimeOfDay(hour: 0, minute: 0)],
-    <TimeOfDay> [const TimeOfDay(hour: 0, minute: 0), const TimeOfDay(hour: 0, minute: 0)],
-    <TimeOfDay> [const TimeOfDay(hour: 0, minute: 0), const TimeOfDay(hour: 0, minute: 0)]
+  List<List<TimeOfDay>> _weekOpeningHour = const <List<TimeOfDay>> [
+    <TimeOfDay> [TimeOfDay(hour: 0, minute: 0), TimeOfDay(hour: 0, minute: 0)],
+    <TimeOfDay> [TimeOfDay(hour: 0, minute: 0), TimeOfDay(hour: 0, minute: 0)],
+    <TimeOfDay> [TimeOfDay(hour: 0, minute: 0), TimeOfDay(hour: 0, minute: 0)],
+    <TimeOfDay> [TimeOfDay(hour: 0, minute: 0), TimeOfDay(hour: 0, minute: 0)],
+    <TimeOfDay> [TimeOfDay(hour: 0, minute: 0), TimeOfDay(hour: 0, minute: 0)],
+    <TimeOfDay> [TimeOfDay(hour: 0, minute: 0), TimeOfDay(hour: 0, minute: 0)],
+    <TimeOfDay> [TimeOfDay(hour: 0, minute: 0), TimeOfDay(hour: 0, minute: 0)]
   ];
 
   @override
   void initState() {
-    _generalForm = GeneralForm(formIsValid: _handleGeneralFormChange);
-    _contactForm = ContactForm(formIsValid: _handleContactFormChange);
+    _generalForm = GeneralForm(
+      formIsValid: _handleGeneralFormValidity,
+      formChange: _handleGeneralFormChange,
+      name: _name,
+      address: _address,
+      gamePrice: _gamePrice,
+      nearTransport: _nearTransport,
+      pmrAccess: _pmrAccess,
+    );
+    _contactForm = ContactForm(
+      formIsValid: _handleContactFormValidity,
+      formChange: _handleContactFormChange,
+      mail: _mail,
+      phoneNumber: _phoneNumber,
+    );
     _openingHourForm = OpeningHourForm(
       weekOpening: _weekOpening,
       weekOpeningChange: _handleOpeningHourFormOpeningChange,
@@ -85,26 +111,40 @@ class _SuggestionPageState extends State<SuggestionPage> {
   }
 
   bool formIsValid() {
-    return generalFormIsValid & contactFormIsValid;
+    return _generalFormIsValid & _contactFormIsValid;
   }
 
-  void _handleGeneralFormChange(bool formIsValid) {
+  void _handleGeneralFormValidity(bool formIsValid) {
     setState(() {
-      generalFormIsValid = formIsValid;
+      _generalFormIsValid = formIsValid;
     });
   }
 
-  void _handleContactFormChange(bool formIsValid) {
+  void _handleGeneralFormChange(List<String> newValues) {
+    _name = newValues[0];
+    _address = newValues[1];
+    _gamePrice = PriceEnum.fromString(newValues[2]);
+    _nearTransport = newValues[3] == "true";
+    _pmrAccess = newValues[4] == "true";
+  }
+
+  void _handleContactFormValidity(bool formIsValid) {
     setState(() {
-      contactFormIsValid = formIsValid;
+      _contactFormIsValid = formIsValid;
     });
+  }
+
+  void _handleContactFormChange(List<String> newValues) {
+      _mail = newValues[0];
+      _phoneNumber = newValues[1];
   }
 
   void _handleOpeningHourFormOpeningChange(List<bool> newWeekOpening) {
     _weekOpening = newWeekOpening;
   }
 
-  void _handleOpeningHourFormOpeningHourChange(List<List<TimeOfDay>> newWeekOpeningHour) {
+  void _handleOpeningHourFormOpeningHourChange(
+      List<List<TimeOfDay>> newWeekOpeningHour) {
     _weekOpeningHour = newWeekOpeningHour;
   }
 }

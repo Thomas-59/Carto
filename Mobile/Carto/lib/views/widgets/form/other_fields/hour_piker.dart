@@ -43,8 +43,8 @@ class _HourPikerState extends State<HourPiker> {
         Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          setButton("ouvert", true),
-          setButton("fermé", false),
+          _setButton("ouvert", true),
+          _setButton("fermé", false),
         ],),
         Visibility(
           visible: _opened,
@@ -53,26 +53,33 @@ class _HourPikerState extends State<HourPiker> {
             children: [
               InkWell(
                 onTap: () async {
-                  final TimeOfDay? pickedTime = await showTimePicker(context: context, initialTime: _openingTime);
+                  final TimeOfDay? pickedTime = await showTimePicker(
+                      context: context,
+                      initialTime: _openingTime
+                  );
                   if (pickedTime != null && pickedTime != _openingTime) {
                     setState(() {
                       _openingTime = pickedTime;
                     });
                   }
                 },
-                child: setTime(_openingTime.hour, _openingTime.minute),
+                child: _setTime(_openingTime.hour, _openingTime.minute),
               ),
               InkWell(
                 onTap: () async {
-                  final TimeOfDay? pickedTime = await showTimePicker(context: context, initialTime: _closingTime);
+                  final TimeOfDay? pickedTime = await showTimePicker(
+                      context: context,
+                      initialTime: _closingTime
+                  );
                   if (pickedTime != null && pickedTime != _closingTime) {
                     setState(() {
                       _closingTime = pickedTime;
-                      widget.onTimeChange(<TimeOfDay> [_openingTime, _closingTime]);
+                      widget.onTimeChange(<TimeOfDay> [_openingTime,
+                        _closingTime]);
                     });
                   }
                 },
-                child: setTime(_closingTime.hour, _closingTime.minute),
+                child: _setTime(_closingTime.hour, _closingTime.minute),
               ),
             ],
           ),
@@ -82,7 +89,7 @@ class _HourPikerState extends State<HourPiker> {
     );
   }
 
-  Widget setButton(String title, bool value) {
+  Widget _setButton(String title, bool value) {
     return Expanded(
       child: RadioListTile<bool>(
         title: Text(title),
@@ -100,17 +107,17 @@ class _HourPikerState extends State<HourPiker> {
     );
   }
 
-  Widget setTime(int hour, int minute) {
+  Widget _setTime(int hour, int minute) {
     return Row(
       children: [
-        setBox(hour.toString()),
+        _setBox(hour.toString()),
         const Text(" : "),
-        setBox(minute.toString()),
+        _setBox(minute.toString()),
       ],
     );
   }
 
-  Widget setBox(String title) {
+  Widget _setBox(String title) {
     return Container(
       width: 75.0,
       height: 50.0,

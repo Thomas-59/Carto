@@ -7,10 +7,55 @@ class OpeningHourForm extends StatefulWidget {
   final List<List<TimeOfDay>> weekOpeningHour;
   final List<bool> weekOpening;
 
-  const OpeningHourForm({super.key, required this.weekOpening, required this.weekOpeningChange, required this.weekOpeningHour, required this.weekOpeningHourChange});
+  const OpeningHourForm({
+    super.key,
+    required this.weekOpeningChange,
+    required this.weekOpeningHourChange,
+    this.weekOpening = const <bool> [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    this.weekOpeningHour = const <List<TimeOfDay>> [
+      <TimeOfDay> [
+        TimeOfDay(hour: 0, minute: 0),
+        TimeOfDay(hour: 0, minute: 0)
+      ],
+      <TimeOfDay> [
+        TimeOfDay(hour: 0, minute: 0),
+        TimeOfDay(hour: 0, minute: 0)
+      ],
+      <TimeOfDay> [
+        TimeOfDay(hour: 0, minute: 0),
+        TimeOfDay(hour: 0, minute: 0)
+      ],
+      <TimeOfDay> [
+        TimeOfDay(hour: 0, minute: 0),
+        TimeOfDay(hour: 0, minute: 0)
+      ],
+      <TimeOfDay> [
+        TimeOfDay(hour: 0, minute: 0),
+        TimeOfDay(hour: 0, minute: 0)
+      ],
+      <TimeOfDay> [
+        TimeOfDay(hour: 0, minute: 0),
+        TimeOfDay(hour: 0, minute: 0)
+      ],
+      <TimeOfDay> [
+        TimeOfDay(hour: 0, minute: 0),
+        TimeOfDay(hour: 0, minute: 0)
+      ]
+    ],
+  });
 
   @override
   State<OpeningHourForm> createState() => _OpeningHourFormState();
+
+  List<List<TimeOfDay>> getInitialWeekOpeningHour() => weekOpeningHour;
 }
 
 class _OpeningHourFormState extends State<OpeningHourForm> {
@@ -51,10 +96,6 @@ class _OpeningHourFormState extends State<OpeningHourForm> {
     _sundayOpening = widget.weekOpening[6];
   }
 
-  bool formIsValid() {
-    return true;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -71,13 +112,13 @@ class _OpeningHourFormState extends State<OpeningHourForm> {
             opened: _mondayOpening,
             onOpeningChange: (bool newOpening) {
               _mondayOpening = newOpening;
-              onOpeningChange();
+              _onOpeningChange();
             },
             openingTime: _mondayTime[0],
             closingTime: _mondayTime[1],
             onTimeChange: (List<TimeOfDay> newOpeningTime) {
               _mondayTime = newOpeningTime;
-              onTimeChange();
+              _onTimeChange();
             }
         ),
         HourPiker(
@@ -85,13 +126,13 @@ class _OpeningHourFormState extends State<OpeningHourForm> {
             opened: _tuesdayOpening,
             onOpeningChange: (bool newOpening) {
               _tuesdayOpening = newOpening;
-              onOpeningChange();
+              _onOpeningChange();
             },
             openingTime: _tuesdayTime[0],
             closingTime: _tuesdayTime[1],
             onTimeChange: (List<TimeOfDay> newOpeningTime) {
               _tuesdayTime = newOpeningTime;
-              onTimeChange();
+              _onTimeChange();
             }
         ),
         HourPiker(
@@ -99,13 +140,13 @@ class _OpeningHourFormState extends State<OpeningHourForm> {
             opened: _wednesdayOpening,
             onOpeningChange: (bool newOpening) {
               _wednesdayOpening = newOpening;
-              onOpeningChange();
+              _onOpeningChange();
             },
             openingTime: _wednesdayTime[0],
             closingTime: _wednesdayTime[1],
             onTimeChange: (List<TimeOfDay> newOpeningTime) {
               _wednesdayTime = newOpeningTime;
-              onTimeChange();
+              _onTimeChange();
             }
         ),
         HourPiker(
@@ -113,13 +154,13 @@ class _OpeningHourFormState extends State<OpeningHourForm> {
             opened: _thursdayOpening,
             onOpeningChange: (bool newOpening) {
               _fridayOpening = newOpening;
-              onOpeningChange();
+              _onOpeningChange();
             },
             openingTime: _thursdayTime[0],
             closingTime: _thursdayTime[1],
             onTimeChange: (List<TimeOfDay> newOpeningTime) {
               _thursdayTime = newOpeningTime;
-              onTimeChange();
+              _onTimeChange();
             }
         ),
         HourPiker(
@@ -127,13 +168,13 @@ class _OpeningHourFormState extends State<OpeningHourForm> {
             opened: _fridayOpening,
             onOpeningChange: (bool newOpening) {
               _fridayOpening = newOpening;
-              onOpeningChange();
+              _onOpeningChange();
             },
             openingTime: _fridayTime[0],
             closingTime: _fridayTime[1],
             onTimeChange: (List<TimeOfDay> newOpeningTime) {
               _fridayTime = newOpeningTime;
-              onTimeChange();
+              _onTimeChange();
             }
         ),
         HourPiker(
@@ -141,13 +182,13 @@ class _OpeningHourFormState extends State<OpeningHourForm> {
             opened: _saturdayOpening,
             onOpeningChange: (bool newOpening) {
               _saturdayOpening = newOpening;
-              onOpeningChange();
+              _onOpeningChange();
             },
             openingTime: _saturdayTime[0],
             closingTime: _saturdayTime[1],
             onTimeChange: (List<TimeOfDay> newOpeningTime) {
               _saturdayTime = newOpeningTime;
-              onTimeChange();
+              _onTimeChange();
             }
         ),
         HourPiker(
@@ -155,20 +196,20 @@ class _OpeningHourFormState extends State<OpeningHourForm> {
           opened: _sundayOpening,
           onOpeningChange: (bool newOpening) {
             _sundayOpening = newOpening;
-            onOpeningChange();
+            _onOpeningChange();
           },
           openingTime: _sundayTime[0],
           closingTime: _sundayTime[1],
           onTimeChange: (List<TimeOfDay> newOpeningTime) {
             _sundayTime = newOpeningTime;
-            onTimeChange();
+            _onTimeChange();
           }
         ),
       ],
     );
   }
 
-  void onOpeningChange() {
+  void _onOpeningChange() {
     widget.weekOpeningChange(
         <bool> [
           _mondayOpening,
@@ -182,7 +223,7 @@ class _OpeningHourFormState extends State<OpeningHourForm> {
     );
   }
 
-  void onTimeChange() {
+  void _onTimeChange() {
     widget.weekOpeningHourChange(
       <List<TimeOfDay>> [
         _mondayTime,

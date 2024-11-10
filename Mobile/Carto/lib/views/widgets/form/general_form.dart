@@ -6,8 +6,23 @@ import 'other_fields/price_button.dart';
 
 class GeneralForm extends StatefulWidget {
   final ValueChanged<bool> formIsValid;
+  final ValueChanged<List<String>> formChange;
+  final String name;
+  final String address;
+  final PriceEnum gamePrice;
+  final bool nearTransport;
+  final bool pmrAccess;
 
-  const GeneralForm({super.key, required this.formIsValid});
+  const GeneralForm({
+    super.key,
+    required this.formIsValid,
+    required this.formChange,
+    this.name = "",
+    this.address = "",
+    this.gamePrice = PriceEnum.medium,
+    this.nearTransport = false,
+    this.pmrAccess = false,
+  });
 
   @override
   State<GeneralForm> createState() => _GeneralFormState();
@@ -15,40 +30,62 @@ class GeneralForm extends StatefulWidget {
 
 class _GeneralFormState extends State<GeneralForm> {
   //controller
-  final nomController = TextEditingController(text: "");
-  final addressController = TextEditingController(text: "");
+  late final _nameController = TextEditingController(text: widget.name);
+  late final _addressController = TextEditingController(text: widget.address);
 
   //checkBox
-  bool nearTransport = false;
-  bool pmrAccess = false;
+  late bool _nearTransport = widget.nearTransport;
+  late bool _pmrAccess = widget.nearTransport;
 
   //validator
-  bool nomValid = false;
-  bool addressValid = false;
+  late bool _nameIsValid;
+  late bool _addressIsValid;
 
-  PriceEnum gamePrice = PriceEnum.medium;
+  late PriceEnum _gamePrice = widget.gamePrice;
 
   @override
   void initState() {
-    nomController.addListener(() {
+    _nameIsValid = _nameValueIsValid(_nameController.text);
+    _nameController.addListener(() {
       setState(() {
-        nomValid = nomController.text.isNotEmpty;
-        widget.formIsValid(formIsValid());
+        _nameIsValid = _nameValueIsValid(_nameController.text);
+        widget.formIsValid(_formIsValid());
+        widget.formChange(getAllParameter());
       });
     });
 
-    addressController.addListener(() {
+    _addressIsValid = _addressValueIsValid(_addressController.text);
+    _addressController.addListener(() {
       setState(() {
-        addressValid = addressController.text.isNotEmpty;
-        widget.formIsValid(formIsValid());
+        _addressIsValid = _addressValueIsValid(_addressController.text);
+        widget.formIsValid(_formIsValid());
+        widget.formChange(getAllParameter());
       });
     });
 
     super.initState();
   }
 
-  bool formIsValid() {
-    return nomValid & addressValid;
+  bool _nameValueIsValid(String value) {
+    return value.isNotEmpty;
+  }
+  
+  bool _addressValueIsValid(String value) {
+    return value.isNotEmpty;
+  }
+
+  bool _formIsValid() {
+    return _nameIsValid & _addressIsValid;
+  }
+
+  List<String> getAllParameter() {
+    return <String> [
+      _nameController.text,
+      _addressController.text,
+      _gamePrice.value,
+      _nearTransport.toString(),
+      _pmrAccess.toString()
+    ];
   }
 
   @override
@@ -62,40 +99,49 @@ class _GeneralFormState extends State<GeneralForm> {
         const Divider(
             color: Colors.black
         ),
-        MyFormField(label: "nom d'établissement", isFeminine: false, controller: nomController),
-        MyFormField(label: "adresse d'établissement", isFeminine: true, controller: addressController),
-        PriceButton(text: "prix moyen des jeux", averageGamePrice: gamePrice, onPriceChanged: _handlePriceChange,),
-        generalOption(),
+        MyFormField(
+            label: "nom d'établissement",
+            isFeminine: false,
+            controller: _nameController
+        ),
+        MyFormField(
+            label: "adresse d'établissement",
+            isFeminine: true,
+            controller: _addressController
+        ),
+        PriceButton(
+          text: "Prix moyen des jeux",
+          averageGamePrice: _gamePrice,
+          onPriceChanged: _handlePriceChange,
+        ),
+        CheckboxListTile(
+            value: _nearTransport,
+            controlAffinity: ListTileControlAffinity.leading,
+            title: const Text("Proche des transports"),
+            onChanged:(newValue){
+              setState(() {
+                _nearTransport = newValue ?? _nearTransport;
+                widget.formChange(getAllParameter());
+              });
+            }),
+        CheckboxListTile(
+            value: _pmrAccess,
+            controlAffinity: ListTileControlAffinity.leading,
+            title: const Text("Accès PMR"),
+            onChanged:(newValue){
+              setState(() {
+                _pmrAccess = newValue ?? _pmrAccess;
+                widget.formChange(getAllParameter());
+              });
+            }),
       ],
     );
   }
 
   void _handlePriceChange(PriceEnum newPrice) {
     setState(() {
-      gamePrice = newPrice;
+      _gamePrice = newPrice;
+      widget.formChange(getAllParameter());
     });
-  }
-
-  Widget generalOption() {
-    return Column(
-      children: [
-        CheckboxListTile(value: nearTransport,
-            controlAffinity: ListTileControlAffinity.leading,
-            title: const Text("proche des transports"),
-            onChanged:(newValue){
-              setState(() {
-                nearTransport = newValue ?? nearTransport;
-              });
-            }),
-        CheckboxListTile(value: pmrAccess,
-            controlAffinity: ListTileControlAffinity.leading,
-            title: const Text("Accès PMR"),
-            onChanged:(newValue){
-              setState(() {
-                pmrAccess = newValue ?? pmrAccess;
-              });
-            }),
-      ],
-    );
   }
 }

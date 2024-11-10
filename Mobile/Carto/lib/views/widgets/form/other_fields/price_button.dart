@@ -7,7 +7,12 @@ class PriceButton extends StatefulWidget {
   final ValueChanged<PriceEnum> onPriceChanged;
   final String text;
 
-  const PriceButton({super.key, required this.averageGamePrice, required this.onPriceChanged, required this.text});
+  const PriceButton({
+    super.key,
+    required this.averageGamePrice,
+    required this.onPriceChanged,
+    required this.text
+  });
 
   @override
   State<PriceButton> createState() => _PriceButtonState();

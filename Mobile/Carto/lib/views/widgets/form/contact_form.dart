@@ -5,8 +5,17 @@ import 'form_fields/my_form_field_num.dart';
 
 class ContactForm extends StatefulWidget {
   final ValueChanged<bool> formIsValid;
+  final ValueChanged<List<String>> formChange;
+  final String mail;
+  final String phoneNumber;
 
-  const ContactForm({super.key, required this.formIsValid});
+  const ContactForm({
+    super.key,
+    required this.formIsValid,
+    required this.formChange,
+    this.mail = "",
+    this.phoneNumber = ""
+  });
 
   @override
   State<ContactForm> createState() => _ContactFormState();
@@ -14,44 +23,61 @@ class ContactForm extends StatefulWidget {
 
 class _ContactFormState extends State<ContactForm> {
   //controller
-  final mailController = TextEditingController(text: "");
-  final tellController = TextEditingController(text: "");
+  late final _mailController = TextEditingController(text: widget.mail);
+  late final _phoneNumberController =
+    TextEditingController(text: widget.phoneNumber);
 
   //validator
-  bool mailValid = false;
-  bool tellValid = true;
+  late bool _mailIsValid;
+  late bool _phoneNumberIsValid;
 
   @override
   void initState() {
 
-    mailController.addListener(() {
+    _mailIsValid = _mailValueIsValid(_mailController.text);
+    _mailController.addListener(() {
       setState(() {
-        mailValid = mailController.text.isNotEmpty;
-        widget.formIsValid(formIsValid());
+        _mailIsValid = _mailValueIsValid(_mailController.text);
+        widget.formIsValid(_formIsValid());
+        widget.formChange(<String> [_mailController.text,
+          _phoneNumberController.text]);
       });
     });
 
-    tellController.addListener(() {
+    _phoneNumberIsValid = _phoneNumberValueIsValid(widget.phoneNumber);
+    _phoneNumberController.addListener(() {
       setState(() {
-        if (tellController.text == "") {
-          tellValid = true;
-        } else {
-          try {
-            int.parse(tellController.text);
-            tellValid = true;
-          } catch (e) {
-            tellValid = false;
-          }
-        }
-        widget.formIsValid(formIsValid());
+        _phoneNumberIsValid =
+            _phoneNumberValueIsValid(_phoneNumberController.text);
+        widget.formIsValid(_formIsValid());
+        widget.formChange(<String> [_mailController.text,
+          _phoneNumberController.text]);
       });
     });
+
 
     super.initState();
   }
 
-  bool formIsValid() {
-    return mailValid & tellValid;
+  bool _mailValueIsValid(String value) {
+    return value.isNotEmpty;
+  }
+
+  bool _phoneNumberValueIsValid(String value) {
+    if (value == "") {
+      return true;
+    } else {
+      try {
+        int.parse(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+  }
+
+  bool _formIsValid() {
+    return _mailIsValid & _phoneNumberIsValid;
   }
 
   @override
@@ -65,8 +91,16 @@ class _ContactFormState extends State<ContactForm> {
         const Divider(
             color: Colors.black
         ),
-        MyFormFieldMail(label: "mail d'établissement", isFeminine: false, controller: mailController),
-        MyFormFieldNum(label: "téléphone d'établissement", isFeminine: false, controller: tellController),
+        MyFormFieldMail(
+            label: "mail d'établissement",
+            isFeminine: false,
+            controller: _mailController
+        ),
+        MyFormFieldNum(
+            label: "téléphone d'établissement",
+            isFeminine: false,
+            controller: _phoneNumberController
+        ),
       ],
     );
   }
