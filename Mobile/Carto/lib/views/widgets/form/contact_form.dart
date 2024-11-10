@@ -92,12 +92,12 @@ class _ContactFormState extends State<ContactForm> {
             color: Colors.black
         ),
         MyFormFieldMail(
-            label: "mail d'établissement",
+            label: "Mail d'établissement",
             isFeminine: false,
             controller: _mailController
         ),
         MyFormFieldNum(
-            label: "téléphone d'établissement",
+            label: "Téléphone d'établissement",
             isFeminine: false,
             controller: _phoneNumberController
         ),

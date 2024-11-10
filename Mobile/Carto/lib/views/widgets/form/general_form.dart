@@ -100,12 +100,12 @@ class _GeneralFormState extends State<GeneralForm> {
             color: Colors.black
         ),
         MyFormField(
-            label: "nom d'établissement",
+            label: "Nom d'établissement",
             isFeminine: false,
             controller: _nameController
         ),
         MyFormField(
-            label: "adresse d'établissement",
+            label: "Adresse d'établissement",
             isFeminine: true,
             controller: _addressController
         ),

@@ -27,7 +27,14 @@ class MyFormFieldMail extends StatelessWidget {
       autovalidateMode: AutovalidateMode.always,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Veuillez entrer ${isFeminine ? "une" : "un"} ${label.toLowerCase()}';
+          return 'Veuillez entrer ${isFeminine ? "une" : "un"} '
+              '${label.toLowerCase()}';
+        }
+        final RegExp mailRegex =
+          RegExp( r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" );
+        if(!mailRegex.hasMatch(value)) {
+          return "$value n'est pas ${isFeminine ? "une" : "un"} "
+              "${label.toLowerCase()} valide";
         }
 
         return null;
