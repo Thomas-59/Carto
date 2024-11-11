@@ -1,4 +1,5 @@
 import 'package:carto/enum/price_enum.dart';
+import 'package:carto/views/widgets/form/games_form.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/form/contact_form.dart';
@@ -13,68 +14,65 @@ class SuggestionPage extends StatefulWidget {
 }
 
 class _SuggestionPageState extends State<SuggestionPage> {
-  late Widget _generalForm;
-  late Widget _contactForm;
-  late final Widget _openingHourForm;
+  late final GeneralForm _generalForm;
+  late final ContactForm _contactForm;
+  late final OpeningHourForm _openingHourForm;
+  late final GamesForm _gamesForm;
 
   bool _generalFormIsValid = false;
   bool _contactFormIsValid = false;
 
   // GeneralForm
-  String _name = "";
-  String _address = "";
-  PriceEnum _gamePrice = PriceEnum.medium;
-  bool _nearTransport = false;
-  bool _pmrAccess = false;
+  late String _name, _address;
+  late PriceEnum _gamePrice;
+  late bool _nearTransport, _pmrAccess;
 
   // ContactForm
-  String _mail = "";
-  String _phoneNumber = "";
+  late String _mail, _phoneNumber;
 
   // OpeningHourForm
-  List<bool> _weekOpening = <bool> [
-    true,
-    true,
-    true,
-    true,
-    true,
-    true,
-    true
-  ];
+  late List<bool> _weekOpening;
+  late List<List<TimeOfDay>> _weekOpeningHour;
 
-  List<List<TimeOfDay>> _weekOpeningHour = const <List<TimeOfDay>> [
-    <TimeOfDay> [TimeOfDay(hour: 0, minute: 0), TimeOfDay(hour: 0, minute: 0)],
-    <TimeOfDay> [TimeOfDay(hour: 0, minute: 0), TimeOfDay(hour: 0, minute: 0)],
-    <TimeOfDay> [TimeOfDay(hour: 0, minute: 0), TimeOfDay(hour: 0, minute: 0)],
-    <TimeOfDay> [TimeOfDay(hour: 0, minute: 0), TimeOfDay(hour: 0, minute: 0)],
-    <TimeOfDay> [TimeOfDay(hour: 0, minute: 0), TimeOfDay(hour: 0, minute: 0)],
-    <TimeOfDay> [TimeOfDay(hour: 0, minute: 0), TimeOfDay(hour: 0, minute: 0)],
-    <TimeOfDay> [TimeOfDay(hour: 0, minute: 0), TimeOfDay(hour: 0, minute: 0)]
-  ];
+  // GameForm
+  late List<String> _gameTitles;
+  late List<int> _gameNumbers;
 
   @override
   void initState() {
     _generalForm = GeneralForm(
       formIsValid: _handleGeneralFormValidity,
       formChange: _handleGeneralFormChange,
-      name: _name,
-      address: _address,
-      gamePrice: _gamePrice,
-      nearTransport: _nearTransport,
-      pmrAccess: _pmrAccess,
     );
+    _name = _generalForm.name;
+    _address = _generalForm.address;
+    _gamePrice = _generalForm.gamePrice;
+    _nearTransport = _generalForm.nearTransport;
+    _pmrAccess = _generalForm.pmrAccess;
+
     _contactForm = ContactForm(
       formIsValid: _handleContactFormValidity,
       formChange: _handleContactFormChange,
-      mail: _mail,
-      phoneNumber: _phoneNumber,
     );
+    _mail = _contactForm.mail;
+    _phoneNumber = _contactForm.phoneNumber;
+
     _openingHourForm = OpeningHourForm(
-      weekOpening: _weekOpening,
       weekOpeningChange: _handleOpeningHourFormOpeningChange,
-      weekOpeningHour: _weekOpeningHour,
       weekOpeningHourChange: _handleOpeningHourFormOpeningHourChange,
     );
+    _weekOpening = _openingHourForm.weekOpening;
+    _weekOpeningHour = _openingHourForm.weekOpeningHour;
+
+    _gamesForm = GamesForm(
+      formChange: _handleGameFormChange,
+    );
+    _gameTitles = _gamesForm.gameTitles;
+    _gameNumbers = [];
+    for(String _ in _gameTitles) {
+      _gameNumbers.add(0);
+    }
+
     super.initState();
   }
 
@@ -90,6 +88,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
               _generalForm,
               _contactForm,
               _openingHourForm,
+              _gamesForm,
               ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: formIsValid() ? Colors.white : Colors.grey,
@@ -144,7 +143,12 @@ class _SuggestionPageState extends State<SuggestionPage> {
   }
 
   void _handleOpeningHourFormOpeningHourChange(
-      List<List<TimeOfDay>> newWeekOpeningHour) {
+      List<List<TimeOfDay>> newWeekOpeningHour
+  ) {
     _weekOpeningHour = newWeekOpeningHour;
+  }
+
+  void _handleGameFormChange(List<int> newGameNumbers) {
+    _gameNumbers = newGameNumbers;
   }
 }
