@@ -55,7 +55,7 @@ class _GamesFormState extends State<GamesForm> {
       children: [
         const Text(
             "Type de jeux",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.5),
         ),
         const Divider(
             color: Colors.black

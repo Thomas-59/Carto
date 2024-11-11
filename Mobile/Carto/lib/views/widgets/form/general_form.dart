@@ -94,7 +94,7 @@ class _GeneralFormState extends State<GeneralForm> {
       children: [
         const Text(
           "Générale",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.5),
         ),
         const Divider(
             color: Colors.black

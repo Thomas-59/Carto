@@ -14,24 +14,26 @@ class MyFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: label,
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
+    return Padding( padding: const EdgeInsets.all(8.0),
+      child : TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10.0),
+            ),
           ),
         ),
-      ),
-      autovalidateMode: AutovalidateMode.always,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Veuillez entrer ${isFeminine ? "une" : "un"} ${label.toLowerCase()}';
-        }
+        autovalidateMode: AutovalidateMode.always,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Veuillez entrer ${isFeminine ? "une" : "un"} ${label.toLowerCase()}';
+          }
 
-        return null;
-      },
+          return null;
+        },
+      )
     );
   }
 }

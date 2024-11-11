@@ -86,7 +86,7 @@ class _ContactFormState extends State<ContactForm> {
       children: [
         const Text(
           "Contacte",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.5)
         ),
         const Divider(
             color: Colors.black

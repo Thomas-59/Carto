@@ -102,7 +102,7 @@ class _OpeningHourFormState extends State<OpeningHourForm> {
       children: [
         const Text(
           "Horraire d'ouverture",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.5),
         ),
         const Divider(
             color: Colors.black

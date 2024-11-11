@@ -37,62 +37,67 @@ class _HourPikerState extends State<HourPiker> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Text(widget.text),
-        Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Padding( padding: const EdgeInsets.all(8.0),
+      child : Column(
         children: <Widget>[
-          _setButton("ouvert", true),
-          _setButton("fermé", false),
-        ],),
-        Visibility(
-          visible: _opened,
-          child:Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              InkWell(
-                onTap: () async {
-                  final TimeOfDay? pickedTime = await showTimePicker(
-                      context: context,
-                      initialTime: _openingTime
-                  );
-                  if (pickedTime != null && pickedTime != _openingTime) {
-                    setState(() {
-                      _openingTime = pickedTime;
-                    });
-                  }
-                },
-                child: _setTime(_openingTime.hour, _openingTime.minute),
-              ),
-              InkWell(
-                onTap: () async {
-                  final TimeOfDay? pickedTime = await showTimePicker(
-                      context: context,
-                      initialTime: _closingTime
-                  );
-                  if (pickedTime != null && pickedTime != _closingTime) {
-                    setState(() {
-                      _closingTime = pickedTime;
-                      widget.onTimeChange(<TimeOfDay> [_openingTime,
-                        _closingTime]);
-                    });
-                  }
-                },
-                child: _setTime(_closingTime.hour, _closingTime.minute),
-              ),
-            ],
+          Text(widget.text),
+          Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            _setButton("ouvert", true),
+            _setButton("fermé", false),
+          ],),
+          Visibility(
+            visible: _opened,
+            child:Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    final TimeOfDay? pickedTime = await showTimePicker(
+                        context: context,
+                        initialTime: _openingTime
+                    );
+                    if (pickedTime != null && pickedTime != _openingTime) {
+                      setState(() {
+                        _openingTime = pickedTime;
+                      });
+                    }
+                  },
+                  child: _setTime(_openingTime.hour, _openingTime.minute),
+                ),
+                InkWell(
+                  onTap: () async {
+                    final TimeOfDay? pickedTime = await showTimePicker(
+                        context: context,
+                        initialTime: _closingTime
+                    );
+                    if (pickedTime != null && pickedTime != _closingTime) {
+                      setState(() {
+                        _closingTime = pickedTime;
+                        widget.onTimeChange(<TimeOfDay> [_openingTime,
+                          _closingTime]);
+                      });
+                    }
+                  },
+                  child: _setTime(_closingTime.hour, _closingTime.minute),
+                ),
+              ],
+            ),
           ),
-        ),
 
-      ],
+        ],
+      )
     );
   }
 
   Widget _setButton(String title, bool value) {
     return Expanded(
       child: RadioListTile<bool>(
-        title: Text(title),
+        title: Text(
+            title,
+            style: const TextStyle(fontSize: 15)
+        ),
         value: value,
         groupValue: _opened,
         onChanged: (bool? value) {
@@ -102,7 +107,7 @@ class _HourPikerState extends State<HourPiker> {
               widget.onOpeningChange(value);
             });
           }
-        },
+        }
       )
     );
   }

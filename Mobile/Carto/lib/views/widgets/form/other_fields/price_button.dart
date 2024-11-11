@@ -29,18 +29,20 @@ class _PriceButtonState extends State<PriceButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Text(widget.text),
-        /*Row(
+    return Padding( padding: const EdgeInsets.all(8.0),
+      child : Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[*/
-          setButton("€", PriceEnum.low),
-          setButton("€€", PriceEnum.medium),
-          setButton("€€€", PriceEnum.high),
-        //],),
-      ],
+        children: <Widget>[
+          Text(widget.text),
+          /*Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[*/
+            setButton("€", PriceEnum.low),
+            setButton("€€", PriceEnum.medium),
+            setButton("€€€", PriceEnum.high),
+          //],),
+        ],
+      )
     );
   }
 
