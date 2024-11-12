@@ -98,7 +98,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
                 child: const Text("Suggérer un établissement"),
                 onPressed: () {
                   formIsValid() ?
-                  Navigator.pushNamed(context, '/',)
+                  Navigator.pushNamed(context, '/thank',)
                   : null;
                 },
               ),

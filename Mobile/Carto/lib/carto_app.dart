@@ -1,5 +1,6 @@
 import 'package:carto/views/pages/home_page.dart';
 import 'package:carto/views/pages/suggestion_page.dart';
+import 'package:carto/views/pages/thanking_page.dart';
 import 'package:flutter/material.dart';
 
 class CartoApp extends StatelessWidget {
@@ -11,7 +12,8 @@ class CartoApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         '/': (context) => const MyHomePage(),
-        '/suggestion': (context) => SuggestionPage(),
+        '/suggestion': (context) => const SuggestionPage(),
+        '/thank' : (context) => const ThankingPage(),
       }
     );
   }

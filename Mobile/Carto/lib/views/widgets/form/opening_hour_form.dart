@@ -101,7 +101,7 @@ class _OpeningHourFormState extends State<OpeningHourForm> {
     return Column(
       children: [
         const Text(
-          "Horraire d'ouverture",
+          "Horaires d'ouverture",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.5),
         ),
         const Divider(
