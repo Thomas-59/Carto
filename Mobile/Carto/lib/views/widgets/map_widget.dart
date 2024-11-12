@@ -1,9 +1,12 @@
 import 'package:carto/models/establishment_data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carto/views/services/establishment_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import '../../cubit/location_cubit.dart';
+import '../../cubit/location_state.dart';
 import '../../models/establishment.dart';
 import '../services/location_service.dart';
 
@@ -38,6 +41,9 @@ class _MapWidgetState extends State<MapWidget> {
     _locationService.startLocationUpdates((position) {
       setState(() {
         _currentPosition = position;
+        if (_currentPosition != null) {
+          _mapController.move(LatLng(_currentPosition!.latitude, _currentPosition!.longitude), 15);
+        }
       });
     });
   }
@@ -50,63 +56,73 @@ class _MapWidgetState extends State<MapWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder<List<Establishment>>(
-        future: establishmentService.getAllEstablishment(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Erreur : ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('Aucun établissement trouvé'));
+    return BlocListener<LocationCubit, LocationState>(
+        listener: (context, state) {
+          // Verify if currentPosition is empty or not
+          if (state is LocationUpdated) {
+            _mapController.move(LatLng(state.position.latitude, state.position.longitude), 15);
           }
-
-          List<Marker> markers = snapshot.data!.map((establishment) {
-            return Marker(
-              width: 80.0,
-              height: 80.0,
-              point: LatLng(establishment.latitude, establishment.longitude),
-              child: Icon(Icons.location_on, color: Colors.red, size: 40),
-            );
-          }).toList();
-
-          markers.add(Marker(
-            // Marker for user position
-            width: 80.0,
-            height: 80.0,
-            point: _currentPosition != null
-                ? LatLng(
-                    _currentPosition!.latitude, _currentPosition!.longitude)
-                : LatLng(default_latitude, default_longitude),
-            child: Icon(Icons.circle_rounded, color: Colors.blue, size: 20),
-          ));
-
-          return FlutterMap(
-            mapController: _mapController,
-            options: MapOptions(
-                initialCenter: _currentPosition != null
-                    ? LatLng(
-                        _currentPosition!.latitude, _currentPosition!.longitude)
-                    : LatLng(default_latitude, default_longitude),
-                initialZoom: 15,
-                minZoom: 6,
-                maxZoom: 19,
-                interactionOptions: const InteractionOptions(
-                    flags: InteractiveFlag.pinchZoom | InteractiveFlag.drag)),
-            children: [
-              TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.example.app',
-                tileBuilder: widget.isDarkMode
-                    ? _nightModeTileBuilder
-                    : _grayModeTileBuilder, // darkModeTileBuilder
-              ),
-              MarkerLayer(markers: markers),
-            ],
-          );
         },
-      ),
+
+
+          child: Scaffold(
+            body: FutureBuilder<List<Establishment>>(
+              future: establishmentService.getAllEstablishment(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Erreur : ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Center(child: Text('Aucun établissement trouvé'));
+                }
+
+                List<Marker> markers = snapshot.data!.map((establishment) {
+                  return Marker(
+                    width: 80.0,
+                    height: 80.0,
+                    point: LatLng(establishment.latitude, establishment.longitude),
+                    child: Icon(Icons.location_on, color: Colors.red, size: 40),
+                  );
+                }).toList();
+
+                markers.add(Marker(
+                  // Marker for user position
+                  width: 80.0,
+                  height: 80.0,
+                  point: _currentPosition != null
+                      ? LatLng(
+                      _currentPosition!.latitude, _currentPosition!.longitude)
+                      : LatLng(default_latitude, default_longitude),
+                  child: Icon(Icons.circle_rounded, color: Colors.blue, size: 20),
+                ));
+
+                return FlutterMap(
+                  mapController: _mapController,
+                  options: MapOptions(
+                      initialCenter: _currentPosition != null
+                          ? LatLng(
+                          _currentPosition!.latitude, _currentPosition!.longitude)
+                          : LatLng(default_latitude, default_longitude),
+                      initialZoom: 15,
+                      minZoom: 6,
+                      maxZoom: 19,
+                      interactionOptions: const InteractionOptions(
+                          flags: InteractiveFlag.pinchZoom | InteractiveFlag.drag)),
+                  children: [
+                    TileLayer(
+                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      userAgentPackageName: 'com.example.app',
+                      tileBuilder: widget.isDarkMode
+                          ? _nightModeTileBuilder
+                          : _grayModeTileBuilder, // darkModeTileBuilder
+                    ),
+                    MarkerLayer(markers: markers),
+                  ],
+                );
+              },
+            ),
+          )
     );
   }
 
