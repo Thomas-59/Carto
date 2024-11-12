@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://dpg-csljv0d6l47c73c6qmn0-a.frankfurt-postgres.render.com/cartodb_wrvt
+    username: cartodb_wrvt_user
+    password: UUO51BiTKQWdlalWEFRfr8uGuMH76Occ
