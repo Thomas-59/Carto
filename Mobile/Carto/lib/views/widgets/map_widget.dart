@@ -29,6 +29,8 @@ class _MapWidgetState extends State<MapWidget> {
   final EstablishmentService establishmentService = EstablishmentService();
   Position? _currentPosition;
   final LocationService _locationService = LocationService();
+  double default_latitude = 50.63294;
+  double default_longitude = 3.05843;
 
   @override
   void initState() {
@@ -49,57 +51,68 @@ class _MapWidgetState extends State<MapWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: FutureBuilder<List<Establishment>>(
-            future: establishmentService.getAllEstablishment(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Center(child: Text('Erreur : ${snapshot.error}'));
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Center(child: Text('Aucun établissement trouvé'));
-              }
+      body: FutureBuilder<List<Establishment>>(
+        future: establishmentService.getAllEstablishment(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Erreur : ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('Aucun établissement trouvé'));
+          }
 
-              List<Marker> markers = snapshot.data!.map((establishment) {
-                return Marker(
-                  width: 80.0,
-                  height: 80.0,
-                  point: LatLng(establishment.latitude, establishment.longitude),
-                  child: Icon(Icons.location_on, color: Colors.red, size: 40),
-                );
-              }).toList();
-              
-              markers.add(Marker( // Marker for user position
-                width: 80.0,
-                height: 80.0,
-                point: LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
-                child: Icon(Icons.circle_rounded, color: Colors.blue, size: 20),
-              ));
-              
-    return FlutterMap(
-      mapController: _mapController,
-      options: MapOptions(
-        initialCenter: LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
-        initialZoom: 15,
-        minZoom: 6,
-        maxZoom: 19,
+          List<Marker> markers = snapshot.data!.map((establishment) {
+            return Marker(
+              width: 80.0,
+              height: 80.0,
+              point: LatLng(establishment.latitude, establishment.longitude),
+              child: Icon(Icons.location_on, color: Colors.red, size: 40),
+            );
+          }).toList();
+
+          markers.add(Marker(
+            // Marker for user position
+            width: 80.0,
+            height: 80.0,
+            point: _currentPosition != null
+                ? LatLng(
+                    _currentPosition!.latitude, _currentPosition!.longitude)
+                : LatLng(default_latitude, default_longitude),
+            child: Icon(Icons.circle_rounded, color: Colors.blue, size: 20),
+          ));
+
+          return FlutterMap(
+            mapController: _mapController,
+            options: MapOptions(
+                initialCenter: _currentPosition != null
+                    ? LatLng(
+                        _currentPosition!.latitude, _currentPosition!.longitude)
+                    : LatLng(default_latitude, default_longitude),
+                initialZoom: 15,
+                minZoom: 6,
+                maxZoom: 19,
+                interactionOptions: const InteractionOptions(
+                    flags: InteractiveFlag.pinchZoom | InteractiveFlag.drag)),
+            children: [
+              TileLayer(
+                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                userAgentPackageName: 'com.example.app',
+                tileBuilder: widget.isDarkMode
+                    ? _nightModeTileBuilder
+                    : _grayModeTileBuilder, // darkModeTileBuilder
+              ),
+              MarkerLayer(markers: markers),
+            ],
+          );
+        },
       ),
-      children: [
-        TileLayer(
-          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          userAgentPackageName: 'com.example.app',
-          tileBuilder:  widget.isDarkMode ? _nightModeTileBuilder : _grayModeTileBuilder, // darkModeTileBuilder
-        ),
-        MarkerLayer(markers: markers),
-      ],
-    );
-            },
-        ),
     );
   }
-  
+
   // Différents filtres de couleur pour les modes de carte
-  Widget _lightModeTileBuilder(BuildContext context, Widget tileWidget, TileImage tile) {
+  Widget _lightModeTileBuilder(
+      BuildContext context, Widget tileWidget, TileImage tile) {
     return ColorFiltered(
       colorFilter: const ColorFilter.matrix(<double>[
         1, 0, 0, 0, 0, // Red channel
@@ -111,7 +124,8 @@ class _MapWidgetState extends State<MapWidget> {
     );
   }
 
-  Widget _grayModeTileBuilder(BuildContext context, Widget tileWidget, TileImage tile) {
+  Widget _grayModeTileBuilder(
+      BuildContext context, Widget tileWidget, TileImage tile) {
     return ColorFiltered(
       colorFilter: const ColorFilter.matrix(<double>[
         0.2126, 0.7152, 0.0722, 0, 0,
@@ -123,7 +137,8 @@ class _MapWidgetState extends State<MapWidget> {
     );
   }
 
-  Widget _darkenedModeTileBuilder(BuildContext context, Widget tileWidget, TileImage tile) {
+  Widget _darkenedModeTileBuilder(
+      BuildContext context, Widget tileWidget, TileImage tile) {
     return ColorFiltered(
       colorFilter: const ColorFilter.matrix(<double>[
         0.75, 0, 0, 0, 0,
@@ -135,7 +150,8 @@ class _MapWidgetState extends State<MapWidget> {
     );
   }
 
-  Widget _nightModeTileBuilder(BuildContext context, Widget tileWidget, TileImage tile) {
+  Widget _nightModeTileBuilder(
+      BuildContext context, Widget tileWidget, TileImage tile) {
     return ColorFiltered(
       colorFilter: const ColorFilter.matrix(<double>[
         0.4, 0, 0, 0, 0,
