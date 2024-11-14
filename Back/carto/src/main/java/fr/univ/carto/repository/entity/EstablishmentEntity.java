@@ -1,9 +1,12 @@
 package fr.univ.carto.repository.entity;
 
+import fr.univ.carto.repository.entity.establishmentgames.EstablishmentGamesEntity;
 import fr.univ.carto.service.bo.EstablishmentBo;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,6 +27,10 @@ public class EstablishmentEntity {
     private Double latitude;
 
     private String description;
+
+    @OneToMany
+    private List<EstablishmentGamesEntity> establishmentGamesEntities;
+
 
     public EstablishmentBo toBo(){
         return EstablishmentBo.builder()
