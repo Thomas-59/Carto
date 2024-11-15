@@ -5,7 +5,10 @@ import fr.univ.carto.service.bo.EstablishmentBo;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
+import java.sql.SQLType;
 import java.util.List;
 
 @Getter
@@ -26,7 +29,10 @@ public class EstablishmentEntity {
 
     private Double latitude;
 
-    private String description;
+    private String address;
+
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    private String price;
 
     @OneToMany
     private List<EstablishmentGamesEntity> establishmentGamesEntities;

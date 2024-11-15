@@ -1,7 +1,10 @@
 package fr.univ.carto.repository.entity.schedule;
 
+import fr.univ.carto.repository.entity.EstablishmentEntity;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -13,7 +16,8 @@ import org.hibernate.type.SqlTypes;
 @RequiredArgsConstructor
 @NoArgsConstructor
 public class ScheduleEmbeddedId {
-    private Long idEstablishment;
+    @ManyToOne
+    private EstablishmentEntity idEstablishment;
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private DayOfTheWeek dayOfTheWeek;
 }

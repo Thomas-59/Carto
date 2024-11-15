@@ -14,13 +14,14 @@ public class EstablishmentBo {
 
     private String name;
 
-    private String cityName;
+    private String cityname;
 
     private Double longitude;
 
     private Double latitude;
 
     private String description;
+
     @Override
     public boolean equals(Object o){
         if(o instanceof EstablishmentBo establishmentBo) {
