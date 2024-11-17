@@ -1,16 +1,16 @@
 package fr.univ.carto.repository.entity.establishmentgames;
 
 public enum GameType {
-    POOL("Pool"),
-    DARTS("Darts"),
-    BABYFOOT("Babyfoot"),
-    BOWLING("Bowling"),
-    ARCADE("Arcade"),
-    PINBALL("Pinball"),
-    KARAOKE("Karaoke"),
-    CARDS("Cards"),
-    BOARDGAME("Board Game"),
-    PETANQUE("Petanque");
+    POOL("POOL"),
+    DARTS("DARTS"),
+    BABYFOOT("BABYFOOT"),
+    BOWLING("BOWLING"),
+    ARCADE("ARCADE"),
+    PINBALL("PINBALL"),
+    KARAOKE("KARAOKE"),
+    CARDS("CARDS"),
+    BOARDGAME("BOARDGAME"),
+    PETANQUE("PETANQUE");
 
     private final String displayName;
     GameType(String displayName) {

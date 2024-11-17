@@ -1,22 +1,29 @@
 package fr.univ.carto.repository.entity.schedule;
 
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import fr.univ.carto.repository.entity.EstablishmentEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "Schedule")
+@Table(name = "schedule")
 public class ScheduleEntity {
+    @ManyToOne
+    @JoinColumn(name = "idestablishment", insertable = false, updatable = false)
+    private EstablishmentEntity establishmentEntity;
+
     @EmbeddedId
-    private ScheduleEmbeddedId scheduleEmbeddedId;
+    private ScheduleEmbeddedId scheduleEmbeddedId = new ScheduleEmbeddedId();
+
+    @Column(name = "openingtime")
     private LocalTime openingTime;
+
+    @Column(name = "closingtime")
     private LocalTime closingTime;
+
+    @Column(name = "isclosed")
     private boolean isClosed;
 }

@@ -51,7 +51,7 @@ class EstablishmentControllerTest {
                 .description("description")
                 .latitude(190.0)
                 .longitude(50.0)
-                .cityName("cityname")
+                .address("cityname")
                 .build();
 
     }

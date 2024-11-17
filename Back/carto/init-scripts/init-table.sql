@@ -39,6 +39,7 @@ CREATE TABLE Establishment
     phoneNumber        VARCHAR(255) NOT NULL,
     longitude          DECIMAL      NOT NULL,
     latitude           DECIMAL      NOT NULL,
+    isDisplayed        BOOLEAN DEFAULT FALSE,
     CONSTRAINT check_longitude CHECK (longitude >= -180 AND longitude <= 180),
     CONSTRAINT check_latitude CHECK (latitude >= -90 AND latitude <= 90)
 );
@@ -57,15 +58,15 @@ CREATE TABLE Establishment_Games
 
 CREATE TABLE Schedule
 (
-    idEstablishment BIGINT PRIMARY KEY,
-    dayOfWeek       day_of_week PRIMARY KEY NOT NULL,
-    openingTime     TIME        NOT NULL,
-    closingTime     TIME        NOT NULL,
+    idEstablishment BIGINT,
+    dayOfWeek       day_of_week NOT NULL,
+    openingTime     TIME NOT NULL,
+    closingTime     TIME NOT NULL,
     isClosed        BOOLEAN DEFAULT false,
     FOREIGN KEY (idEstablishment) REFERENCES Establishment (id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    UNIQUE (idEstablishment, dayOfWeek)
+    PRIMARY KEY (idEstablishment, dayOfWeek)
 );
 
 CREATE INDEX idx_establishment_games_establishment ON Establishment_Games (idEstablishment);

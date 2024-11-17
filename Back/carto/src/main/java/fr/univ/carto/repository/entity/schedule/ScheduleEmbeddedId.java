@@ -1,23 +1,21 @@
 package fr.univ.carto.repository.entity.schedule;
 
 import fr.univ.carto.repository.entity.EstablishmentEntity;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @Embeddable
-@EqualsAndHashCode
-@RequiredArgsConstructor
-@NoArgsConstructor
-public class ScheduleEmbeddedId {
+public class ScheduleEmbeddedId implements Serializable {
     @ManyToOne
+    @JoinColumn(name = "idestablishment")
     private EstablishmentEntity idEstablishment;
+    @Column(name = "dayofweek")
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
-    private DayOfTheWeek dayOfTheWeek;
+    private DayOfTheWeek dayofweek;
 }

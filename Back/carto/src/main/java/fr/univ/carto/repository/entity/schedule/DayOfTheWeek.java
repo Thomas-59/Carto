@@ -3,13 +3,13 @@ package fr.univ.carto.repository.entity.schedule;
 import fr.univ.carto.repository.entity.establishmentgames.GameType;
 
 public enum DayOfTheWeek {
-    MONDAY("Monday"),
-    TUESDAY("Tuesday"),
-    WEDNESDAY("Wednesday"),
-    THURSDAY("Thursday"),
-    FRIDAY("Friday"),
-    SATURDAY("Saturday"),
-    SUNDAY("Sunday");
+    MONDAY("MONDAY"),
+    TUESDAY("TUESDAY"),
+    WEDNESDAY("WEDNESDAY"),
+    THURSDAY("THURSDAY"),
+    FRIDAY("FRIDAY"),
+    SATURDAY("SATURDAY"),
+    SUNDAY("SUNDAY");
 
     private final String displayName;
     DayOfTheWeek(String displayName) {
