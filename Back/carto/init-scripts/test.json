@@ -1,0 +1,19 @@
+{
+  "name": "establishment",
+  "address": "address",
+  "proximityTransport": true,
+  "accessPRM": false,
+  "price": "Expensive",
+  "emailAddress": "f.f@f.f",
+  "phoneNumber": "11111111",
+  "longitude": 10.0,
+  "latitude": 10.0,
+  "dayScheduleList": [
+    {
+      "day": "Monday",
+      "OpeningTime": "",
+      "ClosingTime"
+    }
+  ]
+
+}
