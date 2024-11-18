@@ -3,3 +3,15 @@ spring:
     url: jdbc:postgresql://dpg-csljv0d6l47c73c6qmn0-a.frankfurt-postgres.render.com/cartodb_wrvt
     username: cartodb_wrvt_user
     password: UUO51BiTKQWdlalWEFRfr8uGuMH76Occ
+    driver-class-name: org.postgresql.Driver
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
