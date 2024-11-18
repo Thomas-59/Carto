@@ -23,7 +23,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
   bool _contactFormIsValid = false;
 
   // GeneralForm
-  late String _name, _address;
+  late String _name, _address, _latitude, _longitude;
   late PriceEnum _gamePrice;
   late bool _nearTransport, _pmrAccess;
 
@@ -132,9 +132,11 @@ class _SuggestionPageState extends State<SuggestionPage> {
   void _handleGeneralFormChange(List<String> newValues) {
     _name = newValues[0];
     _address = newValues[1];
-    _gamePrice = PriceEnum.fromString(newValues[2]);
-    _nearTransport = newValues[3] == "true";
-    _pmrAccess = newValues[4] == "true";
+    _latitude = newValues[2];
+    _longitude = newValues[3];
+    _gamePrice = PriceEnum.fromString(newValues[4]);
+    _nearTransport = newValues[5] == "true";
+    _pmrAccess = newValues[6] == "true";
   }
 
   void _handleContactFormValidity(bool formIsValid) {

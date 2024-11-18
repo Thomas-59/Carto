@@ -1,4 +1,5 @@
 import 'package:carto/enum/price_enum.dart';
+import 'package:carto/views/widgets/form/form_fields/my_form_field_coordinate.dart';
 import 'package:flutter/material.dart';
 
 import 'form_fields/my_form_field.dart';
@@ -9,6 +10,8 @@ class GeneralForm extends StatefulWidget {
   final ValueChanged<List<String>> formChange;
   final String name;
   final String address;
+  final String latitude;
+  final String longitude;
   final PriceEnum gamePrice;
   final bool nearTransport;
   final bool pmrAccess;
@@ -19,6 +22,8 @@ class GeneralForm extends StatefulWidget {
     required this.formChange,
     this.name = "",
     this.address = "",
+    this.latitude = "",
+    this.longitude = "",
     this.gamePrice = PriceEnum.medium,
     this.nearTransport = false,
     this.pmrAccess = false,
@@ -32,6 +37,10 @@ class _GeneralFormState extends State<GeneralForm> {
   //controller
   late final _nameController = TextEditingController(text: widget.name);
   late final _addressController = TextEditingController(text: widget.address);
+  late final _latitudeController =
+    TextEditingController(text: widget.latitude);
+  late final _longitudeController =
+    TextEditingController(text: widget.longitude);
 
   //checkBox
   late bool _nearTransport = widget.nearTransport;
@@ -40,6 +49,8 @@ class _GeneralFormState extends State<GeneralForm> {
   //validator
   late bool _nameIsValid;
   late bool _addressIsValid;
+  late bool _latitudeIsValid;
+  late bool _longitudeIsValid;
 
   late PriceEnum _gamePrice = widget.gamePrice;
 
@@ -63,6 +74,26 @@ class _GeneralFormState extends State<GeneralForm> {
       });
     });
 
+    _latitudeIsValid = _coordinatesValueIsValid(widget.latitude);
+    _latitudeController.addListener(() {
+      setState(() {
+        _latitudeIsValid =
+            _coordinatesValueIsValid(_latitudeController.text);
+        widget.formIsValid(_formIsValid());
+        widget.formChange(getAllParameter());
+      });
+    });
+
+    _longitudeIsValid = _coordinatesValueIsValid(widget.longitude);
+    _longitudeController.addListener(() {
+      setState(() {
+        _longitudeIsValid =
+            _coordinatesValueIsValid(_longitudeController.text);
+        widget.formIsValid(_formIsValid());
+        widget.formChange(getAllParameter());
+      });
+    });
+
     super.initState();
   }
 
@@ -74,14 +105,26 @@ class _GeneralFormState extends State<GeneralForm> {
     return value.isNotEmpty;
   }
 
+  bool _coordinatesValueIsValid(String value) {
+    try {
+      double.parse(value);
+    } catch (e) {
+      return false;
+    }
+    return value.isNotEmpty;
+  }
+
   bool _formIsValid() {
-    return _nameIsValid & _addressIsValid;
+    return _nameIsValid & _addressIsValid & _latitudeIsValid &
+      _longitudeIsValid;
   }
 
   List<String> getAllParameter() {
     return <String> [
       _nameController.text,
       _addressController.text,
+      _latitudeController.text,
+      _longitudeController.text,
       _gamePrice.value,
       _nearTransport.toString(),
       _pmrAccess.toString()
@@ -108,6 +151,16 @@ class _GeneralFormState extends State<GeneralForm> {
             label: "Adresse d'établissement",
             isFeminine: true,
             controller: _addressController
+        ),
+        MyFormFieldCoordinate(
+            label: "Latitude d'établissement",
+            isFeminine: true,
+            controller: _latitudeController
+        ),
+        MyFormFieldCoordinate(
+            label: "Longitude d'établissement",
+            isFeminine: true,
+            controller: _longitudeController
         ),
         PriceButton(
           text: "Prix moyen des jeux",
