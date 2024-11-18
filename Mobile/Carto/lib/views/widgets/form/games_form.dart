@@ -16,7 +16,7 @@ class GamesForm extends StatefulWidget {
       "Ping-Pong",
       "Sociétés",
       "Babyfoot",
-      "karaoké",
+      "Karaoké",
       "Arcade",
       "Cartes",
       "Pétanque",
@@ -54,7 +54,7 @@ class _GamesFormState extends State<GamesForm> {
     return Column(
       children: [
         const Text(
-            "Type de jeux",
+            "Types de jeux",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.5),
         ),
         const Divider(

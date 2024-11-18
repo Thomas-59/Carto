@@ -93,7 +93,7 @@ class _GeneralFormState extends State<GeneralForm> {
     return Column(
       children: [
         const Text(
-          "Générale",
+          "Informations générales",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.5),
         ),
         const Divider(

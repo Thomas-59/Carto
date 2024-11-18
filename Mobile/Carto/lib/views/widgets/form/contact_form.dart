@@ -85,7 +85,7 @@ class _ContactFormState extends State<ContactForm> {
     return Column(
       children: [
         const Text(
-          "Contacte",
+          "Contacts",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.5)
         ),
         const Divider(

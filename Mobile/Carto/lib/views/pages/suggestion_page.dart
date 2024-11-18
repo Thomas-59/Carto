@@ -85,22 +85,32 @@ class _SuggestionPageState extends State<SuggestionPage> {
         children: <Widget>[
           Column(
             children: [
-              _generalForm,
-              _contactForm,
-              _openingHourForm,
-              _gamesForm,
-              ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: formIsValid() ? Colors.white : Colors.grey,
-                disabledForegroundColor: Colors.grey.withOpacity(0.38),
-                disabledBackgroundColor: Colors.grey.withOpacity(0.12),
-               ),
-                child: const Text("Suggérer un établissement"),
-                onPressed: () {
-                  formIsValid() ?
-                  Navigator.pushNamed(context, '/thank',)
-                  : null;
-                },
+              Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                child : _generalForm
+              ),
+              Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                child : _contactForm
+              ),
+              Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                child : _openingHourForm
+              ),
+              Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                child : _gamesForm
+              ),
+              Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                child : ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: formIsValid() ? Colors.white : Colors.grey,
+                  disabledForegroundColor: Colors.grey.withOpacity(0.38),
+                  disabledBackgroundColor: Colors.grey.withOpacity(0.12),
+                 ),
+                  child: const Text("Suggérer un établissement"),
+                  onPressed: () {
+                    formIsValid() ?
+                    Navigator.pushNamed(context, '/thank',)
+                    : null;
+                  },
+                )
               ),
             ],
           ),
