@@ -1,4 +1,7 @@
 import 'package:carto/enum/price_enum.dart';
+import 'package:carto/models/establishment.dart';
+import 'package:carto/models/establishment_data.dart';
+import 'package:carto/views/services/establishment_service.dart';
 import 'package:carto/views/widgets/form/games_form.dart';
 import 'package:flutter/material.dart';
 
@@ -37,6 +40,9 @@ class _SuggestionPageState extends State<SuggestionPage> {
   // GameForm
   late List<String> _gameTitles;
   late List<int> _gameNumbers;
+
+  // Service
+  EstablishmentService establishmentService = EstablishmentService();
 
   @override
   void initState() {
@@ -106,9 +112,41 @@ class _SuggestionPageState extends State<SuggestionPage> {
                  ),
                   child: const Text("Suggérer un établissement"),
                   onPressed: () {
-                    formIsValid() ?
-                    Navigator.pushNamed(context, '/thank',)
-                    : null;
+                    List<DayOfTheWeekElemDto> days = [];
+                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.monday, _weekOpeningHour[0][0].toString(), _weekOpeningHour[0][1].toString(), _weekOpening[0]));
+                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.tuesday, _weekOpeningHour[1][0].toString(), _weekOpeningHour[1][1].toString(), _weekOpening[1]));
+                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.wednesday, _weekOpeningHour[2][0].toString(), _weekOpeningHour[2][1].toString(), _weekOpening[2]));
+                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.thursday, _weekOpeningHour[3][0].toString(), _weekOpeningHour[3][1].toString(), _weekOpening[3]));
+                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.friday, _weekOpeningHour[4][0].toString(), _weekOpeningHour[4][1].toString(), _weekOpening[4]));
+                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.saturday, _weekOpeningHour[5][0].toString(), _weekOpeningHour[5][1].toString(), _weekOpening[5]));
+                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.sunday, _weekOpeningHour[6][0].toString(), _weekOpeningHour[6][1].toString(), _weekOpening[6]));
+
+                    List<GameTypeDto> games=[];
+                    int i =0;
+                    while(i<_gameTitles.length-1){
+                      if(_gameNumbers[i]>0){
+                        games.add(new GameTypeDto(GameType.fromString(_gameTitles[i]), _gameNumbers[i]));
+                      }
+                      i++;
+                    }
+                    Establishment establishment = Establishment(
+                      null,
+                      _name,
+                      _address,
+                      _nearTransport,
+                      _pmrAccess,
+                      Price.fromString(_gamePrice.value),
+                      _mail,
+                      _phoneNumber,
+                      double.parse(_longitude),
+                      double.parse(_latitude),
+                      days,
+                      games,
+                    );
+                    if(formIsValid()){
+                      establishmentService.createEstablishment(establishment);
+                      Navigator.pushNamed(context, '/thank',);
+                    }
                   },
                 )
               ),

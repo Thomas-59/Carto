@@ -22,7 +22,6 @@ class CartoApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: const MyHomePage(),
           routes: {
             '/': (context) => const MyHomePage(),
             '/suggestion': (context) => const SuggestionPage(),

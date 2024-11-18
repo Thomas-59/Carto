@@ -3,11 +3,19 @@ part 'establishment.g.dart';
 
 enum Price {
   @JsonValue('LOW')
-  low,
+  low("low"),
   @JsonValue('MEDIUM')
-  medium,
+  medium("medium"),
   @JsonValue('HIGH')
-  high
+  high("high");
+
+  const Price(this.value);
+  final String value;
+  factory Price.fromString(String value) {
+    return Price.values.firstWhere((enumValue) =>
+    enumValue.value == value, orElse: () =>
+    throw ArgumentError('Invalid price value: $value'));
+  }
 }
 
 enum DayOfTheWeek {
@@ -25,38 +33,47 @@ enum DayOfTheWeek {
   saturday,
   @JsonValue('SUNDAY')
   sunday
+
+
 }
 
 enum GameType {
   @JsonValue('POOL')
-  pool,
+  pool('Billard'),
 
   @JsonValue('DARTS')
-  darts,
+  darts('Fléchettes'),
 
   @JsonValue('BABYFOOT')
-  babyfoot,
+  babyfoot('Babyfoot'),
 
   @JsonValue('BOWLING')
-  bowling,
+  bowling('Bowling'),
 
   @JsonValue('ARCADE')
-  arcade,
+  arcade('Arcade'),
 
   @JsonValue('PINBALL')
-  pinball,
+  pinball('Flipper'),
 
   @JsonValue('KARAOKE')
-  karaoke,
+  karaoke('Karaoké'),
 
   @JsonValue('CARDS')
-  cards,
+  cards('Cartes'),
 
   @JsonValue('BOARDGAME')
-  boardgame,
+  boardgame('Sociétés'),
 
   @JsonValue('PETANQUE')
-  petanque;
+  petanque('Pétanque');
+  const GameType(this.value);
+  final String value;
+  factory GameType.fromString(String value) {
+    return GameType.values.firstWhere((enumValue) =>
+    enumValue.value == value, orElse: () =>
+    throw ArgumentError('Invalid price value: $value'));
+  }
 }
 
 @JsonSerializable()
@@ -105,7 +122,7 @@ class DayOfTheWeekElemDto {
 @JsonSerializable()
 class Establishment {
   @JsonKey(name: 'id')
-  final int id;
+  final int? id;
 
   @JsonKey(name: 'name')
   final String name;
@@ -154,6 +171,7 @@ class Establishment {
       this.dayScheduleList,
       this.gameTypeDtoList,
       );
+
 
   factory Establishment.fromJson(Map<String, dynamic> json) =>
       _$EstablishmentFromJson(json);
