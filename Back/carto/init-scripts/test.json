@@ -1,16 +1,52 @@
 {
-  "name": "string",
-  "address": "string",
+  "name": "Dernier Bar avant la Fin du Monde",
+  "address": "12 Rue de Pas",
   "proximityTransport": true,
   "accessPRM": true,
   "price": "LOW",
-  "emailAddress": "string",
-  "phoneNumber": "string",
-  "longitude": 3.066667,
-  "latitude": 50.633333,
+  "emailAddress": "f.f@f.f",
+  "phoneNumber": "0101010101",
+  "longitude": 3.0613626,
+  "latitude": 50.6372758,
   "dayScheduleList": [
     {
       "dayOfTheWeek": "MONDAY",
+      "openingTime": "14:00:00",
+      "closingTime": "01:00:00",
+      "isClosed": false
+    },
+    {
+      "dayOfTheWeek": "TUESDAY",
+      "openingTime": "14:00:00",
+      "closingTime": "01:00:00",
+      "isClosed": false
+    },
+    {
+      "dayOfTheWeek": "WEDNESDAY",
+      "openingTime": "14:00:00",
+      "closingTime": "01:00:00",
+      "isClosed": false
+    },
+    {
+      "dayOfTheWeek": "THURSDAY",
+      "openingTime": "14:00:00",
+      "closingTime": "01:00:00",
+      "isClosed": false
+    },
+    {
+      "dayOfTheWeek": "FRIDAY",
+      "openingTime": "14:00:00",
+      "closingTime": "02:00:00",
+      "isClosed": false
+    },
+    {
+      "dayOfTheWeek": "SATURDAY",
+      "openingTime": "14:00:00",
+      "closingTime": "02:00:00",
+      "isClosed": false
+    },
+    {
+      "dayOfTheWeek": "SUNDAY",
       "openingTime": "00:00:00",
       "closingTime": "00:00:00",
       "isClosed": true
@@ -19,7 +55,12 @@
   "gameTypeDtoList": [
     {
       "gameType": "POOL",
-      "numberOfGame": 0
+      "numberOfGame": 2
+    },
+    {
+      "gameType": "DARTS",
+      "numberOfGame": 3
     }
   ]
 }
+
