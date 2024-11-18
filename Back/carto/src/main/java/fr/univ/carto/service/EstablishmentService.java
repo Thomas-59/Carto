@@ -22,7 +22,7 @@ public class EstablishmentService {
     }
 
     public List<EstablishmentBo> getAllEstablishment(){
-        return establishmentRepository.findAll().stream()
+        return establishmentRepository.findByIsdisplayedTrue().stream()
                 .map(EstablishmentEntity::toBo)
                 .collect(Collectors.toList());
     }

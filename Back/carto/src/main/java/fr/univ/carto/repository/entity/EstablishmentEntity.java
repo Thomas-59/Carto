@@ -53,6 +53,8 @@ public class EstablishmentEntity {
 
     @OneToMany(mappedBy = "establishmentEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ScheduleEntity> dayScheduleList = new ArrayList<>();
+    @Column(name = "isdisplayed")
+    private Boolean isdisplayed;
 
     public EstablishmentBo toBo(){
         EstablishmentBo establishmentBo = new EstablishmentBo();
