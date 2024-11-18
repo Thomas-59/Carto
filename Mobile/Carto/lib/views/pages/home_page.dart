@@ -28,6 +28,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 setState(() {
                   _isDarkMode = !_isDarkMode;
                 });
+                Navigator.pushNamed(
+                  context,
+                  '/suggestion',
+                );
               },
             ),
           );
