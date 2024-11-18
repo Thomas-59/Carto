@@ -1,19 +1,25 @@
 {
-  "name": "establishment",
-  "address": "address",
+  "name": "string",
+  "address": "string",
   "proximityTransport": true,
-  "accessPRM": false,
-  "price": "Expensive",
-  "emailAddress": "f.f@f.f",
-  "phoneNumber": "11111111",
-  "longitude": 10.0,
-  "latitude": 10.0,
+  "accessPRM": true,
+  "price": "LOW",
+  "emailAddress": "string",
+  "phoneNumber": "string",
+  "longitude": 3.066667,
+  "latitude": 50.633333,
   "dayScheduleList": [
     {
-      "day": "Monday",
-      "OpeningTime": "",
-      "ClosingTime"
+      "dayOfTheWeek": "MONDAY",
+      "openingTime": "00:00:00",
+      "closingTime": "00:00:00",
+      "isClosed": true
+    }
+  ],
+  "gameTypeDtoList": [
+    {
+      "gameType": "POOL",
+      "numberOfGame": 0
     }
   ]
-
 }
