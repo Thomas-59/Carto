@@ -31,18 +31,24 @@ class _MapWidgetState extends State<MapWidget> {
   final MapController _mapController = MapController();
   final EstablishmentService establishmentService = EstablishmentService();
   Position? _currentPosition;
+  bool isFirstLoad = true;
   final LocationService _locationService = LocationService();
   double default_latitude = 50.63294;
   double default_longitude = 3.05843;
 
+  late Future<List<Establishment>> _establishmentsFuture;
+
   @override
   void initState() {
     super.initState();
+    _establishmentsFuture = establishmentService.getAllEstablishment();
+
     _locationService.startLocationUpdates((position) {
       setState(() {
         _currentPosition = position;
-        if (_currentPosition != null) {
+        if (_currentPosition != null && isFirstLoad) {
           _mapController.move(LatLng(_currentPosition!.latitude, _currentPosition!.longitude), 15);
+          isFirstLoad = false;
         }
       });
     });
@@ -57,17 +63,16 @@ class _MapWidgetState extends State<MapWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<LocationCubit, LocationState>(
-        listener: (context, state) {
-          // Verify if currentPosition is empty or not
-          if (state is LocationUpdated) {
-            _mapController.move(LatLng(state.position.latitude, state.position.longitude), 15);
-          }
-        },
-
-
-          child: Scaffold(
-            body: FutureBuilder<List<Establishment>>(
-              future: establishmentService.getAllEstablishment(),
+      listener: (context, state) {
+        if (state is LocationUpdated) {
+          _mapController.move(LatLng(state.position.latitude, state.position.longitude), 15);
+        }
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            FutureBuilder<List<Establishment>>(
+              future: _establishmentsFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
@@ -77,6 +82,7 @@ class _MapWidgetState extends State<MapWidget> {
                   return Center(child: Text('Aucun établissement trouvé'));
                 }
 
+                // Marker for establishments
                 List<Marker> markers = snapshot.data!.map((establishment) {
                   return Marker(
                     width: 80.0,
@@ -86,47 +92,48 @@ class _MapWidgetState extends State<MapWidget> {
                   );
                 }).toList();
 
-                markers.add(Marker(
-                  // Marker for user position
-                  width: 80.0,
-                  height: 80.0,
-                  point: _currentPosition != null
-                      ? LatLng(
-                      _currentPosition!.latitude, _currentPosition!.longitude)
-                      : LatLng(default_latitude, default_longitude),
-                  child: Icon(Icons.circle_rounded, color: Colors.blue, size: 20),
-                ));
+                // Marker for user position if authorized
+                if (_currentPosition != null) {
+                  markers.add(Marker(
+                    width: 80.0,
+                    height: 80.0,
+                    point: LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
+                    child: Icon(Icons.circle_rounded, color: Colors.blue, size: 20),
+                  ));
+                }
 
                 return FlutterMap(
                   mapController: _mapController,
                   options: MapOptions(
-                      initialCenter: _currentPosition != null
-                          ? LatLng(
-                          _currentPosition!.latitude, _currentPosition!.longitude)
-                          : LatLng(default_latitude, default_longitude),
-                      initialZoom: 15,
-                      minZoom: 6,
-                      maxZoom: 19,
-                      interactionOptions: const InteractionOptions(
-                          flags: InteractiveFlag.pinchZoom | InteractiveFlag.drag)),
+                    initialCenter: _currentPosition != null
+                        ? LatLng(_currentPosition!.latitude, _currentPosition!.longitude)
+                        : LatLng(default_latitude, default_longitude),
+                    initialZoom: 15,
+                    minZoom: 6,
+                    maxZoom: 19,
+                    interactionOptions: const InteractionOptions(
+                      flags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
+                    ),
+                  ),
                   children: [
                     TileLayer(
                       urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                       userAgentPackageName: 'com.example.app',
                       tileBuilder: widget.isDarkMode
                           ? _nightModeTileBuilder
-                          : _grayModeTileBuilder, // darkModeTileBuilder
+                          : _grayModeTileBuilder,
                     ),
                     MarkerLayer(markers: markers),
                   ],
                 );
               },
             ),
-          )
+          ],
+        ),
+      ),
     );
   }
 
-  // Différents filtres de couleur pour les modes de carte
   Widget _lightModeTileBuilder(
       BuildContext context, Widget tileWidget, TileImage tile) {
     return ColorFiltered(
