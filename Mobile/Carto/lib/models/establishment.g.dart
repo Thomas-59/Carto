@@ -21,7 +21,7 @@ const _$GameTypeEnumMap = {
   GameType.pool: 'POOL',
   GameType.darts: 'DARTS',
   GameType.babyfoot: 'BABYFOOT',
-  GameType.bowling: 'BOWLING',
+  GameType.pingpong: 'PINGPONG',
   GameType.arcade: 'ARCADE',
   GameType.pinball: 'PINBALL',
   GameType.karaoke: 'KARAOKE',
@@ -59,7 +59,7 @@ const _$DayOfTheWeekEnumMap = {
 
 Establishment _$EstablishmentFromJson(Map<String, dynamic> json) =>
     Establishment(
-      (json['id'] as num).toInt(),
+      (json['id'] as num?)?.toInt(),
       json['name'] as String,
       json['address'] as String,
       json['proximityTransport'] as bool,

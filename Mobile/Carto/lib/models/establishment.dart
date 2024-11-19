@@ -47,8 +47,8 @@ enum GameType {
   @JsonValue('BABYFOOT')
   babyfoot('Babyfoot'),
 
-  @JsonValue('BOWLING')
-  bowling('Bowling'),
+  @JsonValue('PINGPONG')
+  pingpong('Ping-Pong'),
 
   @JsonValue('ARCADE')
   arcade('Arcade'),

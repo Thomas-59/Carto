@@ -14,6 +14,5 @@ class EstablishmentService{
 
  void createEstablishment(Establishment establishment) async {
   var response = await dio.post("http://localhost:8080/establishment",data: establishment.toJson());
-  print("test");
  }
 }
