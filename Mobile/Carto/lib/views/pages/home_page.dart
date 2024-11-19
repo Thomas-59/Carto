@@ -10,28 +10,22 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool _isDarkMode = false;
 
   @override
   Widget build(BuildContext context) {
-    MapWidget map = MapWidget(isDarkMode: _isDarkMode);
+    MapWidget map = MapWidget();
     return LayoutBuilder(
-        builder: (context, constraints) {
-          return Scaffold(
-            body:
-            Center(
-              child: map,
-            ),
-            floatingActionButton: FloatingActionButton(
-              child: Icon(_isDarkMode ? Icons.dark_mode : Icons.light_mode),
-              onPressed: () {
-                setState(() {
-                  _isDarkMode = !_isDarkMode;
-                });
-              },
-            ),
-          );
-        }
+      builder: (context, constraints) {
+        return Scaffold(
+          body: Stack(
+            children: [
+              Center(
+                child: map,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

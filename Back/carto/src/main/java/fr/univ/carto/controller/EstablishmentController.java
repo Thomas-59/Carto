@@ -26,7 +26,7 @@ public class EstablishmentController {
                 .toList();
         return ResponseEntity.ok(establishmentDtos);
     }
-
+/*
     @GetMapping("/{id}")
     public ResponseEntity<EstablishmentDto> getEstablishmentById(@PathVariable Long id) throws EstablishmentNotFoundException {
         EstablishmentBo establishmentBo =this.establishmentService.getEstablishmentById(id);
@@ -36,27 +36,33 @@ public class EstablishmentController {
                 .description(establishmentBo.getDescription())
                 .longitude(establishmentBo.getLongitude())
                 .latitude(establishmentBo.getLatitude())
-                .cityName(establishmentBo.getCityName())
+                .address(establishmentBo.getCityName())
                 .build();
         return ResponseEntity.ok(establishmentDto);
     }
-
+*/
     @PostMapping
     public ResponseEntity<Long> createEstablishment(@RequestBody EstablishmentDto establishmentDto) throws InvalidEstablishmentException {
         if(establishmentDto.validate()){
-            EstablishmentBo establishmentBo = EstablishmentBo.builder()
-                    .cityName(establishmentDto.getCityName())
-                    .name(establishmentDto.getName())
-                    .description(establishmentDto.getDescription())
-                    .longitude(establishmentDto.getLongitude())
-                    .latitude(establishmentDto.getLatitude())
-                    .build();
+            EstablishmentBo establishmentBo = new EstablishmentBo();
+
+            establishmentBo.setAddress(establishmentDto.getAddress());
+            establishmentBo.setName(establishmentDto.getName());
+            establishmentBo.setPhoneNumber(establishmentDto.getPhoneNumber());
+            establishmentBo.setDayScheduleList(establishmentDto.getDayScheduleList());
+            establishmentBo.setGameTypeDtoList(establishmentDto.getGameTypeDtoList());
+            establishmentBo.setPrice(establishmentDto.getPrice());
+            establishmentBo.setAccessPRM(establishmentDto.isAccessPRM());
+            establishmentBo.setProximityTransport(establishmentDto.isProximityTransport());
+            establishmentBo.setLongitude(establishmentDto.getLongitude());
+            establishmentBo.setLatitude(establishmentDto.getLatitude());
+            establishmentBo.setEmailAddress(establishmentDto.getEmailAddress());
             return new ResponseEntity<>(this.establishmentService.createEstablishment(establishmentBo), HttpStatus.CREATED);
         } else {
             throw new InvalidEstablishmentException("invalid establishment");
         }
     }
-
+/*
     @PutMapping
     public ResponseEntity<Object> updateEstablishment(@RequestBody EstablishmentDto establishmentDto) throws EstablishmentNotFoundException,InvalidEstablishmentException{
         if(establishmentDto.validate()){
@@ -69,7 +75,7 @@ public class EstablishmentController {
                     .longitude(establishmentDto.getLongitude())
                     .name(establishmentDto.getName())
                     .description(establishmentDto.getDescription())
-                    .cityName(establishmentDto.getCityName())
+                    .cityName(establishmentDto.getAddress())
                     .build();
             establishmentService.update(establishmentBo);
             return ResponseEntity.ok().build();
@@ -77,7 +83,7 @@ public class EstablishmentController {
             throw new InvalidEstablishmentException("Invalid Establishment given");
         }
     }
-
+*/
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteEstablishment(@PathVariable Long id) throws EstablishmentNotFoundException {
         this.establishmentService.deleteEstablishment(id);
