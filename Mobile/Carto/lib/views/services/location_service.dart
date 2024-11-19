@@ -37,4 +37,15 @@ class LocationService {
   void stopLocationUpdates() {
     _positionStreamSubscription?.cancel();
   }
+
+  Future<Position?> getCurrentLocation() async {
+    bool hasPermission = await _requestLocationPermission();
+    if (!hasPermission) return null;
+
+    try {
+      return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    } catch (e) {
+      return null;
+    }
+  }
 }

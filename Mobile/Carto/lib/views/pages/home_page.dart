@@ -23,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Center(
                 child: map,
               ),
-              bottomWidget(),
+              // bottomWidget(),
             ],
           ),
         );
@@ -37,15 +37,6 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: FloatingActionButton(
-              child: const Text("center"), //TODO change child to a better item
-              onPressed: () {
-                //TODO add function to center on the user
-              },
-            ),
-          ),
           Padding(
             padding: const EdgeInsets.all(8),
             child: FloatingActionButton(
