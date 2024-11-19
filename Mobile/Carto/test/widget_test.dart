@@ -6,13 +6,16 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:carto/carto_app.dart';
+import 'package:carto/views/services/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+    final LocationService locationService = new LocationService();
+    
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const CartoApp());
+    await tester.pumpWidget(CartoApp(locationService: locationService));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
