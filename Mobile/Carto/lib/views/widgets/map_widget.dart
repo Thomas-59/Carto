@@ -148,6 +148,20 @@ class _MapWidgetState extends State<MapWidget> {
               child: Icon(Icons.center_focus_strong_rounded),
             ),
           ),
+          // Button for recenter on map
+          Positioned(
+            bottom: 140,
+            right: 0,
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/suggestion',
+                );
+              },
+              child: Icon(Icons.add),
+            ),
+          ),
         ],
       ),
     );
