@@ -7,10 +7,9 @@ import '../../models/establishment.dart';
 import '../../views/services/establishment_service.dart';
 
 class MapWidget extends StatefulWidget {
-  final bool isDarkMode;
   static final GlobalKey<_MapWidgetState> mapKey = GlobalKey<_MapWidgetState>();
 
-  const MapWidget({super.key, required this.isDarkMode});
+  const MapWidget({super.key});
 
   void setCoordinate(double latitude, double longitude) {
     final state = mapKey.currentState;
