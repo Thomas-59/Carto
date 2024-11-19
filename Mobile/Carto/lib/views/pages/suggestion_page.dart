@@ -1,6 +1,5 @@
 import 'package:carto/enum/price_enum.dart';
 import 'package:carto/models/establishment.dart';
-import 'package:carto/models/establishment_data.dart';
 import 'package:carto/views/services/establishment_service.dart';
 import 'package:carto/views/widgets/form/games_form.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +22,10 @@ class _SuggestionPageState extends State<SuggestionPage> {
   late final GamesForm _gamesForm;
 
   bool _generalFormIsValid = false;
-  bool _contactFormIsValid = false;
+  bool _contactFormIsValid = true;
 
   // GeneralForm
-  late String _name, _address, _latitude, _longitude;
+  late String _name, _address, _latitude, _longitude, _site, _description;
   late PriceEnum _gamePrice;
   late bool _nearTransport, _pmrAccess;
 
@@ -51,6 +50,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
       formChange: _handleGeneralFormChange,
     );
     _name = _generalForm.name;
+    _address = _generalForm.address;
+    _site = _generalForm.site;
     _address = _generalForm.address;
     _gamePrice = _generalForm.gamePrice;
     _nearTransport = _generalForm.nearTransport;
@@ -113,19 +114,19 @@ class _SuggestionPageState extends State<SuggestionPage> {
                   child: const Text("Suggérer un établissement"),
                   onPressed: () {
                     List<DayOfTheWeekElemDto> days = [];
-                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.monday, _weekOpeningHour[0][0].toString(), _weekOpeningHour[0][1].toString(), _weekOpening[0]));
-                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.tuesday, _weekOpeningHour[1][0].toString(), _weekOpeningHour[1][1].toString(), _weekOpening[1]));
-                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.wednesday, _weekOpeningHour[2][0].toString(), _weekOpeningHour[2][1].toString(), _weekOpening[2]));
-                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.thursday, _weekOpeningHour[3][0].toString(), _weekOpeningHour[3][1].toString(), _weekOpening[3]));
-                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.friday, _weekOpeningHour[4][0].toString(), _weekOpeningHour[4][1].toString(), _weekOpening[4]));
-                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.saturday, _weekOpeningHour[5][0].toString(), _weekOpeningHour[5][1].toString(), _weekOpening[5]));
-                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.sunday, _weekOpeningHour[6][0].toString(), _weekOpeningHour[6][1].toString(), _weekOpening[6]));
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.monday, _weekOpeningHour[0][0].toString(), _weekOpeningHour[0][1].toString(), _weekOpening[0]));
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.tuesday, _weekOpeningHour[1][0].toString(), _weekOpeningHour[1][1].toString(), _weekOpening[1]));
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.wednesday, _weekOpeningHour[2][0].toString(), _weekOpeningHour[2][1].toString(), _weekOpening[2]));
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.thursday, _weekOpeningHour[3][0].toString(), _weekOpeningHour[3][1].toString(), _weekOpening[3]));
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.friday, _weekOpeningHour[4][0].toString(), _weekOpeningHour[4][1].toString(), _weekOpening[4]));
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.saturday, _weekOpeningHour[5][0].toString(), _weekOpeningHour[5][1].toString(), _weekOpening[5]));
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.sunday, _weekOpeningHour[6][0].toString(), _weekOpeningHour[6][1].toString(), _weekOpening[6]));
 
                     List<GameTypeDto> games=[];
                     int i =0;
                     while(i<_gameTitles.length-1){
                       if(_gameNumbers[i]>0){
-                        games.add(new GameTypeDto(GameType.fromString(_gameTitles[i]), _gameNumbers[i]));
+                        games.add(GameTypeDto(GameType.fromString(_gameTitles[i]), _gameNumbers[i]));
                       }
                       i++;
                     }
@@ -133,6 +134,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
                       null,
                       _name,
                       _address,
+                      _site,
+                      _description,
                       _nearTransport,
                       _pmrAccess,
                       Price.fromString(_gamePrice.value),
@@ -172,9 +175,11 @@ class _SuggestionPageState extends State<SuggestionPage> {
     _address = newValues[1];
     _latitude = newValues[2];
     _longitude = newValues[3];
-    _gamePrice = PriceEnum.fromString(newValues[4]);
-    _nearTransport = newValues[5] == "true";
-    _pmrAccess = newValues[6] == "true";
+    _site = newValues[4];
+    _description = newValues[5];
+    _gamePrice = PriceEnum.fromString(newValues[6]);
+    _nearTransport = newValues[7] == "true";
+    _pmrAccess = newValues[8] == "true";
   }
 
   void _handleContactFormValidity(bool formIsValid) {

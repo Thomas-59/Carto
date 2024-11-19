@@ -59,9 +59,11 @@ const _$DayOfTheWeekEnumMap = {
 
 Establishment _$EstablishmentFromJson(Map<String, dynamic> json) =>
     Establishment(
-      (json['id'] as num).toInt(),
+      (json['id'] as num?)?.toInt(),
       json['name'] as String,
       json['address'] as String,
+      json['site'] as String,
+      json['description'] as String,
       json['proximityTransport'] as bool,
       json['accessPRM'] as bool,
       $enumDecode(_$PriceEnumMap, json['price']),
@@ -82,6 +84,8 @@ Map<String, dynamic> _$EstablishmentToJson(Establishment instance) =>
       'id': instance.id,
       'name': instance.name,
       'address': instance.address,
+      'site': instance.site,
+      'description': instance.description,
       'proximityTransport': instance.proximityTransport,
       'accessPRM': instance.accessPRM,
       'price': _$PriceEnumMap[instance.price]!,
