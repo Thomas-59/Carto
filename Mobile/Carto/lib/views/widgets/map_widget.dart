@@ -78,7 +78,13 @@ class _MapWidgetState extends State<MapWidget> {
                   width: 80.0,
                   height: 80.0,
                   point: LatLng(establishment.latitude, establishment.longitude),
-                  child: Icon(Icons.location_on, color: Colors.red, size: 40),
+                  child: IconButton(onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/etablishment_detail',
+                      arguments: {'establishment': establishment},
+                    );
+                  }, icon: Icon(Icons.location_on, color: Colors.red, size: 40)),
                 );
               }).toList();
 
