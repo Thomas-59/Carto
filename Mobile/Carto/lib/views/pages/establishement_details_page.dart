@@ -86,7 +86,8 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                                   color: Colors.black,
                                 ),
                               ),
-                              GameTagsList(games: establishment.gameTypeDtoList),
+                              GameTagsList(
+                                  games: establishment.gameTypeDtoList),
                               EstablishmentInfo(establishment: establishment),
                             ],
                           ),
@@ -101,7 +102,8 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                               },
                             ),
                             IconButton(
-                              icon: const Icon(Icons.phone, color: Color(0xFF005CFF)),
+                              icon: const Icon(Icons.phone,
+                                  color: Color(0xFF005CFF)),
                               onPressed: () {
                                 // TODO implements to contact
                               },
@@ -110,7 +112,8 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                         ),
                       ],
                     ),
-                    const Divider(height: 32, thickness: 1, color: Colors.black),
+                    const Divider(
+                        height: 32, thickness: 1, color: Colors.black),
                     Column(
                       children: [
                         HoursAccordion(schedule: establishment.dayScheduleList),
@@ -121,6 +124,23 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                             color: Colors.grey[800],
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              OutlineButtonWithTextAndIcon(
+                                  icon: Icons.phone,
+                                  onPressed: () {},
+                                  text: establishment.phoneNumber),
+                              OutlineButtonWithTextAndIcon(
+                                  icon: Icons.mail,
+                                  onPressed: () {},
+                                  text: establishment.emailAddress)
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ],

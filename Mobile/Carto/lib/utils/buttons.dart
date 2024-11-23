@@ -87,3 +87,48 @@ class WhiteSquareIconInvertedButton extends StatelessWidget {
     );
   }
 }
+
+class OutlineButtonWithTextAndIcon extends StatelessWidget {
+
+  final IconData icon;
+  final VoidCallback onPressed;
+  final String text;
+
+  const OutlineButtonWithTextAndIcon({
+    required this.icon,
+    required this.onPressed,
+    required this.text,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: onPressed,
+      style: OutlinedButton.styleFrom(
+        side: const BorderSide(color: Color(0xFF005CFF), width: 1.5),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            color: const Color(0xFF005CFF),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            text,
+            style: const TextStyle(
+              color: Color(0xFF005CFF),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+}
