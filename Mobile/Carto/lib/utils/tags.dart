@@ -1,16 +1,63 @@
 import 'package:flutter/material.dart';
 
-class GameTag extends StatelessWidget {
-  final String tagText;
+import '../models/establishment.dart';
 
-  const GameTag({
-    required this.tagText,
-    super.key
-  });
+class GameTag extends StatelessWidget {
+  final GameTypeDto game;
+
+  const GameTag({Key? key, required this.game}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      decoration: BoxDecoration(
+        border: Border.all(color: Color(0xFFEB663B), width: 1.5),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            game.gameType.value.toLowerCase(),
+            style: const TextStyle(
+              color: Color(0xFFEB663B),
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            "(${game.numberOfGame})",
+            style: const TextStyle(
+              color: Color(0xFFEB663B),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class GameTagsList extends StatelessWidget {
+  final List<GameTypeDto> games;
+
+  const GameTagsList({super.key, required this.games});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Wrap(
+          spacing: 10,
+          runSpacing: 10,
+          children: games.map((game) {
+            return GameTag(game: game);
+          }).toList(),
+        ),
+      ),
+    );
   }
 }

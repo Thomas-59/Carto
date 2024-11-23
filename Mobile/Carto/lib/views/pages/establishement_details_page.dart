@@ -1,6 +1,7 @@
 import 'package:carto/models/establishment.dart';
 import 'package:carto/utils/accordeons.dart';
 import 'package:carto/utils/buttons.dart';
+import 'package:carto/utils/tags.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
@@ -81,11 +82,12 @@ class _EtablishmentDisplayPageState extends State<EtablishmentDisplayPage> {
                               SizedBox(height: 4),
                               Text(
                                 establishment.address,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 16,
                                   color: Colors.black,
                                 ),
                               ),
+                              GameTagsList(games: establishment.gameTypeDtoList)
                             ],
                           ),
                         ),
@@ -99,7 +101,7 @@ class _EtablishmentDisplayPageState extends State<EtablishmentDisplayPage> {
                               },
                             ),
                             IconButton(
-                              icon: Icon(Icons.phone, color: Color(0xFF005CFF)),
+                              icon: const Icon(Icons.phone, color: Color(0xFF005CFF)),
                               onPressed: () {
                                 // TODO implements to contact
                               },
