@@ -27,7 +27,7 @@ class CartoApp extends StatelessWidget {
             '/': (context) => const MyHomePage(),
             '/suggestion': (context) => const SuggestionPage(),
             '/thank' : (context) => const ThankingPage(),
-            '/etablishment_detail' : (context) => const EtablishmentDisplayPage(),
+            '/etablishment_detail' : (context) => const EstablishmentDisplayPage(),
           }
         ),
     );

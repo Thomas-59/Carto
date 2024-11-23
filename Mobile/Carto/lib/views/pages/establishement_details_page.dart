@@ -2,19 +2,18 @@ import 'package:carto/models/establishment.dart';
 import 'package:carto/utils/accordeons.dart';
 import 'package:carto/utils/buttons.dart';
 import 'package:carto/utils/tags.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-class EtablishmentDisplayPage extends StatefulWidget {
-  const EtablishmentDisplayPage({super.key});
+class EstablishmentDisplayPage extends StatefulWidget {
+  const EstablishmentDisplayPage({super.key});
 
   @override
-  State<EtablishmentDisplayPage> createState() =>
-      _EtablishmentDisplayPageState();
+  State<EstablishmentDisplayPage> createState() =>
+      _EstablishmentDisplayPageState();
 }
 
-class _EtablishmentDisplayPageState extends State<EtablishmentDisplayPage> {
+class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
   @override
   Widget build(BuildContext context) {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
@@ -87,7 +86,8 @@ class _EtablishmentDisplayPageState extends State<EtablishmentDisplayPage> {
                                   color: Colors.black,
                                 ),
                               ),
-                              GameTagsList(games: establishment.gameTypeDtoList)
+                              GameTagsList(games: establishment.gameTypeDtoList),
+                              EstablishmentInfo(establishment: establishment),
                             ],
                           ),
                         ),
