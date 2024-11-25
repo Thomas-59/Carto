@@ -121,7 +121,7 @@ class PriceTag extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: Text(
-        "Prix : ${formatPrice(price)}",
+        "prix : ${formatPrice(price)}",
         style: const TextStyle(
           color: Color(0xFF005CFF),
           fontWeight: FontWeight.bold,

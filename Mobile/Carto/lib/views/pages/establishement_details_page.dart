@@ -26,9 +26,9 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xffffffff), Color(0xffd4bbf9)],
-            stops: [0, 1],
+            stops: [0.7, 1],
             begin: Alignment.topCenter,
-            end: Alignment(0.0, 2.0),
+            end: Alignment.bottomCenter,
           ),
         ),
         child: CustomScrollView(
@@ -118,7 +118,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                       children: [
                         HoursAccordion(schedule: establishment.dayScheduleList),
                         Text(
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lacinia neque justo, non euismod nibh tincidunt quis. Phasellus rutrum, erat id facilisis convallis, nunc leo sollicitudin augue, pharetra dictum leo velit dapibus ipsum. Duis purus ligula, rutrum eu feugiat eu, fringilla ut metus. Integer tellus metus, accumsan posuere aliquam quis, laoreet vel augue. Sed tortor nibh, imperdiet sed vestibulum eget, scelerisque ut ligula. Aenean ex mi, varius eu ligula ut, varius lacinia mi. Cras non libero vitae lorem viverra condimentum. In ut augue augue. Integer volutpat lacus a ullamcorper tincidunt. Donec massa urna, porta at ipsum vel, interdum condimentum nulla. Suspendisse congue vulputate est vel gravida. Donec ut tincidunt orci, nec tristique augue. Curabitur faucibus tempor ante, eget facilisis nisi finibus at. Nullam maximus neque a malesuada porttitor. Praesent sollicitudin nulla in nisl auctor, eleifend suscipit dui pharetra. Proin commodo tellus congue orci fringilla blandit. Duis viverra ac quam nec elementum. Morbi in tincidunt dui. Nam hendrerit, augue id dictum condimentum, ipsum elit congue nisl, ac viverra felis justo ac ex. Suspendisse ut sollicitudin turpis, vitae consectetur justo. Nam at quam a purus gravida pharetra imperdiet id nulla. Morbi ultricies tristique risus, quis finibus tellus rutrum eget. Nulla semper dignissim erat, et luctus tellus mollis consectetur. Nulla commodo arcu quis dui suscipit, ac cursus purus accumsan. Quisque pretium ipsum lacus, vitae faucibus nibh accumsan id. Sed sed urna eu turpis volutpat cursus. Suspendisse interdum, mi vitae viverra maximus, metus tellus posuere felis, a condimentum risus ligula et dui. Pellentesque molestie bibendum leo, a tempus purus maximus egestas. Vivamus vel nisl a arcu condimentum bibendum at quis massa. Sed ac consequat ligula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec laoreet lacinia lectus nec lacinia. Curabitur sed dui lacus. Integer dignissim laoreet risus ut egestas. Donec erat leo, suscipit vitae nisl et, aliquet facilisis mauris. Cras finibus fermentum urna, id luctus nunc rutrum placerat. Maecenas lorem est, efficitur dignissim molestie sed, tincidunt ac nulla. Vivamus mi eros, rutrum at venenatis pretium, imperdiet in elit. Nullam id eleifend lectus. Donec turpis enim, consequat vitae sagittis ac, scelerisque eu nisi. Nullam maximus dui dui, ac pretium metus congue eu. Etiam fermentum congue augue, vitae dapibus metus vehicula ut. Vivamus tincidunt neque magna, et posuere libero imperdiet non. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed gravida mi magna, sed euismod metus varius imperdiet. ",
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lacinia neque justo, non euismod nibh tincidunt quis. ",
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.grey[800],
@@ -126,9 +126,10 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 10, bottom: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Wrap(
+                            alignment: WrapAlignment.spaceEvenly,
+                            spacing: 8.0,
+                            runSpacing: 4.0,
                             children: [
                               OutlineButtonWithTextAndIcon(
                                   icon: Icons.phone,
