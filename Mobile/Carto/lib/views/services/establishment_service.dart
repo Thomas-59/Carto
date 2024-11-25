@@ -6,14 +6,13 @@ class EstablishmentService{
  final Dio dio= Dio();
 
  Future<List<Establishment>> getAllEstablishment() async {
-  var response = await dio.get("http://localhost:8080/establishment/all");
+  var response = await dio.get("https://carto.onrender.com/establishment/all");
 
   List<dynamic> data = response.data;
   return data.map((json) => Establishment.fromJson(json)).toList();
  }
 
  void createEstablishment(Establishment establishment) async {
-  var response = await dio.post("http://localhost:8080/establishment",data: establishment.toJson());
-  print("test");
+  var response = await dio.post("https://carto.onrender.com/establishment",data: establishment.toJson());
  }
 }

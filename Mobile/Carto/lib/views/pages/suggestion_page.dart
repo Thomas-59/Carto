@@ -63,7 +63,6 @@ class _SuggestionPageState extends State<SuggestionPage> {
     );
     _mail = _contactForm.mail;
     _phoneNumber = _contactForm.phoneNumber;
-
     _openingHourForm = OpeningHourForm(
       weekOpeningChange: _handleOpeningHourFormOpeningChange,
       weekOpeningHourChange: _handleOpeningHourFormOpeningHourChange,
@@ -81,6 +80,23 @@ class _SuggestionPageState extends State<SuggestionPage> {
     }
 
     super.initState();
+  }
+
+  String convertToString(TimeOfDay time){
+    String minRes;
+    String hourRes;
+    if(time.hour<10){
+      hourRes = "0${time.hour}";
+    }else{
+      hourRes = "${time.hour}";
+    }
+    if(time.minute<10){
+      minRes = "0${time.minute}";
+    }else{
+      minRes = "${time.minute}";
+    }
+
+    return "${hourRes}:${minRes}:00";
   }
 
   @override
@@ -114,13 +130,34 @@ class _SuggestionPageState extends State<SuggestionPage> {
                   child: const Text("Suggérer un établissement"),
                   onPressed: () {
                     List<DayOfTheWeekElemDto> days = [];
-                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.monday, _weekOpeningHour[0][0].toString(), _weekOpeningHour[0][1].toString(), _weekOpening[0]));
-                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.tuesday, _weekOpeningHour[1][0].toString(), _weekOpeningHour[1][1].toString(), _weekOpening[1]));
-                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.wednesday, _weekOpeningHour[2][0].toString(), _weekOpeningHour[2][1].toString(), _weekOpening[2]));
-                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.thursday, _weekOpeningHour[3][0].toString(), _weekOpeningHour[3][1].toString(), _weekOpening[3]));
-                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.friday, _weekOpeningHour[4][0].toString(), _weekOpeningHour[4][1].toString(), _weekOpening[4]));
-                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.saturday, _weekOpeningHour[5][0].toString(), _weekOpeningHour[5][1].toString(), _weekOpening[5]));
-                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.sunday, _weekOpeningHour[6][0].toString(), _weekOpeningHour[6][1].toString(), _weekOpening[6]));
+                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.monday,
+                      convertToString(_weekOpeningHour[0][0]),
+                      convertToString(_weekOpeningHour[0][1]), _weekOpening[0])
+                    );
+                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.tuesday,
+                      convertToString(_weekOpeningHour[1][0]),
+                      convertToString(_weekOpeningHour[1][1]), _weekOpening[1])
+                    );
+                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.wednesday,
+                      convertToString(_weekOpeningHour[2][0]),
+                      convertToString(_weekOpeningHour[2][1]), _weekOpening[2])
+                    );
+                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.thursday,
+                      convertToString(_weekOpeningHour[3][0]),
+                      convertToString(_weekOpeningHour[3][1]), _weekOpening[3])
+                    );
+                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.friday,
+                      convertToString(_weekOpeningHour[4][0]),
+                      convertToString(_weekOpeningHour[4][1]), _weekOpening[4])
+                    );
+                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.saturday,
+                      convertToString(_weekOpeningHour[5][0]),
+                      convertToString(_weekOpeningHour[5][1]), _weekOpening[5])
+                    );
+                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.sunday,
+                      convertToString(_weekOpeningHour[6][0]),
+                      convertToString(_weekOpeningHour[6][1]), _weekOpening[6])
+                    );
 
                     List<GameTypeDto> games=[];
                     int i =0;

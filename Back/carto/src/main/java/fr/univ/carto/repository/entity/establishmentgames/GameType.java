@@ -4,7 +4,7 @@ public enum GameType {
     POOL("POOL"),
     DARTS("DARTS"),
     BABYFOOT("BABYFOOT"),
-    BOWLING("BOWLING"),
+    PINGPONG("PINGPONG"),
     ARCADE("ARCADE"),
     PINBALL("PINBALL"),
     KARAOKE("KARAOKE"),

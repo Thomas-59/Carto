@@ -2,7 +2,7 @@ CREATE TYPE game_type AS ENUM (
     'POOL',
     'DARTS',
     'BABYFOOT',
-    'BOWLING',
+    'PINGPONG',
     'ARCADE',
     'PINBALL',
     'KARAOKE',

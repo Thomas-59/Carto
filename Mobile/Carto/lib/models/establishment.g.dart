@@ -21,7 +21,7 @@ const _$GameTypeEnumMap = {
   GameType.pool: 'POOL',
   GameType.darts: 'DARTS',
   GameType.babyfoot: 'BABYFOOT',
-  GameType.bowling: 'BOWLING',
+  GameType.pingpong: 'PINGPONG',
   GameType.arcade: 'ARCADE',
   GameType.pinball: 'PINBALL',
   GameType.karaoke: 'KARAOKE',
