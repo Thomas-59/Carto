@@ -4,6 +4,7 @@ import 'package:carto/utils/buttons.dart';
 import 'package:carto/utils/tags.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'package:url_launcher/url_launcher.dart';
 
 class EstablishmentDisplayPage extends StatefulWidget {
   const EstablishmentDisplayPage({super.key});
@@ -92,24 +93,51 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                             ],
                           ),
                         ),
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: Icon(Icons.favorite_border,
-                                  color: Color(0xFF005CFF)),
-                              onPressed: () {
-                                // TODO implements to fav
-                              },
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.phone,
-                                  color: Color(0xFF005CFF)),
-                              onPressed: () {
-                                // TODO implements to contact
-                              },
-                            ),
-                          ],
-                        ),
+                       Column(
+                         children: [
+                           Row(
+                             children: [
+                               IconButton(
+                                 icon: Icon(Icons.favorite_border,
+                                     color: Color(0xFF005CFF)),
+                                 onPressed: () {
+                                   // TODO implements to fav
+                                 },
+                               ),
+                               IconButton(
+                                 icon: const Icon(Icons.phone,
+                                     color: Color(0xFF005CFF)),
+                                 onPressed: () {
+                                   // TODO implements to contact
+                                 },
+                               ),
+                             ],
+                           ),
+                           Row(
+                             children: [
+                               IconButton(
+                                 icon: const Icon(Icons.share,
+                                     color: Color(0xFF005CFF)),
+                                 onPressed: () {
+                                   // TODO implements to share
+                                 },
+                               ),
+                               IconButton(
+                                 icon: const Icon(Icons.open_in_browser,//Icons.featured_play_list, Icons.article
+                                     color: Color(0xFF005CFF)),
+                                 onPressed: () async {
+                                   if(establishment.site.isNotEmpty) {
+                                     Uri url = Uri.parse(establishment.site);
+                                     if (!await launchUrl(url)) {
+                                       throw Exception('Could not launch $url');
+                                     }
+                                   }
+                                 },
+                               ),
+                             ],
+                           ),
+                         ],
+                       )
                       ],
                     ),
                     const Divider(
@@ -118,7 +146,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                       children: [
                         HoursAccordion(schedule: establishment.dayScheduleList),
                         Text(
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lacinia neque justo, non euismod nibh tincidunt quis. ",
+                          establishment.description,
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.grey[800],
