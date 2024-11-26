@@ -40,7 +40,8 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
               flexibleSpace: FlexibleSpaceBar(
                 background: Image.network(
                   // TODO replace this URL by establishment image
-                  "https://www.shutterstock.com/image-photo/arcade-machine-game-600nw-706155493.jpg",
+                  "https://www.shutterstock.com/image-photo/arcade-machine-game"
+                      "-600nw-706155493.jpg",
                   fit: BoxFit.cover,
                 ),
               ),
@@ -79,7 +80,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                                   color: Color(0xFF005CFF),
                                 ),
                               ),
-                              SizedBox(height: 4),
+                              const SizedBox(height: 4),
                               Text(
                                 establishment.address,
                                 style: const TextStyle(
@@ -95,47 +96,49 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                         ),
                        Column(
                          children: [
-                           Row(
-                             children: [
-                               IconButton(
-                                 icon: Icon(Icons.favorite_border,
-                                     color: Color(0xFF005CFF)),
-                                 onPressed: () {
-                                   // TODO implements to fav
-                                 },
-                               ),
-                               IconButton(
-                                 icon: const Icon(Icons.phone,
-                                     color: Color(0xFF005CFF)),
-                                 onPressed: () {
-                                   // TODO implements to contact
-                                 },
-                               ),
-                             ],
+                           IconButton(
+                             icon: const Icon(Icons.favorite_border,
+                                 color: Color(0xFF005CFF)),
+                             onPressed: () {
+                               // TODO implements to fav
+                             },
                            ),
-                           Row(
-                             children: [
-                               IconButton(
-                                 icon: const Icon(Icons.share,
-                                     color: Color(0xFF005CFF)),
-                                 onPressed: () {
-                                   // TODO implements to share
-                                 },
-                               ),
-                               IconButton(
-                                 icon: const Icon(Icons.open_in_browser,//Icons.featured_play_list, Icons.article
-                                     color: Color(0xFF005CFF)),
-                                 onPressed: () async {
-                                   if(establishment.site.isNotEmpty) {
-                                     Uri url = Uri.parse(establishment.site);
-                                     if (!await launchUrl(url)) {
-                                       throw Exception('Could not launch $url');
-                                     }
+                           establishment.phoneNumber.isEmpty ?
+                             const SizedBox() :
+                             IconButton(
+                               icon: const Icon(Icons.phone,
+                                   color: Color(0xFF005CFF)),
+                               onPressed: () async {
+                                 if(establishment.phoneNumber.isNotEmpty) {
+                                   Uri url = Uri.parse
+                                     ("tel:${establishment.phoneNumber}");
+                                   if (!await launchUrl(url)) {
+                                     throw Exception('Could not launch $url');
                                    }
-                                 },
-                               ),
-                             ],
+                                 }
+                               },
+                             ),
+                           IconButton(
+                             icon: const Icon(Icons.share,
+                                 color: Color(0xFF005CFF)),
+                             onPressed: () {
+                               // TODO implements to share
+                             },
                            ),
+                           establishment.site.isEmpty ?
+                             const SizedBox() :
+                             IconButton(
+                               icon: const Icon(Icons.open_in_browser,
+                                   color: Color(0xFF005CFF)),
+                               onPressed: () async {
+                                 if(establishment.site.isNotEmpty) {
+                                   Uri url = Uri.parse(establishment.site);
+                                   if (!await launchUrl(url)) {
+                                     throw Exception('Could not launch $url');
+                                   }
+                                 }
+                               },
+                             ),
                          ],
                        )
                       ],
@@ -159,14 +162,36 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                             spacing: 8.0,
                             runSpacing: 4.0,
                             children: [
-                              OutlineButtonWithTextAndIcon(
+                              establishment.phoneNumber.isEmpty ?
+                                const SizedBox() :
+                                OutlineButtonWithTextAndIcon(
                                   icon: Icons.phone,
-                                  onPressed: () {},
-                                  text: establishment.phoneNumber),
+                                  onPressed: () async {
+                                    if(establishment.phoneNumber.isNotEmpty) {
+                                      Uri url = Uri.parse("tel:"
+                                          "${establishment.phoneNumber}");
+                                      if (!await launchUrl(url)) {
+                                        throw Exception('Could not launch $url');
+                                      }
+                                    }
+                                  },
+                                  text: establishment.phoneNumber
+                                ),
+                            establishment.phoneNumber.isEmpty ?
+                              const SizedBox() :
                               OutlineButtonWithTextAndIcon(
                                   icon: Icons.mail,
-                                  onPressed: () {},
-                                  text: establishment.emailAddress)
+                                  onPressed: () async {
+                                    if(establishment.emailAddress.isNotEmpty) {
+                                      Uri url = Uri.parse("mailto:"
+                                          "${establishment.emailAddress}");
+                                      if (!await launchUrl(url)) {
+                                        throw Exception('Could not launch $url');
+                                      }
+                                    }
+                                  },
+                                  text: establishment.emailAddress
+                                ),
                             ],
                           ),
                         )
