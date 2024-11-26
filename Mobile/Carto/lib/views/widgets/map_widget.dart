@@ -78,7 +78,13 @@ class _MapWidgetState extends State<MapWidget> {
                   width: 80.0,
                   height: 80.0,
                   point: LatLng(establishment.latitude, establishment.longitude),
-                  child: Icon(Icons.location_on, color: Colors.red, size: 40),
+                  child: IconButton(onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/etablishment_detail',
+                      arguments: {'establishment': establishment},
+                    );
+                  }, icon: Icon(Icons.location_on, color: Colors.red, size: 40)),
                 );
               }).toList();
 
@@ -146,6 +152,20 @@ class _MapWidgetState extends State<MapWidget> {
                     : _mapController.move(LatLng(default_latitude, default_longitude), 15);
               },
               child: Icon(Icons.center_focus_strong_rounded),
+            ),
+          ),
+          // Button for recenter on map
+          Positioned(
+            bottom: 140,
+            right: 0,
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/suggestion',
+                );
+              },
+              child: Icon(Icons.add),
             ),
           ),
         ],
