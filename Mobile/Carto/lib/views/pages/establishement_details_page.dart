@@ -5,6 +5,7 @@ import 'package:carto/utils/tags.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 
 class EstablishmentDisplayPage extends StatefulWidget {
   const EstablishmentDisplayPage({super.key});
@@ -122,7 +123,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                              icon: const Icon(Icons.share,
                                  color: Color(0xFF005CFF)),
                              onPressed: () {
-                               // TODO implements to share
+                               shareEstablishment(establishment);
                              },
                            ),
                            establishment.site.isEmpty ?
@@ -205,5 +206,33 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
         ),
       ),
     );
+  }
+
+  void shareEstablishment(Establishment establishment) async {
+    String text = "${establishment.name}\n"
+        "Au : ${establishment.address}\n"
+        "Jeux disponibles :\n";
+    for(GameTypeDto game in
+    establishment.gameTypeDtoList)
+    {
+      text += "   ${game.gameType.value} : "
+          "${game.numberOfGame}\n";
+    }
+    if(establishment.site.isNotEmpty) {
+      text += "Site web : ${establishment.site}\n";
+    }
+    if(establishment.phoneNumber.isNotEmpty || establishment.emailAddress.isNotEmpty) {
+      text += "Contact :\n";
+      if(establishment.phoneNumber.isNotEmpty) {
+        text += "   Téléphone : ${establishment.phoneNumber}\n";
+      }
+      if(establishment.emailAddress.isNotEmpty) {
+        text += "   Mail : ${establishment.emailAddress}\n";
+      }
+    }
+    final result = await Share.share(text);
+    if(result.status != ShareResultStatus.success){
+      throw Exception('Could not share');
+    }
   }
 }
