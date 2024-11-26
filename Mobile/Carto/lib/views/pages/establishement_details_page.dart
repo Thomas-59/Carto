@@ -1,6 +1,7 @@
 import 'package:carto/models/establishment.dart';
 import 'package:carto/utils/accordeons.dart';
 import 'package:carto/utils/buttons.dart';
+import 'package:carto/utils/intent_utils/intent_utils.dart';
 import 'package:carto/utils/tags.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
@@ -73,7 +74,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                               Text(
                                 establishment.name.toUpperCase(),
                                 style: const TextStyle(
-                                  fontSize: 40,
+                                  fontSize: 25,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xFF005CFF),
                                 ),
