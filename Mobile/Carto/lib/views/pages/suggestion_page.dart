@@ -96,7 +96,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
       minRes = "${time.minute}";
     }
 
-    return "${hourRes}:${minRes}:00";
+    return "$hourRes:$minRes:00";
   }
 
   @override
@@ -130,31 +130,31 @@ class _SuggestionPageState extends State<SuggestionPage> {
                   child: const Text("Suggérer un établissement"),
                   onPressed: () {
                     List<DayOfTheWeekElemDto> days = [];
-                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.monday,
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.monday,
                       convertToString(_weekOpeningHour[0][0]),
                       convertToString(_weekOpeningHour[0][1]), _weekOpening[0])
                     );
-                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.tuesday,
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.tuesday,
                       convertToString(_weekOpeningHour[1][0]),
                       convertToString(_weekOpeningHour[1][1]), _weekOpening[1])
                     );
-                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.wednesday,
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.wednesday,
                       convertToString(_weekOpeningHour[2][0]),
                       convertToString(_weekOpeningHour[2][1]), _weekOpening[2])
                     );
-                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.thursday,
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.thursday,
                       convertToString(_weekOpeningHour[3][0]),
                       convertToString(_weekOpeningHour[3][1]), _weekOpening[3])
                     );
-                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.friday,
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.friday,
                       convertToString(_weekOpeningHour[4][0]),
                       convertToString(_weekOpeningHour[4][1]), _weekOpening[4])
                     );
-                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.saturday,
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.saturday,
                       convertToString(_weekOpeningHour[5][0]),
                       convertToString(_weekOpeningHour[5][1]), _weekOpening[5])
                     );
-                    days.add(new DayOfTheWeekElemDto(DayOfTheWeek.sunday,
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.sunday,
                       convertToString(_weekOpeningHour[6][0]),
                       convertToString(_weekOpeningHour[6][1]), _weekOpening[6])
                     );

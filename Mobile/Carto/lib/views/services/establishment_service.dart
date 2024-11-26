@@ -1,5 +1,4 @@
 import 'package:carto/models/establishment.dart';
-import 'package:carto/models/establishment_data.dart';
 import 'package:dio/dio.dart';
 
 class EstablishmentService{
@@ -13,6 +12,6 @@ class EstablishmentService{
  }
 
  void createEstablishment(Establishment establishment) async {
-  var response = await dio.post("https://carto.onrender.com/establishment",data: establishment.toJson());
+  await dio.post("https://carto.onrender.com/establishment",data: establishment.toJson());
  }
 }

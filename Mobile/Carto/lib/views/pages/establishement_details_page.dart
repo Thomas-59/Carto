@@ -3,7 +3,6 @@ import 'package:carto/utils/accordeons.dart';
 import 'package:carto/utils/buttons.dart';
 import 'package:carto/utils/tags.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -97,13 +96,6 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                         ),
                        Column(
                          children: [
-                           IconButton(
-                             icon: const Icon(Icons.favorite_border,
-                                 color: Color(0xFF005CFF)),
-                             onPressed: () {
-                               // TODO implements to fav
-                             },
-                           ),
                            establishment.phoneNumber.isEmpty ?
                              const SizedBox() :
                              IconButton(

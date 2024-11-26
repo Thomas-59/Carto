@@ -10,9 +10,9 @@ class GameTag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
       decoration: BoxDecoration(
-        border: Border.all(color: Color(0xFFEB663B), width: 1.5),
+        border: Border.all(color: const Color(0xFFEB663B), width: 1.5),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Row(
@@ -70,9 +70,9 @@ class InfoTag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
       decoration: BoxDecoration(
-        border: Border.all(color: Color(0xFF005CFF), width: 1.5),
+        border: Border.all(color: const Color(0xFF005CFF), width: 1.5),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Text(
@@ -115,9 +115,9 @@ class PriceTag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
       decoration: BoxDecoration(
-        border: Border.all(color: Color(0xFF005CFF), width: 1.5),
+        border: Border.all(color: const Color(0xFF005CFF), width: 1.5),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Text(
@@ -144,11 +144,11 @@ class EstablishmentInfo extends StatelessWidget {
     infoTags.add(PriceTag(price: establishment.price));
 
     if (establishment.proximityTransport) {
-      infoTags.add(InfoTag(infoName: "Proximité Transport"));
+      infoTags.add(const InfoTag(infoName: "Proximité Transport"));
     }
 
     if (establishment.accessPRM) {
-      infoTags.add(InfoTag(infoName: "Accès PMR"));
+      infoTags.add(const InfoTag(infoName: "Accès PMR"));
     }
 
     return Padding(
