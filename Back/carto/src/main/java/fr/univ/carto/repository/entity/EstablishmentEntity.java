@@ -32,6 +32,8 @@ public class EstablishmentEntity {
     private Double longitude;
     private Double latitude;
     private String address;
+    private String site;
+    private String description;
 
     @Column(name = "emailaddress")
     private String emailAddress;
@@ -61,6 +63,8 @@ public class EstablishmentEntity {
         establishmentBo.setId(id);
         establishmentBo.setAddress(address);
         establishmentBo.setName(name);
+        establishmentBo.setSite(site);
+        establishmentBo.setDescription(description);
         establishmentBo.setPrice(price);
         establishmentBo.setLatitude(latitude);
         establishmentBo.setLongitude(longitude);
@@ -96,6 +100,8 @@ public class EstablishmentEntity {
         establishmentEntity.setId(establishmentBo.getId());
         establishmentEntity.setAddress(establishmentBo.getAddress());
         establishmentEntity.setName(establishmentBo.getName());
+        establishmentEntity.setSite(establishmentBo.getSite());
+        establishmentEntity.setDescription(establishmentBo.getDescription());
         establishmentEntity.setPrice(establishmentBo.getPrice());
         establishmentEntity.setLatitude(establishmentBo.getLatitude());
         establishmentEntity.setLongitude(establishmentBo.getLongitude());
