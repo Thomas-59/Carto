@@ -53,7 +53,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                 WhiteSquareIconInvertedButton(
                     icon: Icons.reply_outlined,
                     onPressed: () {
-                      // TODO: implements redirection to itinerary
+                      IntentUtils.launchNavigation(context, establishment);
                     }),
               ],
             ),

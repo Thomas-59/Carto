@@ -89,7 +89,6 @@ class WhiteSquareIconInvertedButton extends StatelessWidget {
 }
 
 class OutlineButtonWithTextAndIcon extends StatelessWidget {
-
   final IconData icon;
   final VoidCallback onPressed;
   final String text;
@@ -130,5 +129,4 @@ class OutlineButtonWithTextAndIcon extends StatelessWidget {
       ),
     );
   }
-
 }
