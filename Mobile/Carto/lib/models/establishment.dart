@@ -157,6 +157,8 @@ class Establishment {
   @JsonKey(name: 'gameTypeDtoList')
   final List<GameTypeDto> gameTypeDtoList;
 
+
+
   Establishment(
       this.id,
       this.name,
@@ -175,6 +177,7 @@ class Establishment {
 
   factory Establishment.fromJson(Map<String, dynamic> json) =>
       _$EstablishmentFromJson(json);
+
 
   Map<String, dynamic> toJson() => _$EstablishmentToJson(this);
 }
