@@ -49,5 +49,12 @@
     <string>Nous avons besoin de votre position pour améliorer l'expérience utilisateur.</string>
     <key>NSLocationAlwaysUsageDescription</key>
     <string>Nous avons besoin de votre position pour améliorer l'expérience utilisateur.</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>waze</string>
+      <string>googlechromes</string>
+      <string>comgooglemaps</string>
+      <string>applemaps</string>
+    </array>
 </dict>
 </plist>
