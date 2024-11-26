@@ -19,6 +19,10 @@ public class EstablishmentBo {
     private String name;
 
     private String address;
+    
+    private String site;
+
+    private String description;
 
     private boolean proximityTransport;
 

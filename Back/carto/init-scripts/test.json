@@ -1,6 +1,8 @@
 {
   "name": "Dernier Bar avant la Fin du Monde",
   "address": "12 Rue de Pas",
+  "site": "https://dernierbar.com",
+  "description": "Un bar avec une bonne ambiance",
   "proximityTransport": true,
   "accessPRM": true,
   "price": "LOW",
