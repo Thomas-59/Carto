@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
@@ -23,7 +22,7 @@ class LocationService {
     bool hasPermission = await _requestLocationPermission();
     if (!hasPermission) return;
 
-    LocationSettings locationSettings = LocationSettings(
+    LocationSettings locationSettings = const LocationSettings(
       accuracy: LocationAccuracy.high,
       distanceFilter: 2,
     );

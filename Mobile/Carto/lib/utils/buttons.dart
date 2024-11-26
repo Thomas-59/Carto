@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -29,13 +28,13 @@ class WhiteSquareIconButton extends StatelessWidget {
               BoxShadow(
                 color: Colors.black.withOpacity(0.1),
                 blurRadius: 4,
-                offset: Offset(0, 2),
+                offset: const Offset(0, 2),
               ),
             ],
           ),
           child: Icon(
             icon,
-            color: Color(0xFF005CFF),
+            color: const Color(0xFF005CFF),
           ),
         ),
       ),
@@ -70,7 +69,7 @@ class WhiteSquareIconInvertedButton extends StatelessWidget {
               BoxShadow(
                 color: Colors.black.withOpacity(0.1),
                 blurRadius: 4,
-                offset: Offset(0, 2),
+                offset: const Offset(0, 2),
               ),
             ],
           ),
@@ -79,7 +78,7 @@ class WhiteSquareIconInvertedButton extends StatelessWidget {
             transform: Matrix4.rotationY(math.pi),
             child: Icon(
               icon,
-              color: Color(0xFF005CFF),
+              color: const Color(0xFF005CFF),
             ),
           ),
         ),

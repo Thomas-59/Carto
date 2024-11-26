@@ -6,7 +6,7 @@ import '../models/establishment.dart';
 class HoursAccordion extends StatefulWidget {
   final List<DayOfTheWeekElemDto> schedule;
 
-  HoursAccordion({required this.schedule});
+  const HoursAccordion({super.key, required this.schedule});
 
   @override
   _HoursAccordionState createState() => _HoursAccordionState();
@@ -57,7 +57,7 @@ class _HoursAccordionState extends State<HoursAccordion> {
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
               blurRadius: 4,
-              offset: Offset(0, 2),
+              offset: const Offset(0, 2),
             ),
           ],
         ),
@@ -68,7 +68,7 @@ class _HoursAccordionState extends State<HoursAccordion> {
             highlightColor: Colors.transparent,
           ),
           child: ExpansionTile(
-            tilePadding: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+            tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
             title: const Text(
               "Horaires",
               style: TextStyle(
