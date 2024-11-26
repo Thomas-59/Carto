@@ -4,18 +4,24 @@ class MyFormField extends StatelessWidget {
   const MyFormField({
     super.key,
     required this.label,
-    required this.isFeminine,
     required this.controller,
+    this.isFeminine = false,
+    this.canBeEmpty = false,
+    this.minLines = 1,
+    this.maxLines = 1,
   });
 
   final String label;
-  final bool isFeminine;
   final TextEditingController controller;
+  final bool isFeminine, canBeEmpty;
+  final int minLines, maxLines;
 
   @override
   Widget build(BuildContext context) {
     return Padding( padding: const EdgeInsets.all(8.0),
       child : TextFormField(
+        minLines: minLines,
+        maxLines: maxLines,
         controller: controller,
         decoration: InputDecoration(
           labelText: label,
@@ -26,14 +32,16 @@ class MyFormField extends StatelessWidget {
           ),
         ),
         autovalidateMode: AutovalidateMode.always,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Veuillez entrer ${isFeminine ? "une" : "un"} ${label.toLowerCase()}';
-          }
-
-          return null;
-        },
+        validator: validator,
       )
     );
+  }
+
+  String? validator(String? value) {
+    if (canBeEmpty ? false : (value == null || value.isEmpty)) {
+      return 'Veuillez entrer ${isFeminine ? "une" : "un"} '
+        '${label.toLowerCase()}';
+    }
+    return null;
   }
 }
