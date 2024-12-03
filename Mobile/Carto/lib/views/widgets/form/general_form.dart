@@ -135,6 +135,9 @@ class _GeneralFormState extends State<GeneralForm> {
             onPressed: () {
               _openAddressInputPage();
             },
+            style: ButtonStyle(
+              backgroundColor:_addressPick!=null ? WidgetStatePropertyAll<Color>(Colors.greenAccent):WidgetStatePropertyAll<Color>(Colors.redAccent),
+            ),
             child: Text(
               _addressPick!=null ? _addressPick!.properties.label : "Choisir une adresse",
             ),
