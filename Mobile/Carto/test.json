@@ -1,0 +1,139 @@
+{
+  "type": "FeatureCollection",
+  "version": "draft",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.924482,
+          45.563371
+        ]
+      },
+      "properties": {
+        "label": "Carré curial 73000 Chambéry",
+        "score": 0.8792154545454545,
+        "id": "73065_A018",
+        "name": "Carré curial",
+        "postcode": "73000",
+        "citycode": "73065",
+        "x": 928077.96,
+        "y": 6500209.85,
+        "city": "Chambéry",
+        "context": "73, Savoie, Auvergne-Rhône-Alpes",
+        "type": "street",
+        "importance": 0.67137,
+        "street": "Carré curial"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.213679,
+          49.111048
+        ]
+      },
+      "properties": {
+        "label": "Carre Mansart 95290 L'Isle-Adam",
+        "score": 0.866290909090909,
+        "id": "95313_gpz0ct",
+        "banId": "66d66e58-7c7a-4bba-bc4c-cbef28af8183",
+        "name": "Carre Mansart",
+        "postcode": "95290",
+        "citycode": "95313",
+        "x": 642587.42,
+        "y": 6890422.84,
+        "city": "L'Isle-Adam",
+        "context": "95, Val-d'Oise, Île-de-France",
+        "type": "street",
+        "importance": 0.5292,
+        "street": "Carre Mansart"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -52.338629,
+          4.840846
+        ]
+      },
+      "properties": {
+        "label": "Car Califourchon 97351 Matoury",
+        "score": 0.8638736363636363,
+        "id": "97307_v0rmel",
+        "banId": "a797f08c-49cc-4e3a-a601-d3430878a9e2",
+        "name": "Car Califourchon",
+        "postcode": "97351",
+        "citycode": "97307",
+        "x": 351558.5,
+        "y": 535218.05,
+        "city": "Matoury",
+        "context": "973, Guyane",
+        "type": "street",
+        "importance": 0.50261,
+        "street": "Car Califourchon"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.41172,
+          45.944465
+        ]
+      },
+      "properties": {
+        "label": "Card 87240 Ambazac",
+        "score": 0.8623736363636363,
+        "id": "87002_98142n",
+        "banId": "441968b5-e1cc-4f8d-8310-8295533613b6",
+        "name": "Card",
+        "postcode": "87240",
+        "citycode": "87002",
+        "x": 576962.58,
+        "y": 6539544.13,
+        "city": "Ambazac",
+        "context": "87, Haute-Vienne, Nouvelle-Aquitaine",
+        "type": "street",
+        "importance": 0.48611,
+        "street": "Card"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.909279,
+          45.304642
+        ]
+      },
+      "properties": {
+        "label": "Carre Guillerme 38660 Lumbin",
+        "score": 0.8590036363636363,
+        "id": "38214_vjr9kh",
+        "banId": "d0695f09-8950-44ee-8423-e347c145d1a0",
+        "name": "Carre Guillerme",
+        "postcode": "38660",
+        "citycode": "38214",
+        "x": 927951.22,
+        "y": 6471452.5,
+        "city": "Lumbin",
+        "context": "38, Isère, Auvergne-Rhône-Alpes",
+        "type": "street",
+        "importance": 0.44904,
+        "street": "Carre Guillerme"
+      }
+    }
+  ],
+  "attribution": "BAN",
+  "licence": "ETALAB-2.0",
+  "query": "Car",
+  "limit": 5
+}

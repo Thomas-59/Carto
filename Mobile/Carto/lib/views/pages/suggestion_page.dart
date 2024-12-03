@@ -1,6 +1,5 @@
 import 'package:carto/enum/price_enum.dart';
 import 'package:carto/models/establishment.dart';
-import 'package:carto/models/establishment_data.dart';
 import 'package:carto/views/services/establishment_service.dart';
 import 'package:carto/views/widgets/form/games_form.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +39,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
   // GameForm
   late List<String> _gameTitles;
   late List<int> _gameNumbers;
+
+  // coordinate
 
   // Service
   EstablishmentService establishmentService = EstablishmentService();
