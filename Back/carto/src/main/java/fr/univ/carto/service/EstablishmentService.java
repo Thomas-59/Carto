@@ -42,6 +42,8 @@ public class EstablishmentService {
         EstablishmentEntity establishmentEntity = new EstablishmentEntity();
         establishmentEntity.setName(establishmentBo.getName());
         establishmentEntity.setAddress(establishmentBo.getAddress());
+        establishmentEntity.setSite(establishmentBo.getSite());
+        establishmentEntity.setDescription(establishmentBo.getDescription());
         establishmentEntity.setPrice(establishmentBo.getPrice());
         establishmentEntity.setLatitude(establishmentBo.getLatitude());
         establishmentEntity.setLongitude(establishmentBo.getLongitude());

@@ -1,7 +1,7 @@
 import 'package:carto/views/widgets/form/form_fields/my_form_field.dart';
 
-class MyFormFieldMail extends MyFormField {
-  const MyFormFieldMail({
+class MyFormFieldDouble extends MyFormField {
+  const MyFormFieldDouble({
     super.key,
     required super.label,
     required super.controller,
@@ -22,10 +22,10 @@ class MyFormFieldMail extends MyFormField {
       }
     }
 
-    final RegExp mailRegex =
-    RegExp( r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" );
-    if(!mailRegex.hasMatch(value)) {
-      return "$value n'est pas ${isFeminine ? "une" : "un"} "
+    try {
+      double.parse(value);
+    } catch (e) {
+      return "Veuillez entrer ${isFeminine ? "une" : "un"} "
         "${label.toLowerCase()} valide";
     }
 
