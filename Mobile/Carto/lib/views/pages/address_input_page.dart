@@ -101,9 +101,7 @@ class _AddressInputPageState extends State<AddressInputPage> {
                 hintText: "1 Rue de la Paix 75002 Paris",
               ),
             ),
-            _listAddress.isNotEmpty? SizedBox(
-              height: 400,
-              width: 400,
+            _listAddress.isNotEmpty? Expanded(
               child: ListView.builder(
                 itemCount: _listAddress.length,
                 itemBuilder: (context, index) {
