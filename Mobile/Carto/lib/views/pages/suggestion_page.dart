@@ -40,6 +40,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
   late List<String> _gameTitles;
   late List<int> _gameNumbers;
 
+  // coordinate
+
   // Service
   EstablishmentService establishmentService = EstablishmentService();
 

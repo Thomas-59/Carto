@@ -1,7 +1,9 @@
 import 'package:carto/enum/price_enum.dart';
 import 'package:carto/views/widgets/form/form_fields/my_form_field_double.dart';
+import 'package:carto/models/address.dart';
 import 'package:flutter/material.dart';
 
+import '../../pages/address_input_page.dart';
 import 'form_fields/my_form_field.dart';
 import 'other_fields/price_button.dart';
 
@@ -11,6 +13,7 @@ class GeneralForm extends StatefulWidget {
   final String name, address, latitude, longitude, site, description;
   final PriceEnum gamePrice;
   final bool nearTransport, pmrAccess;
+
 
   const GeneralForm({
     super.key,
@@ -45,7 +48,10 @@ class _GeneralFormState extends State<GeneralForm> {
     _siteIsValid, _descriptionIsValid;
 
   late PriceEnum _gamePrice = widget.gamePrice;
-
+  Address? _addressPick;
+  String _adressLabel="";
+  String _longitude="0";
+  String _latitude="0";
   @override
   void initState() {
     TextEditingController nameController =
@@ -75,6 +81,7 @@ class _GeneralFormState extends State<GeneralForm> {
       });
     });
 
+    _addressIsValid = _addressValueIsValid(_adressLabel);
     _addressField = MyFormField(
         label: "Adresse d'établissement",
         isFeminine: true,
@@ -89,33 +96,7 @@ class _GeneralFormState extends State<GeneralForm> {
       });
     });
 
-    _latitudeField = MyFormFieldDouble(
-        label: "Latitude d'établissement",
-        isFeminine: true,
-        controller: latitudeController
-    );
-    _latitudeIsValid = _fieldIsValid(_latitudeField);
-    latitudeController.addListener(() {
-      setState(() {
-        _latitudeIsValid = _fieldIsValid(_latitudeField);
-        widget.formIsValid(_formIsValid());
-        widget.formChange(getAllParameter());
-      });
-    });
 
-    _longitudeField = MyFormFieldDouble(
-        label: "Longitude d'établissement",
-        isFeminine: true,
-        controller: longitudeController
-    );
-    _longitudeIsValid = _fieldIsValid(_longitudeField);
-    longitudeController.addListener(() {
-      setState(() {
-        _longitudeIsValid = _fieldIsValid(_longitudeField);
-        widget.formIsValid(_formIsValid());
-        widget.formChange(getAllParameter());
-      });
-    });
 
     _siteField = MyFormField(
       label: "Site web d'établissement",
@@ -154,23 +135,49 @@ class _GeneralFormState extends State<GeneralForm> {
     return (field.validator(field.controller.text) == null);
   }
 
+  bool _addressValueIsValid(String value) {
+    return value.isNotEmpty;
+  }
+
   bool _formIsValid() {
-    return _nameIsValid & _addressIsValid & _latitudeIsValid &
-      _longitudeIsValid & _siteIsValid & _descriptionIsValid;
+    return _nameIsValid & _addressIsValid & _siteIsValid & _descriptionIsValid;
   }
 
   List<String> getAllParameter() {
     return <String> [
       _nameField.controller.text,
-      _addressField.controller.text,
-      _latitudeField.controller.text,
-      _longitudeField.controller.text,
+      _adressLabel,
+      _latitude,
+      _longitude,
       _siteField.controller.text,
       _descriptionField.controller.text,
       _gamePrice.value,
       _nearTransport.toString(),
       _pmrAccess.toString()
     ];
+  }
+
+  void _openAddressInputPage(){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+        builder: (context) => AddressInputPage(
+      initialAddress: _addressPick,
+      onAddressValidated: (updatedAddress, latitude, longitude) {
+        setState(() {
+          _addressPick = updatedAddress;
+          if(updatedAddress!=null){
+            _adressLabel = updatedAddress.properties.label;
+          }
+          _latitude = latitude;
+          _longitude = longitude;
+          _addressIsValid = _addressValueIsValid(_adressLabel);
+          widget.formIsValid(_formIsValid());
+          widget.formChange(getAllParameter());
+        });
+      },
+    ),
+    ));
   }
 
   @override
@@ -185,9 +192,17 @@ class _GeneralFormState extends State<GeneralForm> {
           color: Colors.black
         ),
         _nameField,
-        _addressField,
-        _latitudeField,
-        _longitudeField,
+        ElevatedButton(
+          onPressed: () {
+            _openAddressInputPage();
+          },
+          style: ButtonStyle(
+            backgroundColor:_addressPick!=null ? WidgetStatePropertyAll<Color>(Colors.greenAccent):WidgetStatePropertyAll<Color>(Colors.redAccent),
+          ),
+          child: Text(
+            _addressPick!=null ? _addressPick!.properties.label : "Choisir une adresse",
+          ),
+        ),
         _siteField,
         _descriptionField,
         PriceButton(
