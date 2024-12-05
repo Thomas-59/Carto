@@ -48,6 +48,8 @@ public class EstablishmentController {
 
             establishmentBo.setAddress(establishmentDto.getAddress());
             establishmentBo.setName(establishmentDto.getName());
+            establishmentBo.setSite(establishmentDto.getSite());
+            establishmentBo.setDescription(establishmentDto.getDescription());
             establishmentBo.setPhoneNumber(establishmentDto.getPhoneNumber());
             establishmentBo.setDayScheduleList(establishmentDto.getDayScheduleList());
             establishmentBo.setGameTypeDtoList(establishmentDto.getGameTypeDtoList());

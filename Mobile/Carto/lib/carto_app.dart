@@ -1,5 +1,6 @@
 import 'package:carto/cubit/location_cubit.dart';
 import 'package:carto/views/pages/address_input_page.dart';
+import 'package:carto/views/pages/establishement_details_page.dart';
 import 'package:carto/views/pages/home_page.dart';
 import 'package:carto/views/pages/suggestion_page.dart';
 import 'package:carto/views/pages/thanking_page.dart';
@@ -27,6 +28,7 @@ class CartoApp extends StatelessWidget {
             '/': (context) => const MyHomePage(),
             '/suggestion': (context) => const SuggestionPage(),
             '/thank' : (context) => const ThankingPage(),
+            '/etablishment_detail' : (context) => const EstablishmentDisplayPage(),
           }
         ),
     );

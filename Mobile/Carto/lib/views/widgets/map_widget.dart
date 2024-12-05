@@ -29,8 +29,8 @@ class _MapWidgetState extends State<MapWidget> {
   bool isFirstLoad = true;
   bool _isDarkMode = false;
   final LocationService _locationService = LocationService();
-  double default_latitude = 50.63294;
-  double default_longitude = 3.05843;
+  double defaultLatitude = 50.63294;
+  double defaultLongitude = 3.05843;
 
   late Future<List<Establishment>> _establishmentsFuture;
 
@@ -65,11 +65,11 @@ class _MapWidgetState extends State<MapWidget> {
             future: _establishmentsFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(child: Text('Erreur : ${snapshot.error}'));
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Center(child: Text('Aucun établissement trouvé'));
+                return const Center(child: Text('Aucun établissement trouvé'));
               }
 
               // Marker for establishments
@@ -78,7 +78,13 @@ class _MapWidgetState extends State<MapWidget> {
                   width: 80.0,
                   height: 80.0,
                   point: LatLng(establishment.latitude, establishment.longitude),
-                  child: Icon(Icons.location_on, color: Colors.red, size: 40),
+                  child: IconButton(onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/etablishment_detail',
+                      arguments: {'establishment': establishment},
+                    );
+                  }, icon: const Icon(Icons.location_on, color: Colors.red, size: 40)),
                 );
               }).toList();
 
@@ -88,7 +94,7 @@ class _MapWidgetState extends State<MapWidget> {
                   width: 80.0,
                   height: 80.0,
                   point: LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
-                  child: Icon(Icons.circle_rounded, color: Colors.blue, size: 20),
+                  child: const Icon(Icons.circle_rounded, color: Colors.blue, size: 20),
                 ));
               }
 
@@ -97,7 +103,7 @@ class _MapWidgetState extends State<MapWidget> {
                 options: MapOptions(
                   initialCenter: _currentPosition != null
                       ? LatLng(_currentPosition!.latitude, _currentPosition!.longitude)
-                      : LatLng(default_latitude, default_longitude),
+                      : LatLng(defaultLatitude, defaultLongitude),
                   initialZoom: 15,
                   minZoom: 6,
                   maxZoom: 19,
@@ -143,9 +149,9 @@ class _MapWidgetState extends State<MapWidget> {
               onPressed: () {
                 _currentPosition != null
                     ? _mapController.move(LatLng(_currentPosition!.latitude, _currentPosition!.longitude), 15)
-                    : _mapController.move(LatLng(default_latitude, default_longitude), 15);
+                    : _mapController.move(LatLng(defaultLatitude, defaultLongitude), 15);
               },
-              child: Icon(Icons.center_focus_strong_rounded),
+              child: const Icon(Icons.center_focus_strong_rounded),
             ),
           ),
           // Button for recenter on map
@@ -159,24 +165,11 @@ class _MapWidgetState extends State<MapWidget> {
                   '/suggestion',
                 );
               },
-              child: Icon(Icons.add),
+              child: const Icon(Icons.add),
             ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _lightModeTileBuilder(
-      BuildContext context, Widget tileWidget, TileImage tile) {
-    return ColorFiltered(
-      colorFilter: const ColorFilter.matrix(<double>[
-        1, 0, 0, 0, 0, // Red channel
-        0, 1, 0, 0, 0, // Green channel
-        0, 0, 1, 0, 0, // Blue channel
-        0, 0, 0, 1, 0, // Alpha channel
-      ]),
-      child: tileWidget,
     );
   }
 
@@ -188,19 +181,6 @@ class _MapWidgetState extends State<MapWidget> {
         0.2126, 0.7152, 0.0722, 0, 0,
         0.2126, 0.7152, 0.0722, 0, 0,
         0,      0,      0,      1, 0,
-      ]),
-      child: tileWidget,
-    );
-  }
-
-  Widget _darkenedModeTileBuilder(
-      BuildContext context, Widget tileWidget, TileImage tile) {
-    return ColorFiltered(
-      colorFilter: const ColorFilter.matrix(<double>[
-        0.75, 0,    0,    0, 0,
-        0,    0.75, 0,    0, 0,
-        0,    0,    0.75, 0, 0,
-        0,    0,    0,    1, 0
       ]),
       child: tileWidget,
     );

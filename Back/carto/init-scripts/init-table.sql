@@ -32,6 +32,8 @@ CREATE TABLE Establishment
     id                 BIGINT PRIMARY KEY,
     name               VARCHAR(255) NOT NULL,
     address            VARCHAR(255) NOT NULL,
+    site               VARCHAR(255) NOT NULL,
+    description        Text         NOT NULL,
     proximityTransport BOOLEAN DEFAULT FALSE,
     accessPRM          BOOLEAN DEFAULT FALSE,
     price              price,
