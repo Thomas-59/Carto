@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:carto/enum/price_enum.dart';
 import 'package:carto/models/establishment.dart';
-import 'package:carto/models/establishment_data.dart';
 import 'package:carto/views/services/establishment_service.dart';
 import 'package:carto/views/widgets/form/games_form.dart';
 import 'package:flutter/material.dart';
@@ -27,10 +26,10 @@ class _SuggestionPageState extends State<SuggestionPage> {
   late final GamesForm _gamesForm;
 
   bool _generalFormIsValid = false;
-  bool _contactFormIsValid = false;
+  bool _contactFormIsValid = true;
 
   // GeneralForm
-  late String _name, _address, _latitude, _longitude;
+  late String _name, _address, _latitude, _longitude, _site, _description;
   late PriceEnum _gamePrice;
   late bool _nearTransport, _pmrAccess;
 
@@ -61,6 +60,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
       formChange: _handleGeneralFormChange,
     );
     _name = _generalForm.name;
+    _address = _generalForm.address;
+    _site = _generalForm.site;
     _address = _generalForm.address;
     _gamePrice = _generalForm.gamePrice;
     _nearTransport = _generalForm.nearTransport;
@@ -154,111 +155,130 @@ class _SuggestionPageState extends State<SuggestionPage> {
       minRes = "${time.minute}";
     }
 
-    return "${hourRes}:${minRes}:00";
+    return "$hourRes:$minRes:00";
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body:
-        ListView(
-            scrollDirection: Axis.vertical,
-            children: <Widget>[
-              Column(
-                children: [
-                  Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-                      child : _generalForm
-                  ),
-                  Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-                      child : _contactForm
-                  ),
-                  Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-                      child : _openingHourForm
-                  ),
-                  Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-                      child : _gamesForm
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        ElevatedButton(
-                          onPressed: _pickImage,
-                          child: const Text('Pick Image'),
-                        ),
-                        if (_imageBytes != null)
-                          Column(
-                            children: [
-                              Image.memory(
-                                _imageBytes!,
-                                height: 150,
-                                width: 150,
-                                fit: BoxFit.cover,
-                              ),
-                              ElevatedButton(
-                                onPressed: _isUploading ? null : _uploadImage,
-                                child: _isUploading
-                                    ? const CircularProgressIndicator()
-                                    : const Text('Upload Image'),
-                              ),
-                            ],
-                          ),
-                        if (_uploadedImageUrl != null)
-                          Text('Uploaded Image URL: $_uploadedImageUrl'),
-                      ],
-                    ),
-                  ),
-                  Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-                      child : ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: formIsValid() ? Colors.white : Colors.grey,
-                          disabledForegroundColor: Colors.grey.withOpacity(0.38),
-                          disabledBackgroundColor: Colors.grey.withOpacity(0.12),
-                        ),
-                        child: const Text("Suggérer un établissement"),
-                        onPressed: () {
-                          List<DayOfTheWeekElemDto> days = [];
-                          days.add(new DayOfTheWeekElemDto(DayOfTheWeek.monday, convertToString(_weekOpeningHour[0][0]), convertToString(_weekOpeningHour[0][1]), _weekOpening[0]));
-                          days.add(new DayOfTheWeekElemDto(DayOfTheWeek.tuesday,convertToString(_weekOpeningHour[1][0]), convertToString(_weekOpeningHour[1][1]), _weekOpening[1]));
-                          days.add(new DayOfTheWeekElemDto(DayOfTheWeek.wednesday, convertToString(_weekOpeningHour[2][0]), convertToString(_weekOpeningHour[2][1]), _weekOpening[2]));
-                          days.add(new DayOfTheWeekElemDto(DayOfTheWeek.thursday, convertToString(_weekOpeningHour[3][0]), convertToString(_weekOpeningHour[3][1]), _weekOpening[3]));
-                          days.add(new DayOfTheWeekElemDto(DayOfTheWeek.friday, convertToString(_weekOpeningHour[4][0]), convertToString(_weekOpeningHour[4][1]), _weekOpening[4]));
-                          days.add(new DayOfTheWeekElemDto(DayOfTheWeek.saturday, convertToString(_weekOpeningHour[5][0]), convertToString(_weekOpeningHour[5][1]), _weekOpening[5]));
-                          days.add(new DayOfTheWeekElemDto(DayOfTheWeek.sunday, convertToString(_weekOpeningHour[6][0]), convertToString(_weekOpeningHour[6][1]), _weekOpening[6]));
-
-                          List<GameTypeDto> games=[];
-                          int i =0;
-                          while(i<_gameTitles.length-1){
-                            if(_gameNumbers[i]>0){
-                              games.add(new GameTypeDto(GameType.fromString(_gameTitles[i]), _gameNumbers[i]));
-                            }
-                            i++;
-                          }
-                          Establishment establishment = Establishment(
-                            null,
-                            _name,
-                            _address,
-                            _nearTransport,
-                            _pmrAccess,
-                            Price.fromString(_gamePrice.value),
-                            _mail,
-                            _phoneNumber,
-                            double.parse(_longitude),
-                            double.parse(_latitude),
-                            days,
-                            games,
-                          );
-                          if(formIsValid()){
-                            establishmentService.createEstablishment(establishment);
-                            Navigator.pushNamed(context, '/thank',);
-                          }
-                        },
-                      )
-                  ),
-                ],
+      body:
+      ListView(
+        scrollDirection: Axis.vertical,
+        children: <Widget>[
+          Column(
+            children: [
+      ElevatedButton(
+        onPressed: _pickImage,
+        child: const Text('Pick Image'),
+      ),
+        if (_imageBytes != null)
+    Column(
+      children: [
+        Image.memory(
+          _imageBytes!,
+          height: 150,
+          width: 150,
+          fit: BoxFit.cover,
+        ),
+        ElevatedButton(
+          onPressed: _isUploading ? null : _uploadImage,
+          child: _isUploading
+              ? const CircularProgressIndicator()
+              : const Text('Upload Image'),
+        ),
+      ],
+    ),
+    if (_uploadedImageUrl != null)
+    Text('Uploaded Image URL: $_uploadedImageUrl'),
+    ],
+    ),
+    ),
+              Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                child : _generalForm
               ),
-            ]
-        )
+              Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                child : _contactForm
+              ),
+              Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                child : _openingHourForm
+              ),
+              Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                child : _gamesForm
+              ),
+              Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                child : ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: formIsValid() ? Colors.white : Colors.grey,
+                  disabledForegroundColor: Colors.grey.withOpacity(0.38),
+                  disabledBackgroundColor: Colors.grey.withOpacity(0.12),
+                 ),
+                  child: const Text("Suggérer un établissement"),
+                  onPressed: () {
+                    List<DayOfTheWeekElemDto> days = [];
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.monday,
+                      convertToString(_weekOpeningHour[0][0]),
+                      convertToString(_weekOpeningHour[0][1]), _weekOpening[0])
+                    );
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.tuesday,
+                      convertToString(_weekOpeningHour[1][0]),
+                      convertToString(_weekOpeningHour[1][1]), _weekOpening[1])
+                    );
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.wednesday,
+                      convertToString(_weekOpeningHour[2][0]),
+                      convertToString(_weekOpeningHour[2][1]), _weekOpening[2])
+                    );
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.thursday,
+                      convertToString(_weekOpeningHour[3][0]),
+                      convertToString(_weekOpeningHour[3][1]), _weekOpening[3])
+                    );
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.friday,
+                      convertToString(_weekOpeningHour[4][0]),
+                      convertToString(_weekOpeningHour[4][1]), _weekOpening[4])
+                    );
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.saturday,
+                      convertToString(_weekOpeningHour[5][0]),
+                      convertToString(_weekOpeningHour[5][1]), _weekOpening[5])
+                    );
+                    days.add(DayOfTheWeekElemDto(DayOfTheWeek.sunday,
+                      convertToString(_weekOpeningHour[6][0]),
+                      convertToString(_weekOpeningHour[6][1]), _weekOpening[6])
+                    );
+
+                    List<GameTypeDto> games=[];
+                    int i =0;
+                    while(i<_gameTitles.length-1){
+                      if(_gameNumbers[i]>0){
+                        games.add(GameTypeDto(GameType.fromString(_gameTitles[i]), _gameNumbers[i]));
+                      }
+                      i++;
+                    }
+                    Establishment establishment = Establishment(
+                      null,
+                      _name,
+                      _address,
+                      _site,
+                      _description,
+                      _nearTransport,
+                      _pmrAccess,
+                      Price.fromString(_gamePrice.value),
+                      _mail,
+                      _phoneNumber,
+                      double.parse(_longitude),
+                      double.parse(_latitude),
+                      days,
+                      games,
+                    );
+                    if(formIsValid()){
+                      establishmentService.createEstablishment(establishment);
+                      Navigator.pushNamed(context, '/thank',);
+                    }
+                  },
+                )
+              ),
+            ],
+          ),
+        ]
+      )
     );
   }
 
@@ -277,9 +297,11 @@ class _SuggestionPageState extends State<SuggestionPage> {
     _address = newValues[1];
     _latitude = newValues[2];
     _longitude = newValues[3];
-    _gamePrice = PriceEnum.fromString(newValues[4]);
-    _nearTransport = newValues[5] == "true";
-    _pmrAccess = newValues[6] == "true";
+    _site = newValues[4];
+    _description = newValues[5];
+    _gamePrice = PriceEnum.fromString(newValues[6]);
+    _nearTransport = newValues[7] == "true";
+    _pmrAccess = newValues[8] == "true";
   }
 
   void _handleContactFormValidity(bool formIsValid) {

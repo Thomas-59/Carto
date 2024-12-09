@@ -130,6 +130,12 @@ class Establishment {
   @JsonKey(name: 'address')
   final String address;
 
+  @JsonKey(name: 'site')
+  final String site;
+
+  @JsonKey(name: 'description')
+  final String description;
+
   @JsonKey(name: 'proximityTransport')
   final bool proximityTransport;
 
@@ -163,6 +169,8 @@ class Establishment {
       this.id,
       this.name,
       this.address,
+      this.site,
+      this.description,
       this.proximityTransport,
       this.accessPRM,
       this.price,

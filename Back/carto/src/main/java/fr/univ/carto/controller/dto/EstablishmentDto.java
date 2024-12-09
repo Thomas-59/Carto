@@ -17,6 +17,10 @@ public class EstablishmentDto {
     private String name;
 
     private String address;
+    
+    private String site;
+
+    private String description;
 
     private boolean proximityTransport;
 
@@ -41,6 +45,8 @@ public class EstablishmentDto {
                 .id(establishmentBo.getId())
                 .address(establishmentBo.getAddress())
                 .name(establishmentBo.getName())
+                .site(establishmentBo.getSite())
+                .description(establishmentBo.getDescription())
                 .proximityTransport(establishmentBo.isProximityTransport())
                 .accessPRM(establishmentBo.isAccessPRM())
                 .price(establishmentBo.getPrice())

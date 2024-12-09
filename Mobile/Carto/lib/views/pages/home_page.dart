@@ -13,7 +13,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    MapWidget map = MapWidget();
+    MapWidget map = const MapWidget();
     return LayoutBuilder(
       builder: (context, constraints) {
         return Scaffold(

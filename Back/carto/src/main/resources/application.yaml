@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://dpg-csljv0d6l47c73c6qmn0-a.frankfurt-postgres.render.com/cartodb_wrvt
-    username: cartodb_wrvt_user
-    password: UUO51BiTKQWdlalWEFRfr8uGuMH76Occ
+    url: jdbc:postgresql://dpg-ct8pdot2ng1s739os3h0-a.frankfurt-postgres.render.com/carto
+    username: carto_user
+    password: TgkGfBeZDaNqF31zQnWhIUZn87nCWEEJ
     driver-class-name: org.postgresql.Driver
 
 ---
