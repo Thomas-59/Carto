@@ -1,7 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:carto/enum/price_enum.dart';
 import 'package:carto/views/widgets/form/form_fields/my_form_field_double.dart';
 import 'package:carto/models/address.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../pages/address_input_page.dart';
 import 'form_fields/my_form_field.dart';
@@ -13,6 +17,9 @@ class GeneralForm extends StatefulWidget {
   final String name, address, latitude, longitude, site, description;
   final PriceEnum gamePrice;
   final bool nearTransport, pmrAccess;
+
+
+  final Uint8List? imageBytes;
 
 
   const GeneralForm({
@@ -28,6 +35,7 @@ class GeneralForm extends StatefulWidget {
     this.gamePrice = PriceEnum.medium,
     this.nearTransport = false,
     this.pmrAccess = false,
+    this.imageBytes,
   });
 
   @override
@@ -47,11 +55,18 @@ class _GeneralFormState extends State<GeneralForm> {
   late bool _nameIsValid, _addressIsValid, _latitudeIsValid, _longitudeIsValid,
     _siteIsValid, _descriptionIsValid;
 
+
+
   late PriceEnum _gamePrice = widget.gamePrice;
   Address? _addressPick;
   String _adressLabel="";
   String _longitude="0";
   String _latitude="0";
+
+  //image
+  final ImagePicker _picker = ImagePicker();
+  Uint8List? _imageBytes;
+
   @override
   void initState() {
     TextEditingController nameController =
@@ -153,7 +168,8 @@ class _GeneralFormState extends State<GeneralForm> {
       _descriptionField.controller.text,
       _gamePrice.value,
       _nearTransport.toString(),
-      _pmrAccess.toString()
+      _pmrAccess.toString(),
+      _imageBytes.toString()
     ];
   }
 
@@ -179,6 +195,19 @@ class _GeneralFormState extends State<GeneralForm> {
     ),
     ));
   }
+
+  Future<void> _pickImage() async {
+    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      var toStore = Uint8List.fromList(await pickedFile.readAsBytes());
+      setState(()  {
+        _imageBytes = toStore;
+        widget.formChange(getAllParameter());
+      });
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -230,8 +259,25 @@ class _GeneralFormState extends State<GeneralForm> {
               widget.formChange(getAllParameter());
             });
           }),
+          Column(
+            children: [
+            ElevatedButton(
+              onPressed: _pickImage,
+              child: const Text('Pick Image'),
+          ),
+          if (_imageBytes != null)
+          Column(
+            children: [
+            Image.memory(
+              _imageBytes!,
+              height: 150,
+              width: 150,
+              fit: BoxFit.cover,
+              ),
+          ],
+        ),
       ],
-    );
+    )]);
   }
 
   void _handlePriceChange(PriceEnum newPrice) {

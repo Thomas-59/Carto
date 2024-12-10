@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:carto/enum/price_enum.dart';
@@ -5,7 +6,6 @@ import 'package:carto/models/establishment.dart';
 import 'package:carto/views/services/establishment_service.dart';
 import 'package:carto/views/widgets/form/games_form.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../widgets/form/contact_form.dart';
@@ -48,10 +48,9 @@ class _SuggestionPageState extends State<SuggestionPage> {
   EstablishmentService establishmentService = EstablishmentService();
 
   //image
-  final ImagePicker _picker = ImagePicker();
-  Uint8List? _imageBytes;
+  late Uint8List? _imageBytes;
+  bool _isUploading= false;
   String? _uploadedImageUrl;
-  bool _isUploading = false;
 
   @override
   void initState() {
@@ -92,16 +91,6 @@ class _SuggestionPageState extends State<SuggestionPage> {
     super.initState();
   }
 
-  Future<void> _pickImage() async {
-    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      var toStore = Uint8List.fromList(await pickedFile.readAsBytes());
-      setState(()  {
-        _imageBytes = toStore;
-      });
-    }
-  }
-
   Future<void> _uploadImage() async {
     if (_imageBytes == null) return;
 
@@ -111,7 +100,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
 
     final supabase = Supabase.instance.client;
     final folderName = 'establishment-images';
-    final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+    final fileName = '${_name}.jpg';
     final filePath = '$folderName/$fileName';
 
     try {
@@ -127,10 +116,6 @@ class _SuggestionPageState extends State<SuggestionPage> {
         _uploadedImageUrl = publicUrl;
         _isUploading = false;
       });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Image uploaded successfully!')),
-      );
     } catch (error) {
       setState(() {
         _isUploading = false;
@@ -165,34 +150,6 @@ class _SuggestionPageState extends State<SuggestionPage> {
       ListView(
         scrollDirection: Axis.vertical,
         children: <Widget>[
-          Column(
-            children: [
-      ElevatedButton(
-        onPressed: _pickImage,
-        child: const Text('Pick Image'),
-      ),
-        if (_imageBytes != null)
-    Column(
-      children: [
-        Image.memory(
-          _imageBytes!,
-          height: 150,
-          width: 150,
-          fit: BoxFit.cover,
-        ),
-        ElevatedButton(
-          onPressed: _isUploading ? null : _uploadImage,
-          child: _isUploading
-              ? const CircularProgressIndicator()
-              : const Text('Upload Image'),
-        ),
-      ],
-    ),
-    if (_uploadedImageUrl != null)
-    Text('Uploaded Image URL: $_uploadedImageUrl'),
-    ],
-    ),
-    ),
               Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
                 child : _generalForm
               ),
@@ -270,6 +227,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
                     );
                     if(formIsValid()){
                       establishmentService.createEstablishment(establishment);
+                      _uploadImage();
                       Navigator.pushNamed(context, '/thank',);
                     }
                   },
@@ -277,8 +235,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
               ),
             ],
           ),
-        ]
-      )
+
     );
   }
 
@@ -302,6 +259,16 @@ class _SuggestionPageState extends State<SuggestionPage> {
     _gamePrice = PriceEnum.fromString(newValues[6]);
     _nearTransport = newValues[7] == "true";
     _pmrAccess = newValues[8] == "true";
+    if(newValues[9]!="null"){
+      String listWithoutBracket =
+          newValues[9].replaceAll('[', '').replaceAll(']', '');
+      List<String> stringList = listWithoutBracket.split(",");
+      List<int> intlist = [];
+      for (String s in stringList) {
+        intlist.add(int.parse(s));
+      }
+      _imageBytes = Uint8List.fromList(intlist);
+    }
   }
 
   void _handleContactFormValidity(bool formIsValid) {
