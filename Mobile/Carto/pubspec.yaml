@@ -62,6 +62,7 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   build_runner: ^2.4.13
   json_serializable: ^6.8.0
+  flutter_launcher_icons: ^0.14.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -104,3 +105,12 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/ic_launcher.png"
+  adaptive_icon_background: "assets/icon/ic_launcher_adaptive_back.png"
+  adaptive_icon_foreground: "assets/icon/ic_launcher_adaptive_fore.png"
+  min_sdk_android: 16 # android min sdk min:16, default 21
+  remove_alpha_ios: true
