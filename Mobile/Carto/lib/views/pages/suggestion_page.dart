@@ -176,31 +176,31 @@ class _SuggestionPageState extends State<SuggestionPage> {
                     List<DayOfTheWeekElemDto> days = [];
                     days.add(DayOfTheWeekElemDto(DayOfTheWeek.monday,
                       convertToString(_weekOpeningHour[0][0]),
-                      convertToString(_weekOpeningHour[0][1]), _weekOpening[0])
+                      convertToString(_weekOpeningHour[0][1]), !_weekOpening[0])
                     );
                     days.add(DayOfTheWeekElemDto(DayOfTheWeek.tuesday,
                       convertToString(_weekOpeningHour[1][0]),
-                      convertToString(_weekOpeningHour[1][1]), _weekOpening[1])
+                      convertToString(_weekOpeningHour[1][1]), !_weekOpening[1])
                     );
                     days.add(DayOfTheWeekElemDto(DayOfTheWeek.wednesday,
                       convertToString(_weekOpeningHour[2][0]),
-                      convertToString(_weekOpeningHour[2][1]), _weekOpening[2])
+                      convertToString(_weekOpeningHour[2][1]), !_weekOpening[2])
                     );
                     days.add(DayOfTheWeekElemDto(DayOfTheWeek.thursday,
                       convertToString(_weekOpeningHour[3][0]),
-                      convertToString(_weekOpeningHour[3][1]), _weekOpening[3])
+                      convertToString(_weekOpeningHour[3][1]), !_weekOpening[3])
                     );
                     days.add(DayOfTheWeekElemDto(DayOfTheWeek.friday,
                       convertToString(_weekOpeningHour[4][0]),
-                      convertToString(_weekOpeningHour[4][1]), _weekOpening[4])
+                      convertToString(_weekOpeningHour[4][1]), !_weekOpening[4])
                     );
                     days.add(DayOfTheWeekElemDto(DayOfTheWeek.saturday,
                       convertToString(_weekOpeningHour[5][0]),
-                      convertToString(_weekOpeningHour[5][1]), _weekOpening[5])
+                      convertToString(_weekOpeningHour[5][1]), !_weekOpening[5])
                     );
                     days.add(DayOfTheWeekElemDto(DayOfTheWeek.sunday,
                       convertToString(_weekOpeningHour[6][0]),
-                      convertToString(_weekOpeningHour[6][1]), _weekOpening[6])
+                      convertToString(_weekOpeningHour[6][1]), !_weekOpening[6])
                     );
 
                     List<GameTypeDto> games=[];

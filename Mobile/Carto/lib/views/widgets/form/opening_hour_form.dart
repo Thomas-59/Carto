@@ -153,7 +153,7 @@ class _OpeningHourFormState extends State<OpeningHourForm> {
             text: "Jeudi",
             opened: _thursdayOpening,
             onOpeningChange: (bool newOpening) {
-              _fridayOpening = newOpening;
+              _thursdayOpening = newOpening;
               _onOpeningChange();
             },
             openingTime: _thursdayTime[0],

@@ -33,7 +33,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
         <Establishment, dynamic>{}) as Map;
 
     Establishment establishment = arguments['establishment'];
-    final fileName = '${establishment.name}.jpg';
+    final fileName = '${establishment.id}.jpg';
     final filePath = '$folderName/$fileName';
 
     String? url = await getImageUrl(filePath);
