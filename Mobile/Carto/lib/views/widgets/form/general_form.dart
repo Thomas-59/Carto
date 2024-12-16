@@ -14,7 +14,7 @@ import 'other_fields/price_button.dart';
 class GeneralForm extends StatefulWidget {
   final ValueChanged<bool> formIsValid;
   final ValueChanged<List<String>> formChange;
-  String name, address, latitude, longitude, site, description;
+  final String name, address, latitude, longitude, site, description;
   final PriceEnum gamePrice;
   final bool nearTransport, pmrAccess;
 
@@ -93,7 +93,6 @@ class _GeneralFormState extends State<GeneralForm> {
         _nameIsValid = _fieldIsValid(_nameField);
         widget.formIsValid(_formIsValid());
         widget.formChange(getAllParameter());
-        widget.name = nameController.text;
       });
     });
 

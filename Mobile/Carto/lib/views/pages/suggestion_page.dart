@@ -91,7 +91,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
     super.initState();
   }
 
-  Future<void> _uploadImage() async {
+  Future<void> _uploadImage(BigInt id) async {
     if (_imageBytes == null) return;
 
     setState(() {
@@ -100,7 +100,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
 
     final supabase = Supabase.instance.client;
     final folderName = 'establishment-images';
-    final fileName = '${_name}.jpg';
+    final fileName = '${id}.jpg';
     final filePath = '$folderName/$fileName';
 
     try {
@@ -150,6 +150,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
       ListView(
         scrollDirection: Axis.vertical,
         children: <Widget>[
+          Column(
+            children: [
               Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
                 child : _generalForm
               ),
@@ -170,7 +172,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
                   disabledBackgroundColor: Colors.grey.withOpacity(0.12),
                  ),
                   child: const Text("Suggérer un établissement"),
-                  onPressed: () {
+                  onPressed: () async {
                     List<DayOfTheWeekElemDto> days = [];
                     days.add(DayOfTheWeekElemDto(DayOfTheWeek.monday,
                       convertToString(_weekOpeningHour[0][0]),
@@ -226,8 +228,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
                       games,
                     );
                     if(formIsValid()){
-                      establishmentService.createEstablishment(establishment);
-                      _uploadImage();
+                      BigInt id = await establishmentService.createEstablishment(establishment);
+                      _uploadImage(id);
                       Navigator.pushNamed(context, '/thank',);
                     }
                   },
@@ -235,7 +237,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
               ),
             ],
           ),
-
+        ]
+      )
     );
   }
 
