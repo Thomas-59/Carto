@@ -28,9 +28,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Padding( padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
                     child: FloatingActionButton(
-                        onPressed: account,
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/manage',);
+                        },
                         child: DataManager.isLogged ?
-                          const Icon(Icons.account_box) : //TODO change by user picture
+                          const Icon(Icons.account_box) : //TODO change by user picture if logged
                           const Icon(Icons.account_box),
                     )
                   ),
@@ -41,9 +43,5 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
     );
-  }
-
-  void account(){
-    Navigator.pushNamed(context, '/login',);
   }
 }

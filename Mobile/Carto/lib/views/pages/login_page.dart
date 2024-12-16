@@ -1,5 +1,6 @@
 import 'package:carto/data_manager.dart';
 import 'package:carto/views/widgets/form/form_fields/my_form_field.dart';
+import 'package:carto/views/widgets/form/other_fields/my_checkbox_list_tile.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -66,15 +67,39 @@ class _LoginPageState extends State<LoginPage> {
                       canBeEmpty: true,
                     ),
 
-                    CheckboxListTile(
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              //TODO Forgotten password
+                            },
+                            child: const Text("mot de passe oublié ?"),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    /*CheckboxListTile(
                         value: _remember,
                         controlAffinity: ListTileControlAffinity.leading,
                         title: const Text("se souvenir de moi"),
+
                         onChanged:(newValue){
                           setState(() {
                             _remember = newValue ?? _remember;
                           });
-                        }),
+                        }),*/
+                    MyCheckboxListTile(
+                      value: _remember,
+                      title: "se souvenir de moi",
+                      onChanged: (newValue){
+                        setState(() {
+                          _remember = newValue ?? _remember;
+                        });
+                      }
+                    ),
                     ElevatedButton(
                       style: _canLog ?
                         ElevatedButton.styleFrom(
@@ -96,35 +121,10 @@ class _LoginPageState extends State<LoginPage> {
                         }
                       },
                     ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                            ),
-                            child: const Text("Créer un compte "),
-                            onPressed: () {
-                              //TODO Laurine part
-                            },
-                          ),
-                        ),
-
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                            child: GestureDetector(
-                            onTap: () {
-                              //TODO Forgotten password
-                            },
-                            child: const Text("mot de passe oublié ?"),
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
-              )
+              ),
+            backgroundColor: const Color.fromARGB(255, 216, 184, 253),
           );
         }
     );

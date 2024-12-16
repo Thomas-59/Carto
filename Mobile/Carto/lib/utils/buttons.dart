@@ -129,3 +129,24 @@ class OutlineButtonWithTextAndIcon extends StatelessWidget {
     );
   }
 }
+
+class MyElevatedButton extends StatelessWidget {
+  final String title;
+  final VoidCallback onPressed;
+  
+  const MyElevatedButton({super.key, required this.title, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return  Padding( padding: const EdgeInsets.all(8.0),
+      child : ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white,
+        ),
+        onPressed: onPressed,
+        child: Text(title),
+      ),
+    );
+  }
+  
+}

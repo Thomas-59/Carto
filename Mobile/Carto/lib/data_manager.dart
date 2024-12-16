@@ -5,7 +5,7 @@ import 'models/establishment.dart';
 
 class DataManager {
   static final DataManager _singleton = DataManager._internal();
-  static bool isLogged = false;
+  static bool isLogged = true;
   static String credential = "";
   static String token = "";
 

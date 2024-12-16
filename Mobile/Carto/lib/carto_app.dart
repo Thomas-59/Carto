@@ -3,6 +3,7 @@ import 'package:carto/views/pages/establishement_details_page.dart';
 import 'package:carto/views/pages/home_page.dart';
 import 'package:carto/views/pages/init_page.dart';
 import 'package:carto/views/pages/login_page.dart';
+import 'package:carto/views/pages/manage_page.dart';
 import 'package:carto/views/pages/suggestion_page.dart';
 import 'package:carto/views/pages/thanking_page.dart';
 import 'package:carto/views/services/location_service.dart';
@@ -32,6 +33,7 @@ class CartoApp extends StatelessWidget {
             '/thank' : (context) => const ThankingPage(),
             '/establishment_detail' : (context) => const EstablishmentDisplayPage(),
             '/login' : (context) => const LoginPage(),
+            '/manage' : (context) => const ManagePage(),
           }
         ),
     );
