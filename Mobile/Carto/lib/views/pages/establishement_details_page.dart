@@ -4,6 +4,7 @@ import 'package:carto/utils/buttons.dart';
 import 'package:carto/utils/intent_utils/intent_utils.dart';
 import 'package:carto/utils/tags.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -16,13 +17,63 @@ class EstablishmentDisplayPage extends StatefulWidget {
 }
 
 class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
+  String? _imageUrl;
+  final supabase = Supabase.instance.client;
+  final folderName = 'establishment-images';
+  bool _isLoading = true;
+
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+  }
+
+  void _fetchImageUrl() async {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <Establishment, dynamic>{}) as Map;
 
     Establishment establishment = arguments['establishment'];
+    final fileName = '${establishment.name}.jpg';
+    final filePath = '$folderName/$fileName';
 
+    String? url = await getImageUrl(filePath);
+    setState(() {
+      _imageUrl = url;
+      _isLoading = false;
+    });
+  }
+
+  Future<String?> getImageUrl(String filePath) async {
+    try {
+      final fileName = filePath.split('/').last;
+      final folderPath = filePath.replaceFirst(fileName, '');
+
+      final response = await supabase.storage
+          .from('CartoBucket')
+          .list(path: folderPath);
+
+      final fileExists = response.any((file) => file.name == fileName) ?? false;
+
+      if (fileExists) {
+        final publicUrl = supabase.storage.from('CartoBucket').getPublicUrl(filePath);
+        return publicUrl;
+      } else {
+        print('File does not exist.');
+        return null;
+      }
+    } catch (e) {
+      print('Unexpected error: $e');
+      return null;
+    }
+  }
+
+
+  @override
+  Widget build(BuildContext context)  {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <Establishment, dynamic>{}) as Map;
+    Establishment establishment = arguments['establishment'];
+    _fetchImageUrl();
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -39,10 +90,9 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
               expandedHeight: 300.0,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
-                background: Image.network(
+                background: _isLoading? null :Image.network(
                   // TODO replace this URL by establishment image
-                  "https://www.shutterstock.com/image-photo/arcade-machine-game"
-                      "-600nw-706155493.jpg",
+                  _imageUrl??"https://www.shutterstock.com/image-photo/arcade-machine-game-600nw-706155493.jpg",
                   fit: BoxFit.cover,
                 ),
               ),
@@ -228,4 +278,6 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
       throw Exception('Could not share');
     }
   }
+
+
 }
