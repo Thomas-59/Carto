@@ -106,9 +106,12 @@ class _AddressInputPageState extends State<AddressInputPage> {
                 itemCount: _listAddress.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: ElevatedButton(onPressed: () {
+                    title: ElevatedButton(
+                        style: _addressPick ==_listAddress[index]?ButtonStyle(backgroundColor:WidgetStatePropertyAll(Colors.greenAccent)):null,
+                        onPressed: () {
                       setState(() {
                         _addressPick = _listAddress[index];
+                        _addressController.text=_addressPick!.properties.label;
                       });
                     }, child: Text(_listAddress[index].properties.label)),
                     enabled: _addressIsValid,
@@ -116,12 +119,12 @@ class _AddressInputPageState extends State<AddressInputPage> {
                 },),
             ):SizedBox(),
             const SizedBox(height: 20),
-            Center(
+            _addressPick!=null?Center(
               child: ElevatedButton(
                 onPressed: _validateAddress,
                 child: const Text("Valider"),
               ),
-            ),
+            ):SizedBox(),
           ],
         ),
       ),

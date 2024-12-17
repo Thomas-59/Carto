@@ -221,15 +221,20 @@ class _GeneralFormState extends State<GeneralForm> {
           color: Colors.black
         ),
         _nameField,
-        ElevatedButton(
-          onPressed: () {
-            _openAddressInputPage();
-          },
-          style: ButtonStyle(
-            backgroundColor:_addressPick!=null ? WidgetStatePropertyAll<Color>(Colors.greenAccent):WidgetStatePropertyAll<Color>(Colors.redAccent),
-          ),
-          child: Text(
-            _addressPick!=null ? _addressPick!.properties.label : "Choisir une adresse",
+        FractionallySizedBox(
+          alignment: Alignment.center,
+          widthFactor: 0.8,
+          child: ElevatedButton(
+            onPressed: () {
+              _openAddressInputPage();
+            },
+            style: ButtonStyle(
+              backgroundColor:_addressPick!=null ? WidgetStatePropertyAll<Color>(Colors.greenAccent):WidgetStatePropertyAll(Colors.redAccent),
+            ),
+            child: Text(
+              _addressPick!=null ? _addressPick!.properties.label : "Choisir une adresse",
+              style: _addressPick!=null? null:const TextStyle(color: Colors.white),
+            ),
           ),
         ),
         _siteField,
@@ -263,7 +268,7 @@ class _GeneralFormState extends State<GeneralForm> {
             children: [
             ElevatedButton(
               onPressed: _pickImage,
-              child: const Text('Pick Image'),
+              child: const Text('Choisir une image'),
           ),
           if (_imageBytes != null)
           Column(

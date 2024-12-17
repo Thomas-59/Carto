@@ -91,7 +91,6 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
                 background: _isLoading? null :Image.network(
-                  // TODO replace this URL by establishment image
                   _imageUrl??"https://www.shutterstock.com/image-photo/arcade-machine-game-600nw-706155493.jpg",
                   fit: BoxFit.cover,
                 ),
