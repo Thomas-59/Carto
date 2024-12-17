@@ -1,0 +1,55 @@
+package fr.univ.carto.service;
+
+import fr.univ.carto.exception.AccountNotFoundException;
+import fr.univ.carto.repository.AccountRepository;
+import fr.univ.carto.repository.entity.AccountEntity;
+import fr.univ.carto.service.bo.AccountBo;
+import jakarta.transaction.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class AccountService {
+    private final AccountRepository accountRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
+        this.accountRepository = accountRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public AccountBo getAccountById(Long id) throws AccountNotFoundException {
+        Optional<AccountEntity> account = accountRepository.findById(id);
+        if (account.isPresent()) {
+            return account.get().toBo();
+        } else {
+            throw new AccountNotFoundException("No account found for given id");
+        }
+    }
+
+    @Transactional
+    public Long createAccount(AccountBo accountBo) {
+        AccountEntity accountEntity = new AccountEntity();
+
+        accountEntity.setUsername(accountBo.getUsername());
+        accountEntity.setEmailAddress(accountBo.getEmailAddress());
+
+        // Encrypt password
+        String hashedPassword = passwordEncoder.encode(accountBo.getPassword());
+        accountEntity.setPassword(hashedPassword);
+
+        accountEntity.setCreatedAt(accountBo.getCreatedAt());
+        accountEntity.setRole(accountBo.getRole());
+
+        accountRepository.save(accountEntity);
+
+        return accountEntity.getId();
+    }
+
+    public void deleteUser(Long accountId) throws AccountNotFoundException {
+        this.getAccountById(accountId);
+        this.accountRepository.deleteById(accountId);
+    }
+}

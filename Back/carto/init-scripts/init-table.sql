@@ -27,6 +27,12 @@ CREATE TYPE price AS ENUM(
     'HIGH'
 );
 
+CREATE TYPE role as ENUM (
+    'USER',
+    'ADMIN',
+    'MANAGER'
+);
+
 CREATE TABLE Establishment
 (
     id                 BIGINT PRIMARY KEY,
@@ -62,8 +68,8 @@ CREATE TABLE Schedule
 (
     idEstablishment BIGINT,
     dayOfWeek       day_of_week NOT NULL,
-    openingTime     TIME NOT NULL,
-    closingTime     TIME NOT NULL,
+    openingTime     TIME        NOT NULL,
+    closingTime     TIME        NOT NULL,
     isClosed        BOOLEAN DEFAULT false,
     FOREIGN KEY (idEstablishment) REFERENCES Establishment (id)
         ON DELETE CASCADE
@@ -71,6 +77,17 @@ CREATE TABLE Schedule
     PRIMARY KEY (idEstablishment, dayOfWeek)
 );
 
+CREATE TABLE Account
+(
+    id    BIGINT PRIMARY KEY,
+    username     VARCHAR(255) NOT NULL UNIQUE,
+    emailAddress VARCHAR(255) NOT NULL UNIQUE,
+    createdAt    DATE         NOT NULL,
+    password     VARCHAR(255) NOT NULL,
+    role         role
+);
+
 CREATE INDEX idx_establishment_games_establishment ON Establishment_Games (idEstablishment);
 CREATE INDEX idx_schedule_establishment ON Schedule (idEstablishment);
 CREATE SEQUENCE establishment_seq;
+CREATE SEQUENCE account_seq;
