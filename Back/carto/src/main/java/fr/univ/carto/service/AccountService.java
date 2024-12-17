@@ -25,8 +25,9 @@ public class AccountService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public AccountBo getAccountById(Long id) throws AccountNotFoundException {
-        Optional<AccountEntity> account = accountRepository.findById(id);
+    public AccountBo getAccountById(String token) throws AccountNotFoundException, BadTokenException {
+        long accountId = Token.decodedToken(token);
+        Optional<AccountEntity> account = accountRepository.findById(accountId);
         if (account.isPresent()) {
             return account.get().toBo();
         } else {
@@ -53,9 +54,8 @@ public class AccountService {
         return accountEntity.getId();
     }
 
-    public void deleteUser(String token) throws AccountNotFoundException, BadTokenException {
+    public void deleteUser(String token) throws BadTokenException {
         long accountId = Token.decodedToken(token);
-        this.getAccountById(accountId);
         this.accountRepository.deleteById(accountId);
     }
 

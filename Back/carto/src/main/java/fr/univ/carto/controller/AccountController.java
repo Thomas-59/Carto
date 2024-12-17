@@ -61,14 +61,14 @@ public class AccountController {
     }
 
     @DeleteMapping("/")
-    public ResponseEntity<Void> deleteAccount(@RequestHeader("Authorization") String token) throws AccountNotFoundException, BadTokenException {
+    public ResponseEntity<Void> deleteAccount(@RequestHeader("Authorization") String token) throws BadTokenException {
         this.accountService.deleteUser(token);
         return ResponseEntity.accepted().build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<AccountBo> getAccount(@PathVariable Long id) throws AccountNotFoundException {
-        AccountBo accountBo = this.accountService.getAccountById(id);
+    @GetMapping("/")
+    public ResponseEntity<AccountBo> getAccount(@RequestHeader("Authorization") String token) throws AccountNotFoundException, BadTokenException {
+        AccountBo accountBo = this.accountService.getAccountById(token);
         return ResponseEntity.ok(accountBo);
     }
 
