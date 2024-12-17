@@ -8,16 +8,16 @@ import 'package:dio/dio.dart';
 
 class AccountService {
   final Dio dio = Dio();
+  final String basePath = "https://localhost:8080/account";
 
   void createAccount(Account account) async {
-
-    await dio.post("https://localhost:8080/user", data: account.toJson());
+    await dio.post(basePath, data: account.toJson());
   }
 
   void updateAccount(Account account) async {
     Response<dynamic> response = queryUseToken(
         type: QueryEnum.put,
-        path: "https://localhost:8080/user",
+        path: basePath,
         data: account.toJson()
     ) as Response;
     DataManager.account = response.data;
@@ -26,7 +26,7 @@ class AccountService {
   void deleteAccount() async {
     queryUseToken(
         type: QueryEnum.delete,
-        path: "https://localhost:8080/user",
+        path: basePath,
     );
     disconnect();
   }
@@ -37,8 +37,7 @@ class AccountService {
         "Basic ${base64Encode(utf8.encode("$usernameOrMail:$password"))}";
     tmpDio.options.headers['Authorization'] = basicAuth;
     try {
-      Response<dynamic> response = await tmpDio.get(
-          "https://localhost:8080/user/log");
+      Response<dynamic> response = await tmpDio.get("$basePath/log");
       DataManager.credential = response.data;
       DataManager.isLogged = true;
       getToken();
@@ -54,8 +53,7 @@ class AccountService {
     Dio tmpDio = Dio();
     tmpDio.options.headers['Authorization'] = DataManager.credential;
     try {
-      Response<dynamic> response =  await dio.get(
-          "https://localhost:8080/user/token");
+      Response<dynamic> response =  await dio.get("$basePath/token");
       DataManager.token = response.data;
     } on DioException { //bad credential
       disconnect();
