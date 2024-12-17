@@ -1,3 +1,5 @@
+import 'package:carto/models/account.dart';
+import 'package:carto/views/services/account_service.dart';
 import 'package:carto/views/services/establishment_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,6 +10,7 @@ class DataManager {
   static bool isLogged = true;
   static String credential = "";
   static String token = "";
+  static Account? account;
 
   static late Future<List<Establishment>> establishmentsFuture;
   static late SharedPreferences prefs;
@@ -17,6 +20,10 @@ class DataManager {
     prefs = await SharedPreferences.getInstance();
     if(prefs.containsKey("credential")) {
       credential = prefs.getString("credential")!;
+      if(credential.isNotEmpty) {
+        isLogged = true;
+        AccountService().getToken();
+      }
     }
 
     final EstablishmentService establishmentService = EstablishmentService();

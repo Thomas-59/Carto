@@ -1,4 +1,5 @@
-import 'package:carto/utils/buttons.dart';
+import 'package:carto/views/widgets/buttons.dart';
+import 'package:carto/views/services/account_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../data_manager.dart';
@@ -37,7 +38,7 @@ class _ManagePageState extends State<ManagePage> {
                       if(DataManager.isLogged) {
                         disconnect();
                       }
-                      Navigator.pushNamed(context, '/login',);
+                      Navigator.pushNamed(context, "/login",);
                     },
                   ),
                   !DataManager.isLogged ?
@@ -50,20 +51,11 @@ class _ManagePageState extends State<ManagePage> {
                     ),
                   !DataManager.isLogged ?
                     const SizedBox() :
-                    Padding( padding: const EdgeInsets.all(8.0),
-                      child : ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                        ),
-                        child: const Text(
-                          "Supprimer mon compte",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onPressed: () {
-                          //TODO delete account
-                          Navigator.pop(context);
-                        },
-                      ),
+                  MyElevatedButton(
+                      color : Colors.red,
+                      title: "Supprimer mon compte",
+                      textStyle: const TextStyle(color: Colors.white),
+                      onPressed: onDelete,
                     ),
                   MyElevatedButton(
                     title: "Retour à la carte",
@@ -79,12 +71,61 @@ class _ManagePageState extends State<ManagePage> {
     );
   }
 
+  void onDelete() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Card(
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    const Text(
+                      "\nÊtes-vous sûr de vouloir supprimer votre compte ?\n\n"
+                          "Cette action est définitive !",
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        MyElevatedButton(
+                          title: "Suprimer",
+                          onPressed: () {
+                            setState(() {
+                              AccountService().deleteAccount();
+                              Navigator.of(context).pop();
+                            });
+                          },
+                          color: Colors.red,
+                          width: 125,
+                        ),
+                        MyElevatedButton(
+                          title: "Annuler",
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          width: 125,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );//Navigator.pop(context);
+  }
+
   void disconnect() {
     setState(() {
-      DataManager.isLogged = false;
-      DataManager.credential = "";
-      DataManager.token = "";
-      DataManager.prefs.setString("credential", "");
+      AccountService().disconnect();
     });
   }
 }
