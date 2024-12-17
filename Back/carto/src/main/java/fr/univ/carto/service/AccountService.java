@@ -53,7 +53,8 @@ public class AccountService {
         return accountEntity.getId();
     }
 
-    public void deleteUser(Long accountId) throws AccountNotFoundException {
+    public void deleteUser(String token) throws AccountNotFoundException, BadTokenException {
+        long accountId = Token.decodedToken(token);
         this.getAccountById(accountId);
         this.accountRepository.deleteById(accountId);
     }

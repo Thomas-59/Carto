@@ -43,8 +43,8 @@ public class AccountController {
         }
     }
 
-    @PutMapping("/{token}")
-    public ResponseEntity<Long> updateAccount(@RequestBody AccountDto accountDto, @PathVariable String token) throws InvalidAccountException, BadTokenException, AccountNotFoundException {
+    @PutMapping("/")
+    public ResponseEntity<Long> updateAccount(@RequestBody AccountDto accountDto, @RequestHeader("Authorization") String token) throws InvalidAccountException, BadTokenException, AccountNotFoundException {
         if (accountDto.validate()) {
             AccountBo accountBo = new AccountBo();
 
@@ -60,9 +60,9 @@ public class AccountController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAccount(@PathVariable Long id) throws AccountNotFoundException {
-        this.accountService.deleteUser(id);
+    @DeleteMapping("/")
+    public ResponseEntity<Void> deleteAccount(@RequestHeader("Authorization") String token) throws AccountNotFoundException, BadTokenException {
+        this.accountService.deleteUser(token);
         return ResponseEntity.accepted().build();
     }
 
@@ -81,10 +81,9 @@ public class AccountController {
         return ResponseEntity.ok(token);
     }
 
-    @GetMapping("/log/{credential}")
-    public ResponseEntity<String> getToken(@PathVariable String credential) throws AccountNotFoundException, UnauthorizedException, TokenExpiredException, BadTokenException {
-        //String decodedCredential = new String(Base64.getDecoder().decode(credential.split(" ")[1]), StandardCharsets.UTF_8);
-        String token = this.accountService.getToken(credential);
+    @GetMapping("/token")
+    public ResponseEntity<String> getToken(@RequestHeader("Authorization") String credential) throws AccountNotFoundException, UnauthorizedException, TokenExpiredException, BadTokenException {
+       String token = this.accountService.getToken(credential);
         return ResponseEntity.ok(token);
     }
 }
