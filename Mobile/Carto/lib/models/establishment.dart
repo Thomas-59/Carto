@@ -20,20 +20,27 @@ enum Price {
 
 enum DayOfTheWeek {
   @JsonValue('MONDAY')
-  monday,
+  monday("lundi"),
   @JsonValue('TUESDAY')
-  tuesday,
+  tuesday("mardi"),
   @JsonValue('WEDNESDAY')
-  wednesday,
+  wednesday("mercredi"),
   @JsonValue('THURSDAY')
-  thursday,
+  thursday("jeudi"),
   @JsonValue('FRIDAY')
-  friday,
+  friday("vendredi"),
   @JsonValue('SATURDAY')
-  saturday,
+  saturday("samedi"),
   @JsonValue('SUNDAY')
-  sunday
+  sunday("dimanche");
 
+  const DayOfTheWeek(this.value);
+  final String value;
+  factory DayOfTheWeek.fromString(String value) {
+    return DayOfTheWeek.values.firstWhere((enumValue) =>
+    enumValue.value == value, orElse: () =>
+    throw ArgumentError('Invalid price value: $value'));
+  }
 
 }
 
@@ -163,6 +170,8 @@ class Establishment {
   @JsonKey(name: 'gameTypeDtoList')
   final List<GameTypeDto> gameTypeDtoList;
 
+
+
   Establishment(
       this.id,
       this.name,
@@ -183,6 +192,7 @@ class Establishment {
 
   factory Establishment.fromJson(Map<String, dynamic> json) =>
       _$EstablishmentFromJson(json);
+
 
   Map<String, dynamic> toJson() => _$EstablishmentToJson(this);
 }

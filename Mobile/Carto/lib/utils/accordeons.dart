@@ -127,7 +127,7 @@ class DayRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          daySchedule.dayOfTheWeek.name.toLowerCase(),
+          daySchedule.dayOfTheWeek.value.toLowerCase(),
           style: TextStyle(
             fontSize: 16,
             color: Colors.grey[700],
@@ -168,7 +168,7 @@ class TodayRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          daySchedule.dayOfTheWeek.name.toUpperCase(),
+          daySchedule.dayOfTheWeek.value.toUpperCase(),
           style: TextStyle(
             fontSize: 16,
             color: Colors.grey[700],
