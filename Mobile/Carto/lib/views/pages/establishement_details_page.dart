@@ -1,9 +1,9 @@
 import 'package:carto/models/establishment.dart';
-import 'package:carto/utils/accordeons.dart';
-import 'package:carto/utils/buttons.dart';
+import 'package:carto/views/widgets/accordeons.dart';
+import 'package:carto/views/widgets/buttons.dart';
 import 'package:carto/utils/intent_utils/intent_utils.dart';
-import 'package:carto/utils/tags.dart';
 import 'package:flutter/foundation.dart';
+import 'package:carto/views/widgets/tags.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';

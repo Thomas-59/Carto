@@ -1,8 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:carto/enum/price_enum.dart';
-import 'package:carto/views/widgets/form/form_fields/my_form_field_double.dart';
 import 'package:carto/models/address.dart';
+import 'package:carto/views/widgets/form/form_fields/my_form_field_http_link.dart';
+import 'package:carto/views/widgets/form/other_fields/my_checkbox_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -44,7 +45,7 @@ class GeneralForm extends StatefulWidget {
 
 class _GeneralFormState extends State<GeneralForm> {
   //controller
-  late final MyFormField _nameField, _addressField, _latitudeField,
+  late final MyFormField _nameField, _addressField,
       _longitudeField, _siteField, _descriptionField;
 
   //checkBox
@@ -52,7 +53,7 @@ class _GeneralFormState extends State<GeneralForm> {
       _pmrAccess = widget.nearTransport;
 
   //validator
-  late bool _nameIsValid, _addressIsValid, _latitudeIsValid, _longitudeIsValid,
+  late bool _nameIsValid, _addressIsValid,
     _siteIsValid, _descriptionIsValid;
 
 
@@ -73,10 +74,6 @@ class _GeneralFormState extends State<GeneralForm> {
       TextEditingController(text: widget.name);
     TextEditingController addressController =
       TextEditingController(text: widget.address);
-    TextEditingController latitudeController =
-      TextEditingController(text: widget.latitude);
-    TextEditingController longitudeController =
-      TextEditingController(text: widget.longitude);
     TextEditingController siteController =
       TextEditingController(text: widget.site);
     TextEditingController descriptionController =
@@ -113,7 +110,7 @@ class _GeneralFormState extends State<GeneralForm> {
 
 
 
-    _siteField = MyFormField(
+    _siteField = MyFormFieldHttpLink(
       label: "Site web d'établissement",
       controller: siteController,
       canBeEmpty: true,
@@ -147,7 +144,7 @@ class _GeneralFormState extends State<GeneralForm> {
   }
 
   bool _fieldIsValid(MyFormField field) {
-    return (field.validator(field.controller.text) == null);
+    return (field.validator(field.getValue()) == null);
   }
 
   bool _addressValueIsValid(String value) {
@@ -159,13 +156,14 @@ class _GeneralFormState extends State<GeneralForm> {
   }
 
   List<String> getAllParameter() {
+    print(_siteField.getValue());
     return <String> [
-      _nameField.controller.text,
+      _nameField.getValue(),
       _adressLabel,
       _latitude,
       _longitude,
-      _siteField.controller.text,
-      _descriptionField.controller.text,
+      _siteField.getValue(),
+      _descriptionField.getValue(),
       _gamePrice.value,
       _nearTransport.toString(),
       _pmrAccess.toString(),
@@ -229,10 +227,14 @@ class _GeneralFormState extends State<GeneralForm> {
               _openAddressInputPage();
             },
             style: ButtonStyle(
-              backgroundColor:_addressPick!=null ? WidgetStatePropertyAll<Color>(Colors.greenAccent):WidgetStatePropertyAll(Colors.redAccent),
+              backgroundColor:_addressPick!=null ? 
+                WidgetStatePropertyAll<Color>(Colors.greenAccent)
+                : WidgetStatePropertyAll(Colors.redAccent),
             ),
             child: Text(
-              _addressPick!=null ? _addressPick!.properties.label : "Choisir une adresse",
+              _addressPick!=null ? 
+                _addressPick!.properties.label 
+                : "Choisir une adresse",
               style: _addressPick!=null? null:const TextStyle(color: Colors.white),
             ),
           ),
@@ -244,20 +246,18 @@ class _GeneralFormState extends State<GeneralForm> {
           averageGamePrice: _gamePrice,
           onPriceChanged: _handlePriceChange,
         ),
-        CheckboxListTile(
+        MyCheckboxListTile(
           value: _nearTransport,
-          controlAffinity: ListTileControlAffinity.leading,
-          title: const Text("Proche des transports"),
+          title: "Proche des transports",
           onChanged:(newValue){
             setState(() {
               _nearTransport = newValue ?? _nearTransport;
               widget.formChange(getAllParameter());
             });
           }),
-        CheckboxListTile(
+        MyCheckboxListTile(
           value: _pmrAccess,
-          controlAffinity: ListTileControlAffinity.leading,
-          title: const Text("Accès PMR"),
+          title: "Accès PMR",
           onChanged:(newValue){
             setState(() {
               _pmrAccess = newValue ?? _pmrAccess;

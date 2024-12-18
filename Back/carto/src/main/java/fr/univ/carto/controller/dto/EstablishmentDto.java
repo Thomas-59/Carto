@@ -62,7 +62,6 @@ public class EstablishmentDto {
     public boolean validate(){
         return  !this.name.isBlank() &&
                 !this.address.isBlank() &&
-                !this.phoneNumber.isBlank() &&
                 this.latitude != null &&
                 this.longitude != null &&
                 this.latitude>=-90 &&
