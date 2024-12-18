@@ -45,7 +45,7 @@ class _ThankingPageState extends State<ThankingPage> {
                   ),
                   child: const Text("Retour à la carte"),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/',);
+                    Navigator.of(context)..pop()..pop();
                   },
                 ),
               ],

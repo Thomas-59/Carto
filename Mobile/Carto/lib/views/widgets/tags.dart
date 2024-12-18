@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/establishment.dart';
+import '../../models/establishment.dart';
 
 class GameTag extends StatelessWidget {
   final GameTypeDto game;

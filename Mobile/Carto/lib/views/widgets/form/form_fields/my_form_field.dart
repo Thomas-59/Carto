@@ -30,6 +30,8 @@ class MyFormField extends StatelessWidget {
               Radius.circular(10.0),
             ),
           ),
+          fillColor: Colors.white,
+          filled: true,
         ),
         autovalidateMode: AutovalidateMode.always,
         validator: validator,
