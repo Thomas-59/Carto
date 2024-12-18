@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:carto/enum/price_enum.dart';
 import 'package:carto/views/widgets/form/form_fields/my_form_field_double.dart';
 import 'package:carto/models/address.dart';
+import 'package:carto/views/widgets/form/form_fields/my_form_field_http_link.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -113,7 +114,7 @@ class _GeneralFormState extends State<GeneralForm> {
 
 
 
-    _siteField = MyFormField(
+    _siteField = MyFormFieldHttpLink(
       label: "Site web d'établissement",
       controller: siteController,
       canBeEmpty: true,
@@ -147,7 +148,7 @@ class _GeneralFormState extends State<GeneralForm> {
   }
 
   bool _fieldIsValid(MyFormField field) {
-    return (field.validator(field.controller.text) == null);
+    return (field.validator(field.getValue()) == null);
   }
 
   bool _addressValueIsValid(String value) {
@@ -159,13 +160,14 @@ class _GeneralFormState extends State<GeneralForm> {
   }
 
   List<String> getAllParameter() {
+    print(_siteField.getValue());
     return <String> [
-      _nameField.controller.text,
+      _nameField.getValue(),
       _adressLabel,
       _latitude,
       _longitude,
-      _siteField.controller.text,
-      _descriptionField.controller.text,
+      _siteField.getValue(),
+      _descriptionField.getValue(),
       _gamePrice.value,
       _nearTransport.toString(),
       _pmrAccess.toString(),
