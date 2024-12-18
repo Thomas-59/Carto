@@ -3,6 +3,7 @@ import 'package:carto/utils/accordeons.dart';
 import 'package:carto/utils/buttons.dart';
 import 'package:carto/utils/intent_utils/intent_utils.dart';
 import 'package:carto/utils/tags.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -52,17 +53,21 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
           .from('CartoBucket')
           .list(path: folderPath);
 
-      final fileExists = response.any((file) => file.name == fileName) ?? false;
+      final fileExists = response.any((file) => file.name == fileName);
 
       if (fileExists) {
         final publicUrl = supabase.storage.from('CartoBucket').getPublicUrl(filePath);
         return publicUrl;
       } else {
-        print('File does not exist.');
+        if (kDebugMode) {
+          print('File does not exist.');
+        }
         return null;
       }
     } catch (e) {
-      print('Unexpected error: $e');
+      if (kDebugMode) {
+        print('Unexpected error: $e');
+      }
       return null;
     }
   }
@@ -220,7 +225,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                                   },
                                   text: establishment.phoneNumber
                                 ),
-                            establishment.phoneNumber.isEmpty ?
+                            establishment.emailAddress.isEmpty ?
                               const SizedBox() :
                               OutlineButtonWithTextAndIcon(
                                   icon: Icons.mail,
