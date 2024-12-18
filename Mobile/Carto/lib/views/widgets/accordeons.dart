@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../models/establishment.dart';
+import '../../models/establishment.dart';
 
 class HoursAccordion extends StatefulWidget {
   final List<DayOfTheWeekElemDto> schedule;

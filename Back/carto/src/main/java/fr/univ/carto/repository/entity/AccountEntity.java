@@ -41,6 +41,7 @@ public class AccountEntity {
         accountBo.setId(id);
         accountBo.setUsername(username);
         accountBo.setEmailAddress(emailAddress);
+        accountBo.setCreatedAt(Date.from(createdAt.toInstant()));
         accountBo.setPassword(password);
         accountBo.setRole(role);
         return accountBo;
