@@ -19,51 +19,53 @@ class _ManagePageState extends State<ManagePage> {
         builder: (context, constraints) {
           return Scaffold(
               body:
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset("assets/logo/logo_purple.png"),
-                  !DataManager.isLogged ?
-                    const SizedBox() :
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset("assets/logo/logo_purple.png"),
+                    !DataManager.isLogged ?
+                      const SizedBox() :
+                      MyElevatedButton(
+                        title: "gérer mon compte",
+                        onPressed: () {
+                          //TODO manage account
+                        },
+                      ),
                     MyElevatedButton(
-                      title: "gérer mon compte",
+                      title: DataManager.isLogged ?
+                        "Changer de compte" : "Se connecter",
                       onPressed: () {
-                        //TODO manage account
+                        if(DataManager.isLogged) {
+                          disconnect();
+                        }
+                        Navigator.pushNamed(context, "/login",);
                       },
                     ),
-                  MyElevatedButton(
-                    title: DataManager.isLogged ?
-                      "Changer de compte" : "Se connecter",
-                    onPressed: () {
-                      if(DataManager.isLogged) {
-                        disconnect();
-                      }
-                      Navigator.pushNamed(context, "/login",);
-                    },
-                  ),
-                  !DataManager.isLogged ?
-                    const SizedBox() :
+                    !DataManager.isLogged ?
+                      const SizedBox() :
+                      MyElevatedButton(
+                        title: "Se déconnecter",
+                        onPressed: () {
+                          disconnect();
+                        },
+                      ),
+                    !DataManager.isLogged ?
+                      const SizedBox() :
                     MyElevatedButton(
-                      title: "Se déconnecter",
+                        color : Colors.red,
+                        title: "Supprimer mon compte",
+                        textStyle: const TextStyle(color: Colors.white),
+                        onPressed: onDelete,
+                      ),
+                    MyElevatedButton(
+                      title: "Retour à la carte",
                       onPressed: () {
-                        disconnect();
+                        Navigator.pop(context);
                       },
                     ),
-                  !DataManager.isLogged ?
-                    const SizedBox() :
-                  MyElevatedButton(
-                      color : Colors.red,
-                      title: "Supprimer mon compte",
-                      textStyle: const TextStyle(color: Colors.white),
-                      onPressed: onDelete,
-                    ),
-                  MyElevatedButton(
-                    title: "Retour à la carte",
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
+                  ],
+                ),
               ),
             backgroundColor: const Color.fromARGB(255, 216, 184, 253),
           );
