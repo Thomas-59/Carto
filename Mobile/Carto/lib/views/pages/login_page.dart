@@ -110,16 +110,17 @@ class _LoginPageState extends State<LoginPage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text("Déjà un compte ?"),
+                          const Text("Pas de compte ?"),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(10, 0, 8, 0),
                             child:GestureDetector(
                               onTap: () {
                                 // TODO go to page create account
                               },
                               child: const Text(
-                                  "Connecte toi",
+                                  "Inscris-toi !",
                                 style: TextStyle(color: Colors.white),
                               ),
                             ),
