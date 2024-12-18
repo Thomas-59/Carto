@@ -32,7 +32,12 @@ class GameCounter extends StatelessWidget {
       Row(
         children: [
           Text(title),
-          Counter(min: 0, max: 10, initial: initial, onValueChanged: _onValueChanged,),
+          Counter(
+            min: 0,
+            max: 99,
+            initial: initial,
+            onValueChanged: _onValueChanged,
+          ),
         ],
       ),
     );

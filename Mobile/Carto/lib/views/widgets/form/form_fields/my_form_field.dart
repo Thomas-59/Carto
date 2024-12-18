@@ -37,6 +37,10 @@ class MyFormField extends StatelessWidget {
     );
   }
 
+  String getValue() {
+    return controller.text;
+  }
+
   String? validator(String? value) {
     if (canBeEmpty ? false : (value == null || value.isEmpty)) {
       return 'Veuillez entrer ${isFeminine ? "une" : "un"} '

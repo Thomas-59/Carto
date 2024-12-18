@@ -24,7 +24,7 @@ class ContactForm extends StatefulWidget {
 
 class _ContactFormState extends State<ContactForm> {
   //controller
-  late final MyFormField _mailField;// = TextEditingController(text: widget.mail);
+  late final MyFormField _mailField;
   late final MyFormField _phoneNumberField;
 
   //validator
@@ -42,13 +42,13 @@ class _ContactFormState extends State<ContactForm> {
       canBeEmpty: true,
     );
     _mailIsValid =
-      (_mailField.validator(mailController.text) == null);
+      (_mailField.validator(_mailField.getValue()) == null);
     mailController.addListener(() {
       setState(() {
-        _mailIsValid = (_mailField.validator(mailController.text) == null);
+        _mailIsValid = (_mailField.validator(_mailField.getValue()) == null);
         widget.formIsValid(_formIsValid());
-        widget.formChange(<String> [mailController.text,
-          phoneNumberController.text]);
+        widget.formChange(<String> [_mailField.getValue(),
+          _phoneNumberField.getValue()]);
       });
     });
 
@@ -58,14 +58,14 @@ class _ContactFormState extends State<ContactForm> {
       canBeEmpty: true,
     );
     _phoneNumberIsValid =
-      (_phoneNumberField.validator(widget.phoneNumber) == null);
+      (_phoneNumberField.validator(_phoneNumberField.getValue()) == null);
     phoneNumberController.addListener(() {
       setState(() {
         _phoneNumberIsValid =
-          (_phoneNumberField.validator(widget.phoneNumber) == null);
+          (_phoneNumberField.validator(_phoneNumberField.getValue()) == null);
         widget.formIsValid(_formIsValid());
-        widget.formChange(<String> [mailController.text,
-          phoneNumberController.text]);
+        widget.formChange(<String> [_mailField.getValue(),
+          _phoneNumberField.getValue()]);
       });
     });
 
