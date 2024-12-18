@@ -1,8 +1,12 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:carto/enum/price_enum.dart';
 import 'package:carto/models/establishment.dart';
 import 'package:carto/views/services/establishment_service.dart';
 import 'package:carto/views/widgets/form/games_form.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../widgets/form/contact_form.dart';
 import '../widgets/form/general_form.dart';
@@ -40,10 +44,13 @@ class _SuggestionPageState extends State<SuggestionPage> {
   late List<String> _gameTitles;
   late List<int> _gameNumbers;
 
-  // coordinate
-
   // Service
   EstablishmentService establishmentService = EstablishmentService();
+
+  //image
+  late Uint8List? _imageBytes;
+  bool _isUploading= false;
+  String? _uploadedImageUrl;
 
   @override
   void initState() {
@@ -82,6 +89,41 @@ class _SuggestionPageState extends State<SuggestionPage> {
     }
 
     super.initState();
+  }
+
+  Future<void> _uploadImage(BigInt id) async {
+    if (_imageBytes == null) return;
+
+    setState(() {
+      _isUploading = true;
+    });
+
+    final supabase = Supabase.instance.client;
+    final folderName = 'establishment-images';
+    final fileName = '${id}.jpg';
+    final filePath = '$folderName/$fileName';
+
+    try {
+      await supabase.storage.from('CartoBucket').uploadBinary(
+        filePath,
+        _imageBytes!,
+        fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
+      );
+
+      final publicUrl = supabase.storage.from('CartoBucket').getPublicUrl(filePath);
+
+      setState(() {
+        _uploadedImageUrl = publicUrl;
+        _isUploading = false;
+      });
+    } catch (error) {
+      setState(() {
+        _isUploading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to upload image: $error')),
+      );
+    }
   }
 
   String convertToString(TimeOfDay time){
@@ -130,35 +172,35 @@ class _SuggestionPageState extends State<SuggestionPage> {
                   disabledBackgroundColor: Colors.grey.withOpacity(0.12),
                  ),
                   child: const Text("Suggérer un établissement"),
-                  onPressed: () {
+                  onPressed: () async {
                     List<DayOfTheWeekElemDto> days = [];
                     days.add(DayOfTheWeekElemDto(DayOfTheWeek.monday,
                       convertToString(_weekOpeningHour[0][0]),
-                      convertToString(_weekOpeningHour[0][1]), _weekOpening[0])
+                      convertToString(_weekOpeningHour[0][1]), !_weekOpening[0])
                     );
                     days.add(DayOfTheWeekElemDto(DayOfTheWeek.tuesday,
                       convertToString(_weekOpeningHour[1][0]),
-                      convertToString(_weekOpeningHour[1][1]), _weekOpening[1])
+                      convertToString(_weekOpeningHour[1][1]), !_weekOpening[1])
                     );
                     days.add(DayOfTheWeekElemDto(DayOfTheWeek.wednesday,
                       convertToString(_weekOpeningHour[2][0]),
-                      convertToString(_weekOpeningHour[2][1]), _weekOpening[2])
+                      convertToString(_weekOpeningHour[2][1]), !_weekOpening[2])
                     );
                     days.add(DayOfTheWeekElemDto(DayOfTheWeek.thursday,
                       convertToString(_weekOpeningHour[3][0]),
-                      convertToString(_weekOpeningHour[3][1]), _weekOpening[3])
+                      convertToString(_weekOpeningHour[3][1]), !_weekOpening[3])
                     );
                     days.add(DayOfTheWeekElemDto(DayOfTheWeek.friday,
                       convertToString(_weekOpeningHour[4][0]),
-                      convertToString(_weekOpeningHour[4][1]), _weekOpening[4])
+                      convertToString(_weekOpeningHour[4][1]), !_weekOpening[4])
                     );
                     days.add(DayOfTheWeekElemDto(DayOfTheWeek.saturday,
                       convertToString(_weekOpeningHour[5][0]),
-                      convertToString(_weekOpeningHour[5][1]), _weekOpening[5])
+                      convertToString(_weekOpeningHour[5][1]), !_weekOpening[5])
                     );
                     days.add(DayOfTheWeekElemDto(DayOfTheWeek.sunday,
                       convertToString(_weekOpeningHour[6][0]),
-                      convertToString(_weekOpeningHour[6][1]), _weekOpening[6])
+                      convertToString(_weekOpeningHour[6][1]), !_weekOpening[6])
                     );
 
                     List<GameTypeDto> games=[];
@@ -186,7 +228,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
                       games,
                     );
                     if(formIsValid()){
-                      establishmentService.createEstablishment(establishment);
+                      BigInt id = await establishmentService.createEstablishment(establishment);
+                      _uploadImage(id);
                       Navigator.pushNamed(context, '/thank',);
                     }
                   },
@@ -219,6 +262,16 @@ class _SuggestionPageState extends State<SuggestionPage> {
     _gamePrice = PriceEnum.fromString(newValues[6]);
     _nearTransport = newValues[7] == "true";
     _pmrAccess = newValues[8] == "true";
+    if(newValues[9]!="null"){
+      String listWithoutBracket =
+          newValues[9].replaceAll('[', '').replaceAll(']', '');
+      List<String> stringList = listWithoutBracket.split(",");
+      List<int> intlist = [];
+      for (String s in stringList) {
+        intlist.add(int.parse(s));
+      }
+      _imageBytes = Uint8List.fromList(intlist);
+    }
   }
 
   void _handleContactFormValidity(bool formIsValid) {
@@ -228,8 +281,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
   }
 
   void _handleContactFormChange(List<String> newValues) {
-      _mail = newValues[0];
-      _phoneNumber = newValues[1];
+    _mail = newValues[0];
+    _phoneNumber = newValues[1];
   }
 
   void _handleOpeningHourFormOpeningChange(List<bool> newWeekOpening) {
@@ -238,7 +291,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
 
   void _handleOpeningHourFormOpeningHourChange(
       List<List<TimeOfDay>> newWeekOpeningHour
-  ) {
+      ) {
     _weekOpeningHour = newWeekOpeningHour;
   }
 
