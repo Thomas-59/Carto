@@ -52,4 +52,14 @@ public class AccountService {
         this.getAccountById(accountId);
         this.accountRepository.deleteById(accountId);
     }
+
+    public AccountBo getAccountByUsername(String username) {
+        Optional<AccountEntity> account = accountRepository.findByUsername(username);
+        return account.map(AccountEntity::toBo).orElse(null);
+    }
+
+    public AccountBo getAccountByEmailAddress(String emailAddress) {
+        Optional<AccountEntity> account = accountRepository.findByEmailAddress(emailAddress);
+        return account.map(AccountEntity::toBo).orElse(null);
+    }
 }

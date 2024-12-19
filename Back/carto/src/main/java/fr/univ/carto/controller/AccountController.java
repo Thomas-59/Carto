@@ -46,4 +46,16 @@ public class AccountController {
         AccountBo accountBo = this.accountService.getAccountById(id);
         return ResponseEntity.ok(accountBo);
     }
+
+    @GetMapping("/by-username/{username}")
+    public ResponseEntity<AccountBo> getAccountByUsername(@PathVariable String username) {
+        AccountBo accountBo = this.accountService.getAccountByUsername(username);
+        return ResponseEntity.ok(accountBo);
+    }
+
+    @GetMapping({"/by-email-address/{emailAddress"})
+    public ResponseEntity<AccountBo> getAccountByEmailAddress(@PathVariable String emailAddress) {
+        AccountBo accountBo = this.accountService.getAccountByEmailAddress(emailAddress);
+        return ResponseEntity.ok(accountBo);
+    }
 }
