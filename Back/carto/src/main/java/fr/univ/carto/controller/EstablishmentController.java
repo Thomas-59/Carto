@@ -1,14 +1,17 @@
 package fr.univ.carto.controller;
 
+import fr.univ.carto.controller.dto.DayOfTheWeekElemDto;
 import fr.univ.carto.controller.dto.EstablishmentDto;
 import fr.univ.carto.exception.EstablishmentNotFoundException;
 import fr.univ.carto.exception.InvalidEstablishmentException;
+import fr.univ.carto.repository.entity.schedule.DayOfTheWeek;
 import fr.univ.carto.service.EstablishmentService;
 import fr.univ.carto.service.bo.EstablishmentBo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -24,6 +27,11 @@ public class EstablishmentController {
         List<EstablishmentDto> establishmentDtos = this.establishmentService.getAllEstablishment().stream()
                 .map(EstablishmentDto::fromBo)
                 .toList();
+        establishmentDtos.forEach(establishmentDto -> {
+            List<DayOfTheWeekElemDto> list = establishmentDto.getDayScheduleList();
+            list.sort(Comparator.comparingInt(o -> o.getDayOfTheWeek().ordinal()));
+            establishmentDto.setDayScheduleList(list);
+        });
         return ResponseEntity.ok(establishmentDtos);
     }
 /*
