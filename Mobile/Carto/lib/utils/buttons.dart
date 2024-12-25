@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:carto/views/widgets/constants.dart';
 import 'dart:math' as math;
 
 class WhiteSquareIconButton extends StatelessWidget {
@@ -104,7 +105,8 @@ class OutlineButtonWithTextAndIcon extends StatelessWidget {
     return OutlinedButton(
       onPressed: onPressed,
       style: OutlinedButton.styleFrom(
-        side: const BorderSide(color: Color(0xFF005CFF), width: 1.5),
+        backgroundColor: blue,
+        side: const BorderSide(color: blue, width: 1.5),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),
@@ -114,15 +116,12 @@ class OutlineButtonWithTextAndIcon extends StatelessWidget {
         children: [
           Icon(
             icon,
-            color: const Color(0xFF005CFF),
+            color: white,
           ),
           const SizedBox(width: 8),
           Text(
             text,
-            style: const TextStyle(
-              color: Color(0xFF005CFF),
-              fontWeight: FontWeight.bold,
-            ),
+            style: whiteTextBold16,
           ),
         ],
       ),

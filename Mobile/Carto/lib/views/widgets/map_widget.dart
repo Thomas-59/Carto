@@ -168,6 +168,19 @@ class _MapWidgetState extends State<MapWidget> {
               child: const Icon(Icons.add),
             ),
           ),
+          Positioned(
+            bottom: 400,
+            right: 0,
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/signup',
+                );
+              },
+              child: const Icon(Icons.account_circle_rounded),
+            ),
+          ),
         ],
       ),
     );
