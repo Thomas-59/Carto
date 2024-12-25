@@ -1,6 +1,9 @@
 package fr.univ.carto.controller;
 
 import fr.univ.carto.controller.dto.AccountDto;
+import fr.univ.carto.controller.dto.ManagerInformationDto;
+import fr.univ.carto.controller.dto.Role;
+import fr.univ.carto.controller.request.AccountRequest;
 import fr.univ.carto.exception.InvalidAccountException;
 import fr.univ.carto.exception.AccountNotFoundException;
 import fr.univ.carto.service.AccountService;
@@ -19,20 +22,19 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<Long> createAccount(@RequestBody AccountDto accountDto) throws InvalidAccountException {
-        if (accountDto.validate()) {
-            AccountBo accountBo = new AccountBo();
+    public ResponseEntity<Long> createAccount(@RequestBody AccountRequest accountRequest) throws InvalidAccountException {
+        AccountBo account = new AccountBo();
+        account.setUsername(accountRequest.getUsername());
+        account.setEmailAddress(accountRequest.getEmailAddress());
+        account.setCreatedAt(accountRequest.getCreatedAt());
+        account.setPassword(accountRequest.getPassword());
+        account.setRole(accountRequest.getRole());
 
-            accountBo.setUsername(accountDto.getUsername());
-            accountBo.setPassword(accountDto.getPassword());
-            accountBo.setRole(accountDto.getRole());
-            accountBo.setCreatedAt(accountDto.getCreatedAt());
-            accountBo.setEmailAddress(accountDto.getEmailAddress());
-
-            return new ResponseEntity<>(this.accountService.createAccount(accountBo), HttpStatus.CREATED);
-        } else {
-            throw new InvalidAccountException("invalid account");
+        if (account.getRole() == Role.MANAGER && accountRequest.getManagerInformation() != null) {
+            account.setManagerInformation(accountRequest.getManagerInformation());
         }
+
+        return new ResponseEntity<>(this.accountService.createAccount(account), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
@@ -53,7 +55,7 @@ public class AccountController {
         return ResponseEntity.ok(accountBo);
     }
 
-    @GetMapping({"/by-email-address/{emailAddress"})
+    @GetMapping({"/by-email-address/{emailAddress}"})
     public ResponseEntity<AccountBo> getAccountByEmailAddress(@PathVariable String emailAddress) {
         AccountBo accountBo = this.accountService.getAccountByEmailAddress(emailAddress);
         return ResponseEntity.ok(accountBo);

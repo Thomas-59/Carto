@@ -1,8 +1,10 @@
 package fr.univ.carto.service;
 
+import fr.univ.carto.controller.dto.Role;
 import fr.univ.carto.exception.AccountNotFoundException;
 import fr.univ.carto.repository.AccountRepository;
 import fr.univ.carto.repository.entity.AccountEntity;
+import fr.univ.carto.repository.entity.ManagerInformationEntity;
 import fr.univ.carto.service.bo.AccountBo;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,6 +44,17 @@ public class AccountService {
 
         accountEntity.setCreatedAt(accountBo.getCreatedAt());
         accountEntity.setRole(accountBo.getRole());
+
+        if (accountEntity.getRole() == Role.MANAGER) {
+            ManagerInformationEntity managerInformationEntity = new ManagerInformationEntity();
+
+            managerInformationEntity.setSurname(accountBo.getManagerInformation().getSurname());
+            managerInformationEntity.setFirstname(accountBo.getManagerInformation().getFirstname());
+            managerInformationEntity.setPhoneNumber(accountBo.getManagerInformation().getPhoneNumber());
+            managerInformationEntity.setSirenNumber(accountBo.getManagerInformation().getSirenNumber());
+
+            accountEntity.setManagerInformation(managerInformationEntity);
+        }
 
         accountRepository.save(accountEntity);
 
