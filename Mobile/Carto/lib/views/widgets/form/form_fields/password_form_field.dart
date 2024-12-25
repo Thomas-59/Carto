@@ -104,7 +104,7 @@ class _MyFormFieldPassword extends State<PasswordFormField> {
     }
 
     if (value != null) {
-      final RegExp passwordRegex = RegExp(r'^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$');
+      final RegExp passwordRegex = RegExp(r'^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$');
       if (!passwordRegex.hasMatch(value)) {
         return "Le mot de passe doit contenir au moins 1 majuscule, \n1 chiffre et  la longueur doit être d'au moins 8 caractères.";
       }
