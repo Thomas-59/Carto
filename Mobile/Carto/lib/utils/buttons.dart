@@ -43,6 +43,47 @@ class WhiteSquareIconButton extends StatelessWidget {
   }
 }
 
+class BlueSquareIconButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onPressed;
+
+  const BlueSquareIconButton({
+    required this.icon,
+    required this.onPressed,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius: BorderRadius.circular(12.0),
+        child: Container(
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            color: blue,
+            borderRadius: BorderRadius.circular(12.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Icon(
+            icon,
+            color: white,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class WhiteSquareIconInvertedButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onPressed;
@@ -128,3 +169,5 @@ class OutlineButtonWithTextAndIcon extends StatelessWidget {
     );
   }
 }
+
+

@@ -1,7 +1,10 @@
+import 'package:carto/utils/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+
+import 'package:carto/views/pages/search_page.dart';
 import '../services/location_service.dart';
 import '../../models/establishment.dart';
 import '../../views/services/establishment_service.dart';
@@ -179,6 +182,26 @@ class _MapWidgetState extends State<MapWidget> {
                 );
               },
               child: const Icon(Icons.account_circle_rounded),
+            ),
+          ),
+          Positioned(
+            top: 70,
+            left: 30,
+            child: BlueSquareIconButton(icon: Icons.search, onPressed: () {
+              Navigator.pushNamed(
+                context,
+                '/search',
+              );
+            }
+
+            /*FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SearchPage()),
+                );
+              },
+              child: const Icon(Icons.search),*/
             ),
           ),
         ],
