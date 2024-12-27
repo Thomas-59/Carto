@@ -1,3 +1,4 @@
+import 'package:carto/viewmodel/address_view_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/address.dart';
@@ -21,7 +22,7 @@ class AddressInputPage extends StatefulWidget {
 class _AddressInputPageState extends State<AddressInputPage> {
   late TextEditingController _addressController;
   late List<Address> _listAddress=[];
-  AddressService addressService = AddressService();
+  AddressViewModel addressViewModel = AddressViewModel();
   Address? _addressPick;
   bool _addressIsValid = false;
   @override
@@ -42,7 +43,7 @@ class _AddressInputPageState extends State<AddressInputPage> {
 
   void getResult()  async {
     if (_addressController.text.length > 2) {
-      var res = await addressService.searchAddress(_addressController.text);
+      var res = await addressViewModel.searchAdress(_addressController.text);
       setState(() {
         _listAddress = res;
       });
