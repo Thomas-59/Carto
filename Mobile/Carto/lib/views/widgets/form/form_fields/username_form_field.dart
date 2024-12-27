@@ -86,13 +86,13 @@ class _UsernameFormFieldState extends State<UsernameFormField> {
     });
 
     try {
-      Account? account = await accountService.getAccountByUsername(username);
+      String? result = await accountService.checkUsernameExists(username);
 
-      if (account != null) {
+      if (result == 'Username already exists') {
         setState(() {
           _usernameError = "L'identifiant $username existe déjà.";
         });
-      } else {
+      } else if (result == 'Username is available') {
         setState(() {
           _usernameError = null;
         });

@@ -95,12 +95,13 @@ class _MailFormFieldState extends State<MailFormField> {
     });
 
     try {
-      Account? account = await accountService.getAccountByEmailAddress(emailAddress);
-      if (account != null) {
+      String? result = await accountService.checkEmailExists(emailAddress);
+
+      if (result == 'Email address already exists') {
         setState(() {
           _mailError = "Un compte a déjà été créé avec cette adresse.";
         });
-      } else {
+      } else if (result == 'Email is available') {
         setState(() {
           _mailError = null;
         });

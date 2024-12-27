@@ -3,8 +3,6 @@ import 'package:carto/views/services/account_service.dart';
 import 'package:carto/views/widgets/constants.dart';
 import 'package:carto/views/widgets/form/form_fields/mail_form_field.dart';
 import 'package:carto/views/widgets/form/form_fields/manager_information_form_field.dart';
-import 'package:carto/views/widgets/form/form_fields/my_form_field.dart';
-import 'package:carto/views/widgets/form/form_fields/my_form_field_int.dart';
 import 'package:carto/views/widgets/form/form_fields/password_form_field.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -119,7 +117,7 @@ class SignUpFormState extends State<SignUpForm> {
               setState(() {
                 _showManagerFields = value ?? false;
                 _isFormValid = _formKey.currentState?.validate() ==
-                    true; // Re-valide le formulaire
+                    true;
               });
               if (kDebugMode) {
                 print("Case à cocher modifiée : $_showManagerFields");

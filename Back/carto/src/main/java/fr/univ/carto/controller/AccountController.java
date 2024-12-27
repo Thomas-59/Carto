@@ -1,11 +1,8 @@
 package fr.univ.carto.controller;
 
-import fr.univ.carto.controller.dto.AccountDto;
-import fr.univ.carto.controller.dto.ManagerInformationDto;
 import fr.univ.carto.controller.dto.Role;
 import fr.univ.carto.controller.request.AccountRequest;
 import fr.univ.carto.exception.InvalidAccountException;
-import fr.univ.carto.exception.AccountNotFoundException;
 import fr.univ.carto.service.AccountService;
 import fr.univ.carto.service.bo.AccountBo;
 import org.springframework.http.HttpStatus;
@@ -37,27 +34,23 @@ public class AccountController {
         return new ResponseEntity<>(this.accountService.createAccount(account), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAccount(@PathVariable Long id) throws AccountNotFoundException {
-        this.accountService.deleteUser(id);
-        return ResponseEntity.accepted().build();
+    @GetMapping("/check-username/{username}")
+    public ResponseEntity<String> checkUsernameExists(@PathVariable String username) {
+        boolean exists = this.accountService.checkUsernameExist(username);
+        if (exists) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
+        } else {
+            return ResponseEntity.ok("Username is available");
+        }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<AccountBo> getAccount(@PathVariable Long id) throws AccountNotFoundException {
-        AccountBo accountBo = this.accountService.getAccountById(id);
-        return ResponseEntity.ok(accountBo);
-    }
-
-    @GetMapping("/by-username/{username}")
-    public ResponseEntity<AccountBo> getAccountByUsername(@PathVariable String username) {
-        AccountBo accountBo = this.accountService.getAccountByUsername(username);
-        return ResponseEntity.ok(accountBo);
-    }
-
-    @GetMapping({"/by-email-address/{emailAddress}"})
-    public ResponseEntity<AccountBo> getAccountByEmailAddress(@PathVariable String emailAddress) {
-        AccountBo accountBo = this.accountService.getAccountByEmailAddress(emailAddress);
-        return ResponseEntity.ok(accountBo);
+    @GetMapping("/check-email/{emailAddress}")
+    public ResponseEntity<String> checkEmailExists(@PathVariable String emailAddress) {
+        boolean exists = this.accountService.checkEmailExist(emailAddress);
+        if (exists) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email address already exists");
+        } else {
+            return ResponseEntity.ok("Email address is available");
+        }
     }
 }

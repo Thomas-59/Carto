@@ -61,18 +61,11 @@ public class AccountService {
         return accountEntity.getId();
     }
 
-    public void deleteUser(Long accountId) throws AccountNotFoundException {
-        this.getAccountById(accountId);
-        this.accountRepository.deleteById(accountId);
+    public boolean checkUsernameExist(String username) {
+        return accountRepository.existsByUsername(username);
     }
 
-    public AccountBo getAccountByUsername(String username) {
-        Optional<AccountEntity> account = accountRepository.findByUsername(username);
-        return account.map(AccountEntity::toBo).orElse(null);
-    }
-
-    public AccountBo getAccountByEmailAddress(String emailAddress) {
-        Optional<AccountEntity> account = accountRepository.findByEmailAddress(emailAddress);
-        return account.map(AccountEntity::toBo).orElse(null);
+    public boolean checkEmailExist(String emailAddress) {
+        return accountRepository.existsByEmailAddress(emailAddress);
     }
 }
