@@ -1,3 +1,4 @@
+import 'package:carto/viewmodel/account_view_model.dart';
 import 'package:carto/views/widgets/buttons.dart';
 import 'package:carto/views/services/account_service.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class ManagePage extends StatefulWidget {
 }
 
 class _ManagePageState extends State<ManagePage> {
-
+  AccountViewModel accountViewModel = AccountViewModel();
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -99,7 +100,7 @@ class _ManagePageState extends State<ManagePage> {
                           title: "Suprimer",
                           onPressed: () {
                             setState(() {
-                              AccountService().deleteAccount();
+                              accountViewModel.deleteAccount();
                               Navigator.of(context).pop();
                             });
                           },

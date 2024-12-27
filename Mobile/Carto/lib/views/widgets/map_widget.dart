@@ -1,4 +1,5 @@
 import 'package:carto/data_manager.dart';
+import 'package:carto/viewmodel/establishment_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
@@ -32,7 +33,7 @@ class MapWidget extends StatefulWidget {
 
 class _MapWidgetState extends State<MapWidget> {
   final MapController _mapController = MapController();
-  final EstablishmentService establishmentService = EstablishmentService();
+  final EstablishmentViewModel establishmentViewModel = EstablishmentViewModel();
   Position? _currentPosition;
   bool isFirstLoad = true;
   bool _isDarkMode = false;
@@ -210,6 +211,6 @@ class _MapWidgetState extends State<MapWidget> {
   }
 
   void reload() {
-    DataManager.establishmentsFuture = establishmentService.getAllEstablishment();
+    DataManager.establishmentsFuture = establishmentViewModel.getAllEstablishment();
   }
 }
