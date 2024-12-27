@@ -108,7 +108,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
           unselectedLabelStyle: whiteTextBold14,
           indicatorColor: white,
           tabs: const [
-            Tab(text: 'Nom du lieu'),
+            Tab(text: 'Établissement'),
             Tab(text: 'Adresse'),
           ],
         ),
@@ -117,7 +117,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
         controller: _tabController,
         children: [
           _buildSearchTab(
-            hintText: 'Rechercher par nom du lieu...',
+            hintText: 'Rechercher par nom d\'établissement...',
             onSearch: _filterEstablishmentsByName,
           ),
           _buildSearchTab(
