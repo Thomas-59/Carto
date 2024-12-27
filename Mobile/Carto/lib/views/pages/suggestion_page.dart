@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:carto/enum/price_enum.dart';
@@ -99,8 +98,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
     });
 
     final supabase = Supabase.instance.client;
-    final folderName = 'establishment-images';
-    final fileName = '${id}.jpg';
+    const folderName = 'establishment-images';
+    final fileName = '$id.jpg';
     final filePath = '$folderName/$fileName';
 
     try {
@@ -110,7 +109,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
         fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
       );
 
-      final publicUrl = supabase.storage.from('CartoBucket').getPublicUrl(filePath);
+      final publicUrl =
+        supabase.storage.from('CartoBucket').getPublicUrl(filePath);
 
       setState(() {
         _uploadedImageUrl = publicUrl;
@@ -207,7 +207,12 @@ class _SuggestionPageState extends State<SuggestionPage> {
                     int i =0;
                     while(i<_gameTitles.length-1){
                       if(_gameNumbers[i]>0){
-                        games.add(GameTypeDto(GameType.fromString(_gameTitles[i]), _gameNumbers[i]));
+                        games.add(
+                          GameTypeDto(
+                            GameType.fromString(_gameTitles[i]),
+                            _gameNumbers[i]
+                          )
+                        );
                       }
                       i++;
                     }
@@ -228,7 +233,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
                       games,
                     );
                     if(formIsValid()){
-                      BigInt id = await establishmentService.createEstablishment(establishment);
+                      BigInt id = await
+                        establishmentService.createEstablishment(establishment);
                       _uploadImage(id);
                       Navigator.pushNamed(context, '/thank',);
                     }

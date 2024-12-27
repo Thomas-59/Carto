@@ -1,6 +1,5 @@
-import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:carto/models/account.dart';
 import 'package:carto/views/services/account_service.dart';
 
 class UsernameFormField extends StatefulWidget {
@@ -44,7 +43,7 @@ class _UsernameFormFieldState extends State<UsernameFormField> {
               Radius.circular(10.0),
             ),
           ),
-          suffixIcon: _isChecking ? CircularProgressIndicator() : null,
+          suffixIcon: _isChecking ? const CircularProgressIndicator() : null,
           errorText: _usernameError,
         ),
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -55,7 +54,8 @@ class _UsernameFormFieldState extends State<UsernameFormField> {
 
   String? _validator(String? value) {
     if (widget.canBeEmpty ? false : (value == null || value.isEmpty)) {
-      return 'Veuillez entrer ${widget.isFeminine ? "une" : "un"} ${widget.label.toLowerCase()}';
+      return 'Veuillez entrer ${widget.isFeminine ? "une" : "un"} '
+          '${widget.label.toLowerCase()}';
     }
     return _usernameError;
   }
@@ -97,8 +97,11 @@ class _UsernameFormFieldState extends State<UsernameFormField> {
           _usernameError = null;
         });
       }
-    } catch (DioException) {
-      print('Erreur lors de la vérification du nom d\'utilisateur : $DioException');
+    } catch (dioException) {
+      if (kDebugMode) {
+        print('Erreur lors de la vérification du nom d\'utilisateur : '
+            '$dioException');
+      }
       setState(() {
         _usernameError = "Erreur lors de la vérification.";
       });

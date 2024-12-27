@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:carto/models/establishment.dart';
@@ -13,7 +12,9 @@ class SearchPage extends StatefulWidget {
   _SearchPageState createState() => _SearchPageState();
 }
 
-class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateMixin {
+class _SearchPageState extends State<SearchPage>
+    with SingleTickerProviderStateMixin
+{
   final TextEditingController _searchController = TextEditingController();
   final EstablishmentService _establishmentService = EstablishmentService();
   List<Establishment> _allEstablishments = [];
@@ -50,7 +51,8 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
 
   void _loadEstablishments() async {
     try {
-      List<Establishment> establishments = await _establishmentService.getAllEstablishment();
+      List<Establishment> establishments =
+        await _establishmentService.getAllEstablishment();
       setState(() {
         _allEstablishments = establishments;
       });
@@ -129,7 +131,10 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
     );
   }
 
-  Widget _buildSearchTab({required String hintText, required Function(String) onSearch}) {
+  Widget _buildSearchTab({
+    required String hintText,
+    required Function(String) onSearch
+  }) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(

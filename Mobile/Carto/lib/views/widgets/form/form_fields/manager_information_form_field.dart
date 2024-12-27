@@ -1,7 +1,4 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:carto/models/account.dart';
-import 'package:carto/views/services/account_service.dart';
 import 'package:flutter/services.dart';
 
 class StringFormField extends StatefulWidget {
@@ -52,7 +49,8 @@ class _StringFormFieldState extends State<StringFormField> {
 
   String? _validator(String? value) {
     if (widget.canBeEmpty ? false : (value == null || value.isEmpty)) {
-      return 'Veuillez entrer ${widget.isFeminine ? "une" : "un"} ${widget.label.toLowerCase()}';
+      return 'Veuillez entrer ${widget.isFeminine ? "une" : "un"} '
+          '${widget.label.toLowerCase()}';
     }
     return _fieldError;
   }
@@ -109,7 +107,8 @@ class _IntegerFormFieldState extends State<IntegerFormField> {
 
   String? _validator(String? value) {
     if (widget.canBeEmpty ? false : (value == null || value.isEmpty)) {
-      return 'Veuillez entrer ${widget.isFeminine ? "une" : "un"} ${widget.label.toLowerCase()}';
+      return 'Veuillez entrer ${widget.isFeminine ? "une" : "un"} '
+          '${widget.label.toLowerCase()}';
     }
     return _fieldError;
   }

@@ -11,7 +11,10 @@ class EstablishmentService{
  }
 
  Future<BigInt> createEstablishment(Establishment establishment) async {
-  Response response = await dio.post("https://carto.onrender.com/establishment",data: establishment.toJson());
+  Response response = await dio.post(
+      "https://carto.onrender.com/establishment",
+      data: establishment.toJson()
+  );
   return BigInt.from(response.data);
  }
 }

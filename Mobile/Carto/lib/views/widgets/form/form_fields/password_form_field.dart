@@ -49,11 +49,13 @@ class _MyFormFieldPassword extends State<PasswordFormField> {
               decoration: InputDecoration(
                 labelText: widget.label,
                 hintText: "Mot de passe",
-                helperText: '''Le mot de passe doit contenir au moins 1 majuscule, \n1 chiffre et  la longueur doit être d'au moins 8 caractères.
-                ''',
+                helperText: "Le mot de passe doit contenir au moins 1 majuscule"
+                    ", \n1 chiffre et  la longueur doit être d'au moins 8 "
+                    "caractères.",
                 suffixIcon: IconButton(
                     icon: Icon(
-                        passwordVisible ? Icons.visibility : Icons.visibility_off),
+                      passwordVisible ? Icons.visibility : Icons.visibility_off
+                    ),
                     onPressed: () {
                       setState(() {
                         passwordVisible = !passwordVisible;
@@ -79,7 +81,8 @@ class _MyFormFieldPassword extends State<PasswordFormField> {
                   labelText: 'Confirmation du ${widget.label}',
                   hintText: "Confirmer le mot de passe",
                   suffixIcon: IconButton(
-                    icon: Icon(confirmationVisible ? Icons.visibility : Icons.visibility_off),
+                    icon: Icon(confirmationVisible ?
+                      Icons.visibility : Icons.visibility_off),
                     onPressed: () {
                       setState(() {
                         confirmationVisible = !confirmationVisible;
@@ -104,9 +107,11 @@ class _MyFormFieldPassword extends State<PasswordFormField> {
     }
 
     if (value != null) {
-      final RegExp passwordRegex = RegExp(r'^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$');
+      final RegExp passwordRegex =
+        RegExp(r'^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$');
       if (!passwordRegex.hasMatch(value)) {
-        return "Le mot de passe doit contenir au moins 1 majuscule, \n1 chiffre et  la longueur doit être d'au moins 8 caractères.";
+        return "Le mot de passe doit contenir au moins 1 majuscule, \n1 "
+            "chiffre et  la longueur doit être d'au moins 8 caractères.";
       }
     }
 
@@ -115,7 +120,8 @@ class _MyFormFieldPassword extends State<PasswordFormField> {
 
   String? confirmationValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Veuillez confirmer ${widget.isFeminine ? "le" : "le"} ${widget.label.toLowerCase()}';
+      return 'Veuillez confirmer ${widget.isFeminine ? "le" : "le"} '
+          '${widget.label.toLowerCase()}';
     }
 
     if (value != widget.controller.text) {

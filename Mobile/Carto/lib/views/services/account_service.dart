@@ -6,7 +6,6 @@ import 'package:carto/enum/query_enum.dart';
 import 'package:carto/models/account.dart';
 import 'package:dio/dio.dart';
 
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class AccountService {
@@ -60,7 +59,7 @@ class AccountService {
       } else {
         return 'An error occurred';
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       if (e.response?.statusCode == 409) {
         return 'Username already exists';
       }
@@ -76,13 +75,14 @@ class AccountService {
       } else {
         return 'An error occurred';
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       if (e.response?.statusCode == 409) {
         return 'Email address already exists';
       }
       return 'An error occurred';
     }
-    
+  }
+
   void updateAccount(Account account) async {
     Response<dynamic> response = queryUseToken(
         type: QueryEnum.put,

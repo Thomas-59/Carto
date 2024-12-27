@@ -1,13 +1,13 @@
 import "package:flutter/material.dart";
 
-/**** COLORS ****/
+/// ** COLORS ***
 const Color blue = Color(0xFF005CFF);
 const Color red = Color(0xFFEB663B);
 const Color white = Color(0xFFFFFFFF);
 const Color purple = Color(0xffd4bbf9);
 const Color black = Color(0xFF000000);
 
-/**** TEXT STYLE ****/
+/// ** TEXT STYLE ***
 const TextStyle blueTextBold16 = TextStyle(
   color: blue,
   fontWeight: FontWeight.bold,

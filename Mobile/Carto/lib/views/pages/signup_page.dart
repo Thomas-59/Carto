@@ -1,5 +1,4 @@
 import 'package:carto/views/widgets/form/signup_form.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -29,9 +28,9 @@ class _SignUpPage extends State<SignUpPage> {
               padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
               child: GestureDetector(
                 onTap: () {
-                  // TODO : go to login page
+                  Navigator.pushNamed(context, "/login",);
                 },
-                child: Text("J'ai déjà un compte"),
+                child: const Text("J'ai déjà un compte"),
               ),
             )
           ])

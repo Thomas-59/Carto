@@ -6,7 +6,6 @@ import 'package:carto/views/widgets/form/form_fields/my_form_field_http_link.dar
 import 'package:carto/views/widgets/form/other_fields/my_checkbox_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../pages/address_input_page.dart';
 import 'form_fields/my_form_field.dart';
@@ -23,7 +22,7 @@ class GeneralForm extends StatefulWidget {
   final Uint8List? imageBytes;
 
 
-  GeneralForm({
+  const GeneralForm({
     super.key,
     required this.formIsValid,
     required this.formChange,
@@ -156,7 +155,6 @@ class _GeneralFormState extends State<GeneralForm> {
   }
 
   List<String> getAllParameter() {
-    print(_siteField.getValue());
     return <String> [
       _nameField.getValue(),
       _adressLabel,
@@ -228,8 +226,8 @@ class _GeneralFormState extends State<GeneralForm> {
             },
             style: ButtonStyle(
               backgroundColor:_addressPick!=null ? 
-                WidgetStatePropertyAll<Color>(Colors.greenAccent)
-                : WidgetStatePropertyAll(Colors.redAccent),
+                const WidgetStatePropertyAll<Color>(Colors.greenAccent)
+                : const WidgetStatePropertyAll(Colors.redAccent),
             ),
             child: Text(
               _addressPick!=null ? 

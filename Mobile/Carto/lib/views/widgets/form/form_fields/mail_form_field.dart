@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
-
 import 'package:carto/views/services/account_service.dart';
-import 'package:carto/models/account.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class MailFormField extends StatefulWidget {
@@ -45,7 +43,7 @@ class _MailFormFieldState extends State<MailFormField> {
               Radius.circular(10.0),
             ),
           ),
-          suffixIcon: _isChecking ? CircularProgressIndicator() : null,
+          suffixIcon: _isChecking ? const CircularProgressIndicator() : null,
           errorText: _mailError,
         ),
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -56,7 +54,8 @@ class _MailFormFieldState extends State<MailFormField> {
 
   String? _validator(String? value) {
     if (widget.canBeEmpty ? false : (value == null || value.isEmpty)) {
-      return 'Veuillez entrer ${widget.isFeminine ? "une" : "un"} ${widget.label.toLowerCase()}';
+      return 'Veuillez entrer ${widget.isFeminine ? "une" : "un"} '
+          '${widget.label.toLowerCase()}';
     }
 
     final RegExp mailRegex =
@@ -107,7 +106,9 @@ class _MailFormFieldState extends State<MailFormField> {
         });
       }
     } catch (e) {
-      print('Erreur lors de la vérification du mail : $e');
+      if (kDebugMode) {
+        print('Erreur lors de la vérification du mail : $e');
+      }
       setState(() {
         _mailError = "Erreur lors de la vérification.";
       });

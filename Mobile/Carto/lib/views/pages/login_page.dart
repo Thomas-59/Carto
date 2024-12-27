@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                             padding: const EdgeInsets.fromLTRB(10, 0, 8, 0),
                             child:GestureDetector(
                               onTap: () {
-                                // TODO go to page create account
+                                Navigator.pushNamed(context, "/signup",);
                               },
                               child: const Text(
                                   "Inscris-toi !",
