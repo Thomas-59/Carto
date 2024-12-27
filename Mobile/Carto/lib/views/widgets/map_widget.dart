@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+
 import '../services/location_service.dart';
 import '../../models/establishment.dart';
 import '../../views/services/establishment_service.dart';
+import 'buttons.dart';
 
 class MapWidget extends StatefulWidget {
   static final GlobalKey<_MapWidgetState> mapKey = GlobalKey<_MapWidgetState>();
@@ -172,6 +174,18 @@ class _MapWidgetState extends State<MapWidget> {
               },
               child: const Icon(Icons.add),
             ),
+          ),
+          Positioned(
+            top: 70,
+            left: 30,
+            child: BlueSquareIconButton(
+                icon: Icons.search,
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/search',
+                  );
+                }),
           ),
         ],
       ),

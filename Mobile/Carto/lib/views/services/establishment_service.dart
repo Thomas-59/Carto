@@ -6,7 +6,6 @@ class EstablishmentService{
 
  Future<List<Establishment>> getAllEstablishment() async {
   var response = await dio.get("https://carto.onrender.com/establishment/all");
-
   List<dynamic> data = response.data;
   return data.map((json) => Establishment.fromJson(json)).toList();
  }
