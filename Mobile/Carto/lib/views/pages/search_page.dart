@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:carto/models/establishment.dart';
 import 'package:carto/views/services/establishment_service.dart';
 import 'package:carto/views/widgets/constants.dart';
-import 'package:carto/utils/tags.dart';
+import 'package:carto/views/widgets/tags.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
