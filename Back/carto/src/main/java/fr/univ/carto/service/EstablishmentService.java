@@ -9,6 +9,8 @@ import fr.univ.carto.service.bo.EstablishmentBo;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -84,6 +86,7 @@ public class EstablishmentService {
                     return schedule;
                 })
                 .collect(Collectors.toList());
+        schedules.sort(Comparator.comparingInt(o -> o.getScheduleEmbeddedId().getDayofweek().ordinal()));
         establishmentEntity.setDayScheduleList(schedules);
 
 

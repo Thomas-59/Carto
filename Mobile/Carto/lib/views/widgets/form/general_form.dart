@@ -1,7 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:carto/enum/price_enum.dart';
-import 'package:carto/views/widgets/form/form_fields/my_form_field_double.dart';
 import 'package:carto/models/address.dart';
+import 'package:carto/views/widgets/form/form_fields/my_form_field_http_link.dart';
+import 'package:carto/views/widgets/form/other_fields/my_checkbox_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../pages/address_input_page.dart';
 import 'form_fields/my_form_field.dart';
@@ -15,7 +20,10 @@ class GeneralForm extends StatefulWidget {
   final bool nearTransport, pmrAccess;
 
 
-  const GeneralForm({
+  final Uint8List? imageBytes;
+
+
+  GeneralForm({
     super.key,
     required this.formIsValid,
     required this.formChange,
@@ -28,6 +36,7 @@ class GeneralForm extends StatefulWidget {
     this.gamePrice = PriceEnum.medium,
     this.nearTransport = false,
     this.pmrAccess = false,
+    this.imageBytes,
   });
 
   @override
@@ -36,7 +45,7 @@ class GeneralForm extends StatefulWidget {
 
 class _GeneralFormState extends State<GeneralForm> {
   //controller
-  late final MyFormField _nameField, _addressField, _latitudeField,
+  late final MyFormField _nameField, _addressField,
       _longitudeField, _siteField, _descriptionField;
 
   //checkBox
@@ -44,24 +53,27 @@ class _GeneralFormState extends State<GeneralForm> {
       _pmrAccess = widget.nearTransport;
 
   //validator
-  late bool _nameIsValid, _addressIsValid, _latitudeIsValid, _longitudeIsValid,
+  late bool _nameIsValid, _addressIsValid,
     _siteIsValid, _descriptionIsValid;
+
+
 
   late PriceEnum _gamePrice = widget.gamePrice;
   Address? _addressPick;
   String _adressLabel="";
   String _longitude="0";
   String _latitude="0";
+
+  //image
+  final ImagePicker _picker = ImagePicker();
+  Uint8List? _imageBytes;
+
   @override
   void initState() {
     TextEditingController nameController =
       TextEditingController(text: widget.name);
     TextEditingController addressController =
       TextEditingController(text: widget.address);
-    TextEditingController latitudeController =
-      TextEditingController(text: widget.latitude);
-    TextEditingController longitudeController =
-      TextEditingController(text: widget.longitude);
     TextEditingController siteController =
       TextEditingController(text: widget.site);
     TextEditingController descriptionController =
@@ -98,7 +110,7 @@ class _GeneralFormState extends State<GeneralForm> {
 
 
 
-    _siteField = MyFormField(
+    _siteField = MyFormFieldHttpLink(
       label: "Site web d'établissement",
       controller: siteController,
       canBeEmpty: true,
@@ -132,7 +144,7 @@ class _GeneralFormState extends State<GeneralForm> {
   }
 
   bool _fieldIsValid(MyFormField field) {
-    return (field.validator(field.controller.text) == null);
+    return (field.validator(field.getValue()) == null);
   }
 
   bool _addressValueIsValid(String value) {
@@ -144,16 +156,18 @@ class _GeneralFormState extends State<GeneralForm> {
   }
 
   List<String> getAllParameter() {
+    print(_siteField.getValue());
     return <String> [
-      _nameField.controller.text,
+      _nameField.getValue(),
       _adressLabel,
       _latitude,
       _longitude,
-      _siteField.controller.text,
-      _descriptionField.controller.text,
+      _siteField.getValue(),
+      _descriptionField.getValue(),
       _gamePrice.value,
       _nearTransport.toString(),
-      _pmrAccess.toString()
+      _pmrAccess.toString(),
+      _imageBytes.toString()
     ];
   }
 
@@ -180,6 +194,19 @@ class _GeneralFormState extends State<GeneralForm> {
     ));
   }
 
+  Future<void> _pickImage() async {
+    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      var toStore = Uint8List.fromList(await pickedFile.readAsBytes());
+      setState(()  {
+        _imageBytes = toStore;
+        widget.formChange(getAllParameter());
+      });
+    }
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -192,15 +219,24 @@ class _GeneralFormState extends State<GeneralForm> {
           color: Colors.black
         ),
         _nameField,
-        ElevatedButton(
-          onPressed: () {
-            _openAddressInputPage();
-          },
-          style: ButtonStyle(
-            backgroundColor:_addressPick!=null ? WidgetStatePropertyAll<Color>(Colors.greenAccent):WidgetStatePropertyAll<Color>(Colors.redAccent),
-          ),
-          child: Text(
-            _addressPick!=null ? _addressPick!.properties.label : "Choisir une adresse",
+        FractionallySizedBox(
+          alignment: Alignment.center,
+          widthFactor: 0.8,
+          child: ElevatedButton(
+            onPressed: () {
+              _openAddressInputPage();
+            },
+            style: ButtonStyle(
+              backgroundColor:_addressPick!=null ? 
+                WidgetStatePropertyAll<Color>(Colors.greenAccent)
+                : WidgetStatePropertyAll(Colors.redAccent),
+            ),
+            child: Text(
+              _addressPick!=null ? 
+                _addressPick!.properties.label 
+                : "Choisir une adresse",
+              style: _addressPick!=null? null:const TextStyle(color: Colors.white),
+            ),
           ),
         ),
         _siteField,
@@ -210,28 +246,43 @@ class _GeneralFormState extends State<GeneralForm> {
           averageGamePrice: _gamePrice,
           onPriceChanged: _handlePriceChange,
         ),
-        CheckboxListTile(
+        MyCheckboxListTile(
           value: _nearTransport,
-          controlAffinity: ListTileControlAffinity.leading,
-          title: const Text("Proche des transports"),
+          title: "Proche des transports",
           onChanged:(newValue){
             setState(() {
               _nearTransport = newValue ?? _nearTransport;
               widget.formChange(getAllParameter());
             });
           }),
-        CheckboxListTile(
+        MyCheckboxListTile(
           value: _pmrAccess,
-          controlAffinity: ListTileControlAffinity.leading,
-          title: const Text("Accès PMR"),
+          title: "Accès PMR",
           onChanged:(newValue){
             setState(() {
               _pmrAccess = newValue ?? _pmrAccess;
               widget.formChange(getAllParameter());
             });
           }),
+          Column(
+            children: [
+            ElevatedButton(
+              onPressed: _pickImage,
+              child: const Text('Choisir une image'),
+          ),
+          if (_imageBytes != null)
+          Column(
+            children: [
+            Image.memory(
+              _imageBytes!,
+              height: 150,
+              width: 150,
+              fit: BoxFit.cover,
+              ),
+          ],
+        ),
       ],
-    );
+    )]);
   }
 
   void _handlePriceChange(PriceEnum newPrice) {

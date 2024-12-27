@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carto/views/widgets/constants.dart';
+
 import 'dart:math' as math;
 
 class WhiteSquareIconButton extends StatelessWidget {
@@ -170,4 +171,39 @@ class OutlineButtonWithTextAndIcon extends StatelessWidget {
   }
 }
 
+class MyElevatedButton extends StatelessWidget {
+  final String title;
+  final VoidCallback onPressed;
+  final double height;
+  final double width;
+  final Color color;
+  final TextStyle textStyle;
+  
+  const MyElevatedButton({
+    super.key,
+    required this.title,
+    required this.onPressed,
+    this.width = 200,
+    this.height = 20,
+    this.color = Colors.white,
+    this.textStyle = const TextStyle(),
+  });
 
+  @override
+  Widget build(BuildContext context) {
+    return  Padding( padding: const EdgeInsets.all(8.0),
+      child : ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+          fixedSize: Size(width, height)
+        ),
+        onPressed: onPressed,
+        child: Text(
+            title,
+          style: textStyle,
+        ),
+      ),
+    );
+  }
+  
+}

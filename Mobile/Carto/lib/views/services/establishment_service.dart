@@ -10,7 +10,8 @@ class EstablishmentService{
   return data.map((json) => Establishment.fromJson(json)).toList();
  }
 
- void createEstablishment(Establishment establishment) async {
-  await dio.post("https://carto.onrender.com/establishment",data: establishment.toJson());
-  }
+ Future<BigInt> createEstablishment(Establishment establishment) async {
+  Response response = await dio.post("https://carto.onrender.com/establishment",data: establishment.toJson());
+  return BigInt.from(response.data);
+ }
 }

@@ -1,3 +1,4 @@
+import 'package:carto/data_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
@@ -20,6 +21,13 @@ class MapWidget extends StatefulWidget {
     }
   }
 
+  void reload() {
+    final state = mapKey.currentState;
+    if (state != null) {
+      state.reload();
+    }
+  }
+
   @override
   _MapWidgetState createState() => _MapWidgetState();
 }
@@ -34,12 +42,9 @@ class _MapWidgetState extends State<MapWidget> {
   double defaultLatitude = 50.63294;
   double defaultLongitude = 3.05843;
 
-  late Future<List<Establishment>> _establishmentsFuture;
-
   @override
   void initState() {
     super.initState();
-    _establishmentsFuture = establishmentService.getAllEstablishment();
 
     _locationService.startLocationUpdates((position) {
       setState(() {
@@ -64,7 +69,7 @@ class _MapWidgetState extends State<MapWidget> {
       body: Stack(
         children: [
           FutureBuilder<List<Establishment>>(
-            future: _establishmentsFuture,
+            future: DataManager.establishmentsFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -83,7 +88,7 @@ class _MapWidgetState extends State<MapWidget> {
                   child: IconButton(onPressed: () {
                     Navigator.pushNamed(
                       context,
-                      '/etablishment_detail',
+                      '/establishment_detail',
                       arguments: {'establishment': establishment},
                     );
                   }, icon: const Icon(Icons.location_on, color: Colors.red, size: 40)),
@@ -216,5 +221,9 @@ class _MapWidgetState extends State<MapWidget> {
   // Fonction pour déplacer la carte sur les nouvelles coordonnées
   void setCoordinate(double latitude, double longitude) {
     _mapController.move(LatLng(latitude, longitude), 15);
+  }
+
+  void reload() {
+    DataManager.establishmentsFuture = establishmentService.getAllEstablishment();
   }
 }
