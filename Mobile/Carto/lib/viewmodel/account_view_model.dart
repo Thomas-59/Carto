@@ -1,5 +1,6 @@
 import 'package:carto/models/account.dart';
-import 'package:carto/views/services/account_service.dart';
+
+import '../services/account_service.dart';
 
 class AccountViewModel{
   AccountService accountService = AccountService();

@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
-import '../services/location_service.dart';
+import '../../services/location_service.dart';
 import '../../models/establishment.dart';
-import '../../views/services/establishment_service.dart';
 
 class MapWidget extends StatefulWidget {
   static final GlobalKey<_MapWidgetState> mapKey = GlobalKey<_MapWidgetState>();

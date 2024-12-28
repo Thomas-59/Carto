@@ -1,4 +1,5 @@
 import 'package:carto/cubit/location_cubit.dart';
+import 'package:carto/services/location_service.dart';
 import 'package:carto/views/pages/establishement_details_page.dart';
 import 'package:carto/views/pages/home_page.dart';
 import 'package:carto/views/pages/init_page.dart';
@@ -6,7 +7,6 @@ import 'package:carto/views/pages/login_page.dart';
 import 'package:carto/views/pages/manage_page.dart';
 import 'package:carto/views/pages/suggestion_page.dart';
 import 'package:carto/views/pages/thanking_page.dart';
-import 'package:carto/views/services/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

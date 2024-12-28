@@ -1,9 +1,9 @@
 import 'package:carto/viewmodel/account_view_model.dart';
 import 'package:carto/views/widgets/buttons.dart';
-import 'package:carto/views/services/account_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../data_manager.dart';
+import '../../services/account_service.dart';
 
 class ManagePage extends StatefulWidget {
   const ManagePage({super.key});

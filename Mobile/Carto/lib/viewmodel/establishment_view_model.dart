@@ -1,8 +1,8 @@
 import 'package:carto/enum/price_enum.dart';
-import 'package:carto/views/services/establishment_service.dart';
 import 'package:flutter/material.dart';
 
 import '../models/establishment.dart';
+import '../services/establishment_service.dart';
 
 class EstablishmentViewModel {
   EstablishmentService establishmentService = EstablishmentService();

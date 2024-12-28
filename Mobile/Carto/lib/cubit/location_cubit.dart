@@ -1,8 +1,9 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:carto/cubit/location_state.dart';
-import 'package:carto/views/services/location_service.dart';
 import 'package:geolocator/geolocator.dart';
+
+import '../services/location_service.dart';
 
 class LocationCubit extends Cubit<LocationState> {
   // final WeatherService weatherService = WeatherService();
