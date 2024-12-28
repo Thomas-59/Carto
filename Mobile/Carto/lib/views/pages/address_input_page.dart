@@ -5,7 +5,8 @@ import '../../models/address.dart';
 
 class AddressInputPage extends StatefulWidget {
   final Address? initialAddress;
-  final Function(Address? address, String latitude, String longitude) onAddressValidated;
+  final Function(Address? address, String latitude, String longitude)
+    onAddressValidated;
 
 
   const AddressInputPage({
@@ -107,24 +108,32 @@ class _AddressInputPageState extends State<AddressInputPage> {
                 itemBuilder: (context, index) {
                   return ListTile(
                     title: ElevatedButton(
-                        style: _addressPick ==_listAddress[index]?ButtonStyle(backgroundColor:WidgetStatePropertyAll(Colors.greenAccent)):null,
-                        onPressed: () {
-                      setState(() {
-                        _addressPick = _listAddress[index];
-                        _addressController.text=_addressPick!.properties.label;
-                      });
-                    }, child: Text(_listAddress[index].properties.label)),
+                      style: _addressPick == _listAddress[index] ?
+                        const ButtonStyle(
+                          backgroundColor :
+                            WidgetStatePropertyAll(Colors.greenAccent)
+                        )
+                        : null,
+                      onPressed: () {
+                        setState(() {
+                          _addressPick = _listAddress[index];
+                          _addressController.text =
+                              _addressPick!.properties.label;
+                        });
+                      },
+                      child: Text(_listAddress[index].properties.label)
+                    ),
                     enabled: _addressIsValid,
                   );
                 },),
-            ):SizedBox(),
+            ):const SizedBox(),
             const SizedBox(height: 20),
             _addressPick!=null?Center(
               child: ElevatedButton(
                 onPressed: _validateAddress,
                 child: const Text("Valider"),
               ),
-            ):SizedBox(),
+            ):const SizedBox(),
           ],
         ),
       ),

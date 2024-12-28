@@ -53,7 +53,7 @@ class AccountService {
     Dio tmpDio = Dio();
     tmpDio.options.headers['Authorization'] = DataManager.credential;
     try {
-      Response<dynamic> response =  await dio.get("$basePath/token");
+      Response<dynamic> response =  await tmpDio.get("$basePath/token");
       DataManager.token = response.data;
     } on DioException { //bad credential
       disconnect();

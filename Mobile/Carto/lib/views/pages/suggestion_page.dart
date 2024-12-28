@@ -99,8 +99,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
     });
 
     final supabase = Supabase.instance.client;
-    final folderName = 'establishment-images';
-    final fileName = '${id}.jpg';
+    const folderName = 'establishment-images';
+    final fileName = '$id.jpg';
     final filePath = '$folderName/$fileName';
 
     try {
