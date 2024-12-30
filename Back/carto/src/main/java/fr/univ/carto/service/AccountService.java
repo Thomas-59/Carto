@@ -8,6 +8,7 @@ import fr.univ.carto.repository.AccountRepository;
 import fr.univ.carto.repository.entity.AccountEntity;
 import fr.univ.carto.repository.entity.ManagerInformationEntity;
 import fr.univ.carto.service.bo.AccountBo;
+import fr.univ.carto.utils.EmailSender;
 import fr.univ.carto.utils.Token;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -63,6 +64,8 @@ public class AccountService {
         }
 
         accountRepository.save(accountEntity);
+
+        new EmailSender().sendWelcomeEmail(accountBo.getEmailAddress(), accountBo.getUsername());
 
         return accountEntity.getId();
     }
@@ -144,5 +147,28 @@ public class AccountService {
         } else {
             throw new AccountNotFoundException("No account found for given " + decodedCredential[0] + "/" + decodedCredential[1]);
         }
+    }
+
+    public void sendEmailForgottenPassword(String email) {
+        Optional<AccountEntity> account = accountRepository.findByEmailAddress(email);
+        if (account.isPresent()) {
+            String link = "https://carto.onrender.com/account/forgottenPassword/" +
+                    Token.createTokenForgottenPassword(account.get().getId());
+            EmailSender emailSender = new EmailSender();
+            emailSender.sendForgottenPassword(email, link);
+        }
+    }
+
+    public void updatePassword(String password, long id) throws AccountNotFoundException {
+        Optional<AccountEntity> optionalAccountEntity = accountRepository.findById(id);
+        AccountEntity accountEntity;
+
+        if (optionalAccountEntity.isEmpty()) {
+            throw new AccountNotFoundException("No account found for given id");
+        }
+
+        accountEntity = optionalAccountEntity.get();
+        accountEntity.setPassword(password);
+        accountRepository.save(accountEntity);
     }
 }
