@@ -167,4 +167,8 @@ class AccountService {
     DataManager.account = null;
     DataManager.prefs.setString("credential", "");
   }
+
+  void forgottenPassword(String email) {
+    dio.put("${basePath}forgottenPassword/$email");
+  }
 }

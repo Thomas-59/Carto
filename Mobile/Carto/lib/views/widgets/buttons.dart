@@ -171,22 +171,26 @@ class OutlineButtonWithTextAndIcon extends StatelessWidget {
   }
 }
 
-class MyElevatedButton extends StatelessWidget {
+class DefaultElevatedButton extends StatelessWidget {
   final String title;
   final VoidCallback onPressed;
   final double height;
   final double width;
-  final Color color;
+  final Color validColor;
+  final Color unValidColor;
   final TextStyle textStyle;
+  final bool validator;
   
-  const MyElevatedButton({
+  const DefaultElevatedButton({
     super.key,
     required this.title,
     required this.onPressed,
     this.width = 200,
     this.height = 20,
-    this.color = Colors.white,
+    this.validColor = Colors.white,
+    this.unValidColor = Colors.grey,
     this.textStyle = const TextStyle(),
+    this.validator = true,
   });
 
   @override
@@ -194,10 +198,12 @@ class MyElevatedButton extends StatelessWidget {
     return  Padding( padding: const EdgeInsets.all(8.0),
       child : ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: color,
+          backgroundColor: validator ? validColor : unValidColor,
           fixedSize: Size(width, height)
         ),
-        onPressed: onPressed,
+        onPressed: validator ?
+          onPressed
+          : null,
         child: Text(
             title,
           style: textStyle,
@@ -205,5 +211,32 @@ class MyElevatedButton extends StatelessWidget {
       ),
     );
   }
-  
+}
+
+class BlueElevatedButton extends DefaultElevatedButton {
+  const BlueElevatedButton({
+    super.key,
+    required super.title,
+    required super.onPressed,
+    super.height,
+    super.width,
+    super.validator,
+    super.unValidColor,
+    validColor = Colors.blueAccent,
+    textStyle = const TextStyle(color: Colors.white),
+  });
+}
+
+class RedElevatedButton extends DefaultElevatedButton {
+  const RedElevatedButton({
+    super.key,
+    required super.title,
+    required super.onPressed,
+    super.height,
+    super.width,
+    super.validator,
+    super.unValidColor,
+    validColor = Colors.red,
+    textStyle = const TextStyle(color: Colors.white),
+  });
 }

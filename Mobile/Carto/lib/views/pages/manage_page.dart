@@ -25,13 +25,13 @@ class _ManagePageState extends State<ManagePage> {
                   Image.asset("assets/logo/logo_purple.png"),
                   !DataManager.isLogged ?
                     const SizedBox() :
-                    MyElevatedButton(
+                    DefaultElevatedButton(
                       title: "gérer mon compte",
                       onPressed: () {
                         //TODO manage account
                       },
                     ),
-                  MyElevatedButton(
+                  DefaultElevatedButton(
                     title: DataManager.isLogged ?
                       "Changer de compte" : "Se connecter",
                     onPressed: () {
@@ -43,7 +43,7 @@ class _ManagePageState extends State<ManagePage> {
                   ),
                   !DataManager.isLogged ?
                     const SizedBox() :
-                    MyElevatedButton(
+                    DefaultElevatedButton(
                       title: "Se déconnecter",
                       onPressed: () {
                         disconnect();
@@ -51,13 +51,11 @@ class _ManagePageState extends State<ManagePage> {
                     ),
                   !DataManager.isLogged ?
                     const SizedBox() :
-                  MyElevatedButton(
-                      color : Colors.red,
+                  RedElevatedButton(
                       title: "Supprimer mon compte",
-                      textStyle: const TextStyle(color: Colors.white),
                       onPressed: onDelete,
                     ),
-                  MyElevatedButton(
+                  DefaultElevatedButton(
                     title: "Retour à la carte",
                     onPressed: () {
                       Navigator.pop(context);
@@ -93,7 +91,7 @@ class _ManagePageState extends State<ManagePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        MyElevatedButton(
+                        RedElevatedButton(
                           title: "Suprimer",
                           onPressed: () {
                             setState(() {
@@ -101,10 +99,9 @@ class _ManagePageState extends State<ManagePage> {
                               Navigator.of(context).pop();
                             });
                           },
-                          color: Colors.red,
                           width: 125,
                         ),
-                        MyElevatedButton(
+                        DefaultElevatedButton(
                           title: "Annuler",
                           onPressed: () {
                             Navigator.of(context).pop();

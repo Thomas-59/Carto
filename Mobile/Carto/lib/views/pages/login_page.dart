@@ -75,11 +75,11 @@ class _LoginPageState extends State<LoginPage> {
                           padding: const EdgeInsets.fromLTRB(12, 0, 8, 8),
                           child: GestureDetector(
                             onTap: () {
-                              //TODO Forgotten password
+                              Navigator.pushNamed(context, "/forgotten",);
                             },
                             child: const Text(
                                 "Mot de passe oublié ?",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                             ),
                           ),
                         ),
@@ -94,8 +94,8 @@ class _LoginPageState extends State<LoginPage> {
                         });
                       }
                     ),
-                    MyElevatedButton(
-                      color: _canLog ?
+                    DefaultElevatedButton(
+                      validColor: _canLog ?
                         Colors.blueAccent
                         : Colors.grey,
                       onPressed: tryLog,
@@ -121,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                               },
                               child: const Text(
                                   "Inscris-toi !",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                             ),
                           ),
