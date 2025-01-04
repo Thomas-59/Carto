@@ -1,6 +1,5 @@
 package fr.univ.carto.controller;
 
-import fr.univ.carto.controller.dto.AccountDto;
 import fr.univ.carto.controller.dto.Role;
 import fr.univ.carto.controller.request.AccountRequest;
 import fr.univ.carto.exception.InvalidAccountException;
@@ -35,16 +34,7 @@ public class AccountController {
 
     @PostMapping
     public ResponseEntity<Long> createAccount(@RequestBody AccountRequest accountRequest) throws InvalidAccountException {
-        AccountBo account = new AccountBo();
-        account.setUsername(accountRequest.getUsername());
-        account.setEmailAddress(accountRequest.getEmailAddress());
-        account.setCreatedAt(accountRequest.getCreatedAt());
-        account.setPassword(accountRequest.getPassword());
-        account.setRole(accountRequest.getRole());
-
-        if (account.getRole() == Role.MANAGER && accountRequest.getManagerInformation() != null) {
-            account.setManagerInformation(accountRequest.getManagerInformation());
-        }
+        AccountBo account = accountRequestToAccountBo(accountRequest);
 
         return new ResponseEntity<>(this.accountService.createAccount(account), HttpStatus.CREATED);
     }
@@ -86,20 +76,9 @@ public class AccountController {
     }
 
     @PutMapping
-    public ResponseEntity<Long> updateAccount(@RequestBody AccountDto accountDto, @RequestHeader("Authorization") String token) throws InvalidAccountException, BadTokenException, AccountNotFoundException {
-        if (accountDto.validate()) {
-            AccountBo accountBo = new AccountBo();
-
-            accountBo.setUsername(accountDto.getUsername());
-            accountBo.setPassword(accountDto.getPassword());
-            accountBo.setRole(accountDto.getRole());
-            accountBo.setCreatedAt(accountDto.getCreatedAt());
-            accountBo.setEmailAddress(accountDto.getEmailAddress());
-
-            return new ResponseEntity<>(this.accountService.updateAccount(accountBo, token), HttpStatus.OK);
-        } else {
-            throw new InvalidAccountException("invalid account");
-        }
+    public ResponseEntity<Long> updateAccount(@RequestBody AccountRequest accountRequest, @RequestHeader("Authorization") String token) throws InvalidAccountException, BadTokenException, AccountNotFoundException {
+        AccountBo account = accountRequestToAccountBo(accountRequest);
+        return new ResponseEntity<>(this.accountService.updateAccount(account, token), HttpStatus.OK);
     }
 
     @PutMapping("/forgottenPassword/{email}")
@@ -160,5 +139,21 @@ public class AccountController {
         ModelAndView modelAndView = new ModelAndView("ResetPassword");
         modelAndView.addObject("token", token);
         return modelAndView;
+    }
+
+
+
+    private AccountBo accountRequestToAccountBo(AccountRequest accountRequest) {
+        AccountBo account = new AccountBo();
+        account.setUsername(accountRequest.getUsername());
+        account.setEmailAddress(accountRequest.getEmailAddress());
+        account.setCreatedAt(accountRequest.getCreatedAt());
+        account.setPassword(accountRequest.getPassword());
+        account.setRole(accountRequest.getRole());
+
+        if (account.getRole() == Role.MANAGER && accountRequest.getManagerInformation() != null) {
+            account.setManagerInformation(accountRequest.getManagerInformation());
+        }
+        return account;
     }
 }
