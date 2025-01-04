@@ -144,16 +144,16 @@ class _LoginPageState extends State<LoginPage> {
 
   void tryLog() async {
     if(_canLog) {
-      bool isLog = await AccountService().getCredential(
+      AccountService accountService = AccountService();
+      bool isLog = await accountService.logIn(
           mailOrPseudoController.text,
           passwordController.text
       );
+
       if(isLog) {
-        String credential = mailOrPseudoController.text;
         if (_remember) {
-          DataManager.prefs.setString("credential", credential);
+          DataManager.prefs.setString("credential", DataManager.credential);
         }
-        DataManager.credential = credential;
         Navigator.pop(context);
       } else {
         showDialog(

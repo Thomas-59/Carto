@@ -11,9 +11,11 @@ class MailFormField extends StatefulWidget {
     this.canBeEmpty = false,
     this.minLines = 1,
     this.maxLines = 1,
+    this.ignoreMail,
   });
 
   final String label;
+  final String? ignoreMail;
   final TextEditingController controller;
   final bool isFeminine, canBeEmpty;
   final int minLines, maxLines;
@@ -45,6 +47,7 @@ class _MailFormFieldState extends State<MailFormField> {
           ),
           suffixIcon: _isChecking ? const CircularProgressIndicator() : null,
           errorText: _mailError,
+          fillColor: Colors.white,
         ),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: _validator,
@@ -93,28 +96,34 @@ class _MailFormFieldState extends State<MailFormField> {
       _isChecking = true;
     });
 
-    try {
-      String? result = await accountService.checkEmailExists(emailAddress);
+    if((widget.ignoreMail != null) & (widget.ignoreMail != emailAddress)) {
+      try {
+        String? result = await accountService.checkEmailExists(emailAddress);
 
-      if (result == 'Email address already exists') {
+        if (result == 'Email address already exists') {
+          setState(() {
+            _mailError = "Un compte a déjà été créé avec cette adresse.";
+          });
+        } else if (result == 'Email is available') {
+          setState(() {
+            _mailError = null;
+          });
+        }
+      } catch (e) {
+        if (kDebugMode) {
+          print('Erreur lors de la vérification du mail : $e');
+        }
         setState(() {
-          _mailError = "Un compte a déjà été créé avec cette adresse.";
+          _mailError = "Erreur lors de la vérification.";
         });
-      } else if (result == 'Email is available') {
+      } finally {
         setState(() {
-          _mailError = null;
+          _isChecking = false;
         });
       }
-    } catch (e) {
-      if (kDebugMode) {
-        print('Erreur lors de la vérification du mail : $e');
-      }
+    } else {
       setState(() {
-        _mailError = "Erreur lors de la vérification.";
-      });
-    } finally {
-      setState(() {
-        _isChecking = false;
+        _mailError = null;
       });
     }
   }

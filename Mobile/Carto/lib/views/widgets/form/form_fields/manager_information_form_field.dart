@@ -98,6 +98,7 @@ class _IntegerFormFieldState extends State<IntegerFormField> {
             ),
           ),
           errorText: _fieldError,
+          fillColor: Colors.white,
         ),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: _validator,

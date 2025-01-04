@@ -23,7 +23,7 @@ class Account {
   final Role role;
 
   @JsonKey(name: 'managerInformation')
-  ManagerInformation? managerInformation;
+  final ManagerInformation? managerInformation;
 
   Account({
     this.id,
@@ -34,6 +34,19 @@ class Account {
     required this.role,
     this.managerInformation,
   });
+
+  // Factory constructor for a default account
+  factory Account.defaultAccount() {
+    return Account(
+      id: null,
+      username: '',
+      emailAddress: '',
+      password: '',
+      createdAt: DateTime.now(),
+      role: Role.user,
+      managerInformation: null,
+    );
+  }
 
   factory Account.fromJson(Map<String, dynamic> json) =>
       _$AccountFromJson(json);

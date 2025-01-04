@@ -92,6 +92,7 @@ class _MyFormFieldPassword extends State<PasswordFormField> {
                   border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   ),
+                  fillColor: Colors.white,
                 ),
                 autovalidateMode: AutovalidateMode.always,
                 validator: confirmationValidator,
@@ -106,7 +107,7 @@ class _MyFormFieldPassword extends State<PasswordFormField> {
           '${widget.label.toLowerCase()}';
     }
 
-    if (value != null) {
+    if (value != null && value.isNotEmpty) {
       final RegExp passwordRegex =
         RegExp(r'^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$');
       if (!passwordRegex.hasMatch(value)) {
@@ -119,7 +120,7 @@ class _MyFormFieldPassword extends State<PasswordFormField> {
   }
 
   String? confirmationValidator(String? value) {
-    if (value == null || value.isEmpty) {
+    if (widget.canBeEmpty ? false : (value == null || value.isEmpty)) {
       return 'Veuillez confirmer ${widget.isFeminine ? "le" : "le"} '
           '${widget.label.toLowerCase()}';
     }

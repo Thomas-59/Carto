@@ -11,9 +11,11 @@ class UsernameFormField extends StatefulWidget {
     this.canBeEmpty = false,
     this.minLines = 1,
     this.maxLines = 1,
+    this.ignoreUsername
   });
 
   final String label;
+  final String? ignoreUsername;
   final TextEditingController controller;
   final bool isFeminine, canBeEmpty;
   final int minLines, maxLines;
@@ -45,6 +47,7 @@ class _UsernameFormFieldState extends State<UsernameFormField> {
           ),
           suffixIcon: _isChecking ? const CircularProgressIndicator() : null,
           errorText: _usernameError,
+          fillColor: Colors.white,
         ),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: _validator,
@@ -86,16 +89,18 @@ class _UsernameFormFieldState extends State<UsernameFormField> {
     });
 
     try {
-      String? result = await accountService.checkUsernameExists(username);
+      if((widget.ignoreUsername != null) && (widget.ignoreUsername != username)) {
+        String? result = await accountService.checkUsernameExists(username);
 
-      if (result == 'Username already exists') {
-        setState(() {
-          _usernameError = "L'identifiant $username existe déjà.";
-        });
-      } else if (result == 'Username is available') {
-        setState(() {
-          _usernameError = null;
-        });
+        if (result == 'Username already exists') {
+          setState(() {
+            _usernameError = "L'identifiant $username existe déjà.";
+          });
+        } else if (result == 'Username is available') {
+          setState(() {
+            _usernameError = null;
+          });
+        }
       }
     } catch (dioException) {
       if (kDebugMode) {

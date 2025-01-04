@@ -109,25 +109,44 @@ class AccountService {
       Response<dynamic> response = await tmpDio.get("$basePath/log");
       DataManager.credential = response.data;
       DataManager.isLogged = true;
-      getToken();
     } on DioException {
       return false;
     }
     return true;
   }
 
-  void getToken() async {
+  Future<String> getToken() async {
     if(!DataManager.isLogged) throw BadCredentialException();
 
     Dio tmpDio = Dio();
     tmpDio.options.headers['Authorization'] = DataManager.credential;
     try {
-      Response<dynamic> response =  await dio.get("$basePath/token");
+      Response<dynamic> response =  await tmpDio.get("$basePath/token");
       DataManager.token = response.data;
+      return response.data;
     } on DioException { //bad credential
       disconnect();
       throw BadCredentialException();
     }
+  }
+
+  Future<Account> getAccount() async {
+    Response<dynamic> response = await queryUseToken(
+        type: QueryEnum.get,
+        path: basePath
+    );
+    Account account = Account.fromJson(response.data);
+    DataManager.account = account;
+    return account;
+  }
+
+  Future<bool> logIn(String usernameOrMail, String password) async {
+    bool success = await getCredential(usernameOrMail, password);
+    if(success) {
+      await getToken();
+      getAccount();
+    }
+    return success;
   }
 
   Future<Response<dynamic>> queryUseToken({
@@ -148,7 +167,8 @@ class AccountService {
     required String path,
     var data
   }) async {
-    dio.options.headers['Authorization'] = DataManager.token;
+    String token = DataManager.token;
+    dio.options.headers['Authorization'] = token;
     if(type == QueryEnum.post) {
       return await dio.post(path, data: data);
     } else if(type == QueryEnum.put) {

@@ -28,7 +28,7 @@ class _ManagePageState extends State<ManagePage> {
                     DefaultElevatedButton(
                       title: "gérer mon compte",
                       onPressed: () {
-                        //TODO manage account
+                        Navigator.pushNamed(context, "/account",);
                       },
                     ),
                   DefaultElevatedButton(
