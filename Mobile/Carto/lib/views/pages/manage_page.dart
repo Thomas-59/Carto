@@ -2,8 +2,6 @@ import 'package:carto/views/widgets/buttons.dart';
 import 'package:carto/views/services/account_service.dart';
 import 'package:flutter/material.dart';
 
-import '../../data_manager.dart';
-
 class ManagePage extends StatefulWidget {
   const ManagePage({super.key});
 
@@ -23,38 +21,27 @@ class _ManagePageState extends State<ManagePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset("assets/logo/logo_purple.png"),
-                  !DataManager.isLogged ?
-                    const SizedBox() :
-                    DefaultElevatedButton(
-                      title: "gérer mon compte",
-                      onPressed: () {
-                        Navigator.pushNamed(context, "/account",);
-                      },
-                    ),
                   DefaultElevatedButton(
-                    title: DataManager.isLogged ?
-                      "Changer de compte" : "Se connecter",
+                    title: "gérer mon compte",
                     onPressed: () {
-                      if(DataManager.isLogged) {
-                        disconnect();
-                      }
+                      Navigator.pushNamed(context, "/account",);
+                    },
+                  ),
+                  DefaultElevatedButton(
+                    title: "Changer de compte",
+                    onPressed: () {
+                      _disconnect();
                       Navigator.pushNamed(context, "/login",);
                     },
                   ),
-                  !DataManager.isLogged ?
-                    const SizedBox() :
-                    DefaultElevatedButton(
-                      title: "Se déconnecter",
-                      onPressed: () {
-                        disconnect();
-                      },
-                    ),
-                  !DataManager.isLogged ?
-                    const SizedBox() :
+                  DefaultElevatedButton(
+                    title: "Se déconnecter",
+                    onPressed: _disconnect
+                  ),
                   RedElevatedButton(
-                      title: "Supprimer mon compte",
-                      onPressed: onDelete,
-                    ),
+                    title: "Supprimer mon compte",
+                    onPressed: _onDelete,
+                  ),
                   DefaultElevatedButton(
                     title: "Retour à la carte",
                     onPressed: () {
@@ -69,7 +56,7 @@ class _ManagePageState extends State<ManagePage> {
     );
   }
 
-  void onDelete() {
+  void _onDelete() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -96,7 +83,7 @@ class _ManagePageState extends State<ManagePage> {
                           onPressed: () {
                             setState(() {
                               AccountService().deleteAccount();
-                              Navigator.of(context).pop();
+                              Navigator.of(context)..pop()..pop();
                             });
                           },
                           width: 125,
@@ -120,9 +107,10 @@ class _ManagePageState extends State<ManagePage> {
     );//Navigator.pop(context);
   }
 
-  void disconnect() {
+  void _disconnect() {
     setState(() {
       AccountService().disconnect();
+      Navigator.pop(context);
     });
   }
 }

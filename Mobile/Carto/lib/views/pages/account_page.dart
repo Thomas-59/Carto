@@ -24,7 +24,7 @@ class _AccountPage extends State<AccountPage> {
         scrollDirection: Axis.vertical,
         children: <Widget>[
           Column(children: [
-            const Text(
+            const DefaultText(
               "Votre compte",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.5),
             ),
@@ -80,6 +80,12 @@ class _AccountPage extends State<AccountPage> {
     setState(() {
       AccountService accountService = AccountService();
       accountService.updateAccount(newAccount);
+      const snackBar = SnackBar(
+        content: Text('Modification effectuée !'),
+        duration: Duration(seconds: 3),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     });
   }
 
