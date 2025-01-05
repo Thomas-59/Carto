@@ -70,7 +70,7 @@ public class AccountService {
 
         accountRepository.save(accountEntity);
 
-        //new EmailSender().sendWelcomeEmail(accountBo.getEmailAddress(), accountBo.getUsername());
+        new EmailSender().sendWelcomeEmail(accountBo.getEmailAddress(), accountBo.getUsername());
 
         return accountEntity.getId();
     }
@@ -190,7 +190,8 @@ public class AccountService {
         }
 
         accountEntity = optionalAccountEntity.get();
-        accountEntity.setPassword(password);
+        String hashedPassword = passwordEncoder.encode(password);
+        accountEntity.setPassword(hashedPassword);
         accountRepository.save(accountEntity);
     }
 }

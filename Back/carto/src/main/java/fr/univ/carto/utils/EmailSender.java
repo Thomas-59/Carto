@@ -1,7 +1,15 @@
 package fr.univ.carto.utils;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 public class EmailSender {
 
@@ -16,13 +24,36 @@ public class EmailSender {
         props.put("mail.smtp.host", host);
         props.put("mail.smtp.port", "587");
 
-        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(email, appPassword);
+        TrustManager[] trustAllCerts = new TrustManager[]{
+            new X509TrustManager() {
+                public X509Certificate[] getAcceptedIssuers() {
+                    return new X509Certificate[0];
+                }
+
+                public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                }
+
+                public void checkServerTrusted(X509Certificate[] certs, String authType) throws CertificateException {
+                    for (X509Certificate cert : certs) {
+                        cert.checkValidity();
+                    }
+                }
             }
-        });
+        };
 
         try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            SSLSocketFactory sslSocketFactory = sc.getSocketFactory();
+
+            Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(email, appPassword);
+                }
+            });
+
+            session.getProperties().put("mail.smtp.ssl.socketFactory", sslSocketFactory);
+
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(email));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
@@ -30,13 +61,12 @@ public class EmailSender {
 
             if (html) {
                 message.setContent(content, "text/html; charset=utf-8");
-            } else  {
+            } else {
                 message.setContent(content, "text/plain; charset=utf-8");
             }
 
             Transport.send(message);
-
-        } catch (MessagingException e) {
+        } catch (MessagingException | NoSuchAlgorithmException | KeyManagementException e) {
             throw new RuntimeException(e);
         }
     }

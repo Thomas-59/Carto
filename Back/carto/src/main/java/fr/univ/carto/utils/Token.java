@@ -16,7 +16,7 @@ import fr.univ.carto.exception.BadTokenException;
 public class Token {
     private static final String SECRET_KEY_1 = "7Kt#9pLzX6vQo2bDy1GjF5sEwRmNcJhTtAqZ";
     private static final String SECRET_KEY_2 = "40KugkuhhlUGUF44dDI#V51EIVH345gfd7o0";
-    private static final String SECRET_KEY_3 = "hugu5RDcI9-fgj5ED#jiuFr57jZ21jfo09KJ";
+    private static final String SECRET_KEY_3 = "hugu5RDcI9#fgj5ED#jiuFr57jZ21jfo09KJ";
     private static final Algorithm algorithm_1 = Algorithm.HMAC256(SECRET_KEY_1);
     private static final Algorithm algorithm_2 = Algorithm.HMAC256(SECRET_KEY_2);
     private static final Algorithm algorithm_3 = Algorithm.HMAC256(SECRET_KEY_3);

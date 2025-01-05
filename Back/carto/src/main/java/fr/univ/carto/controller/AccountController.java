@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import org.springframework.web.servlet.ModelAndView;
 
-import static com.sun.activation.registries.LogSupport.log;
-
 @RestController
 @RequestMapping("/account")
 public class AccountController {
@@ -60,14 +58,12 @@ public class AccountController {
         }
 
         try {
-            log(token);
             long id = Token.decodedTokenForgottenPassword(token);
             accountService.updatePassword(password, id);
             modelAndView.setViewName("ResetPasswordSuccess");
             return modelAndView;
-        } catch (BadTokenException e) { //Passw0rd2
-            //modelAndView.setViewName("BadToken");
-            modelAndView.addObject("error", token);
+        } catch (BadTokenException  | TokenExpiredException e) {
+            modelAndView.setViewName("BadToken");
             return modelAndView;
         } catch (Exception e) {
             modelAndView.addObject("error", "Une erreur s’est produite lors de la réinitialisation de votre mot de passe. Veuillez réessayer.");

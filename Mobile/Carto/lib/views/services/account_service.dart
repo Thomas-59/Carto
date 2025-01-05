@@ -10,7 +10,6 @@ import 'package:flutter/foundation.dart';
 
 class AccountService {
   final Dio dio = Dio();
-  
   final String basePath = "https://carto.onrender.com/account";
 
   Future<String?> createAccount(Account account) async {
@@ -189,6 +188,6 @@ class AccountService {
   }
 
   void forgottenPassword(String email) {
-    dio.put("${basePath}forgottenPassword/$email");
+    dio.put("$basePath/forgottenPassword/$email");
   }
 }
