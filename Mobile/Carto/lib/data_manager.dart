@@ -10,7 +10,7 @@ class DataManager {
   static bool isLogged = false;
   static String credential = "";
   static String token = "";
-  static Account? account = Account.defaultAccount();
+  static Account? account;
   static List<Establishment> possessedEstablishment = List.empty();
 
   static late Future<List<Establishment>> establishmentsFuture;

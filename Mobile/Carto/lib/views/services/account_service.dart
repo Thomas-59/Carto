@@ -156,7 +156,7 @@ class AccountService {
     try {
       return _queryUseToken(type: type, path: path, data: data);
     } on DioException { //expired token
-      getToken();
+      await getToken();
       return _queryUseToken(type: type, path: path, data: data);
     }
   }
