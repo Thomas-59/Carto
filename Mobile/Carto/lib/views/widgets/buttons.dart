@@ -222,9 +222,10 @@ class BlueElevatedButton extends DefaultElevatedButton {
     super.width,
     super.validator,
     super.unValidColor,
-    validColor = Colors.blueAccent,
-    textStyle = const TextStyle(color: Colors.white),
-  });
+  }): super(
+    validColor: Colors.blueAccent,
+    textStyle: const TextStyle(color: Colors.white)
+  );
 }
 
 class RedElevatedButton extends DefaultElevatedButton {
@@ -235,8 +236,9 @@ class RedElevatedButton extends DefaultElevatedButton {
     super.height,
     super.width,
     super.validator,
-    super.unValidColor,
-    validColor = Colors.red,
-    textStyle = const TextStyle(color: Colors.white),
-  });
+    super.unValidColor
+  }): super(
+    validColor: Colors.red,
+    textStyle: const TextStyle(color: Colors.white)
+  );
 }
