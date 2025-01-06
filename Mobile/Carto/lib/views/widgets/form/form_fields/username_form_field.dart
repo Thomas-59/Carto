@@ -1,6 +1,6 @@
+import 'package:carto/viewmodel/account_view_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:carto/views/services/account_service.dart';
 
 class UsernameFormField extends StatefulWidget {
   const UsernameFormField({
@@ -28,7 +28,7 @@ class _UsernameFormFieldState extends State<UsernameFormField> {
   String? _usernameError;
   bool _isChecking = false;
 
-  AccountService accountService = AccountService();
+  AccountViewModel accountViewModel = AccountViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +91,7 @@ class _UsernameFormFieldState extends State<UsernameFormField> {
 
     try {
       if((widget.ignoreUsername != null) && (widget.ignoreUsername != username)) {
-        String? result = await accountService.checkUsernameExists(username);
+        String? result = await accountViewModel.checkUsernameExists(username);
 
         if (result == 'Username already exists') {
           setState(() {

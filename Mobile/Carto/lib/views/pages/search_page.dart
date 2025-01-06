@@ -1,7 +1,8 @@
+import 'package:carto/viewmodel/account_view_model.dart';
+import 'package:carto/viewmodel/establishment_view_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:carto/models/establishment.dart';
-import 'package:carto/views/services/establishment_service.dart';
 import 'package:carto/views/widgets/constants.dart';
 import 'package:carto/views/widgets/tags.dart';
 
@@ -16,7 +17,7 @@ class _SearchPageState extends State<SearchPage>
     with SingleTickerProviderStateMixin
 {
   final TextEditingController _searchController = TextEditingController();
-  final EstablishmentService _establishmentService = EstablishmentService();
+  final EstablishmentViewModel _establishmentViewModel = EstablishmentViewModel();
   List<Establishment> _allEstablishments = [];
   List<Establishment> _filteredEstablishments = [];
   TabController? _tabController;
@@ -52,7 +53,7 @@ class _SearchPageState extends State<SearchPage>
   void _loadEstablishments() async {
     try {
       List<Establishment> establishments =
-        await _establishmentService.getAllEstablishment();
+        await _establishmentViewModel.getAllEstablishment();
       setState(() {
         _allEstablishments = establishments;
       });

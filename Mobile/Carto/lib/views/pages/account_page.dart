@@ -1,7 +1,7 @@
 import 'package:carto/data_manager.dart';
 import 'package:carto/models/account.dart';
 import 'package:carto/models/establishment.dart';
-import 'package:carto/views/services/account_service.dart';
+import 'package:carto/viewmodel/account_view_model.dart';
 import 'package:carto/views/widgets/form/account_form.dart';
 import 'package:carto/views/widgets/text.dart';
 import 'package:carto/views/widgets/buttons.dart';
@@ -77,8 +77,8 @@ class _AccountPage extends State<AccountPage> {
 
   void updateAccount(Account newAccount) {
     setState(() {
-      AccountService accountService = AccountService();
-      accountService.updateAccount(newAccount);
+      AccountViewModel accountViewModel = AccountViewModel();
+      accountViewModel.updateAccount(newAccount);
       DataManager.account = newAccount;
       const snackBar = SnackBar(
         content: Text('Modification effectuée !'),

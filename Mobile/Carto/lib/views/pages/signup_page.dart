@@ -1,5 +1,5 @@
 import 'package:carto/models/account.dart';
-import 'package:carto/views/services/account_service.dart';
+import 'package:carto/viewmodel/account_view_model.dart';
 import 'package:carto/views/widgets/form/account_form.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -47,10 +47,10 @@ class _SignUpPage extends State<SignUpPage> {
   }
 
   void signUp(Account newAccount) async {
-    AccountService accountService = AccountService();
+    AccountViewModel accountViewModel = AccountViewModel();
     String? accountId;
 
-    String? id = await accountService.createAccount(newAccount);
+    String? id = await accountViewModel.createAccount(newAccount);
 
     if (id != null) {
       setState(() {

@@ -1,3 +1,4 @@
+import 'package:carto/services/location_service.dart';
 import 'package:carto/views/pages/establishement_details_page.dart';
 import 'package:carto/views/pages/account_page.dart';
 import 'package:carto/views/pages/forgotten_password_page.dart';
