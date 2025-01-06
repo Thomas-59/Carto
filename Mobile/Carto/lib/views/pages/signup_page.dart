@@ -35,7 +35,7 @@ class _SignUpPage extends State<SignUpPage> {
               padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, "/login",);
+                  Navigator.pop(context);
                 },
                 child: const Text("J'ai déjà un compte"),
               ),
@@ -61,7 +61,7 @@ class _SignUpPage extends State<SignUpPage> {
         print("Compte créé avec succès. ID du compte : $accountId");
       }
 
-      Navigator.pushNamed(context, '/home');
+      Navigator.pop(context);
     } else {
       if (kDebugMode) {
         print("Erreur lors de la création du compte");

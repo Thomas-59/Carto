@@ -70,13 +70,13 @@ class _FilterPageState extends State<FilterPage> {
                   ElevatedButton(
                     onPressed: () async {
                       if(isReset(filterMap)){
-                        DataManager.reset();
-                        Navigator.pushNamed(context, '/home');
+                        DataManager.resetEstablishmentsFuture();
+                        Navigator.pop(context);
                       }
                       else{
                         DataManager.appliedFilter(filterMap,
                             await DataManager.establishmentsOriginFuture);
-                        Navigator.pushNamed(context, '/home');
+                        Navigator.pop(context);
                       }
                     },
                     child: const Text('Appliquer'),

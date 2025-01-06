@@ -98,7 +98,7 @@ class _MailFormFieldState extends State<MailFormField> {
     });
 
     try {
-      if((widget.ignoreMail != null) & (widget.ignoreMail != emailAddress)) {
+      if((widget.ignoreMail == null) && (widget.ignoreMail != emailAddress)) {
         String? result = await accountViewModel.checkEmailExists(emailAddress);
 
         if (result == 'Email address already exists') {
