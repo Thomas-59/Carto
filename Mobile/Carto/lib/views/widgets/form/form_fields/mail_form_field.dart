@@ -97,8 +97,8 @@ class _MailFormFieldState extends State<MailFormField> {
       _isChecking = true;
     });
 
-    if((widget.ignoreMail != null) & (widget.ignoreMail != emailAddress)) {
-      try {
+    try {
+      if((widget.ignoreMail != null) & (widget.ignoreMail != emailAddress)) {
         String? result = await accountService.checkEmailExists(emailAddress);
 
         if (result == 'Email address already exists') {
@@ -110,21 +110,21 @@ class _MailFormFieldState extends State<MailFormField> {
             _mailError = null;
           });
         }
-      } catch (e) {
-        if (kDebugMode) {
-          print('Erreur lors de la vérification du mail : $e');
-        }
+      } else {
         setState(() {
-          _mailError = "Erreur lors de la vérification.";
-        });
-      } finally {
-        setState(() {
-          _isChecking = false;
+          _mailError = null;
         });
       }
-    } else {
+    } catch (e) {
+      if (kDebugMode) {
+        print('Erreur lors de la vérification du mail : $e');
+      }
       setState(() {
-        _mailError = null;
+        _mailError = "Erreur lors de la vérification.";
+      });
+    } finally {
+      setState(() {
+        _isChecking = false;
       });
     }
   }
