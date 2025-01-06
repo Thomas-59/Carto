@@ -2,6 +2,7 @@ import 'package:carto/data_manager.dart';
 import 'package:carto/views/services/account_service.dart';
 import 'package:carto/views/widgets/buttons.dart';
 import 'package:carto/views/widgets/form/form_fields/my_form_field.dart';
+import 'package:carto/views/widgets/form/form_fields/single_password_form_field.dart';
 import 'package:carto/views/widgets/form/other_fields/my_checkbox_list_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -63,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                       controller: mailOrPseudoController,
                       canBeEmpty: true,
                     ),
-                    MyFormField(
+                    SinglePasswordFormField(
                       label: "Mot de passe",
                       controller: passwordController,
                       canBeEmpty: true,
@@ -75,11 +76,11 @@ class _LoginPageState extends State<LoginPage> {
                           padding: const EdgeInsets.fromLTRB(12, 0, 8, 8),
                           child: GestureDetector(
                             onTap: () {
-                              //TODO Forgotten password
+                              Navigator.pushNamed(context, "/forgotten",);
                             },
                             child: const Text(
                                 "Mot de passe oublié ?",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                             ),
                           ),
                         ),
@@ -94,17 +95,9 @@ class _LoginPageState extends State<LoginPage> {
                         });
                       }
                     ),
-                    MyElevatedButton(
-                      color: _canLog ?
-                        Colors.blueAccent
-                        : Colors.grey,
+                    BlueElevatedButton(
                       onPressed: tryLog,
                       title: "Connexion",
-                      textStyle: TextStyle(
-                          color: _canLog ?
-                            Colors.white
-                            : Colors.white70
-                      ),
                     ),
 
                     Padding(
@@ -121,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                               },
                               child: const Text(
                                   "Inscris-toi !",
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                             ),
                           ),
@@ -144,16 +137,16 @@ class _LoginPageState extends State<LoginPage> {
 
   void tryLog() async {
     if(_canLog) {
-      bool isLog = await AccountService().getCredential(
+      AccountService accountService = AccountService();
+      bool isLog = await accountService.logIn(
           mailOrPseudoController.text,
           passwordController.text
       );
+
       if(isLog) {
-        String credential = mailOrPseudoController.text;
         if (_remember) {
-          DataManager.prefs.setString("credential", credential);
+          DataManager.prefs.setString("credential", DataManager.credential);
         }
-        DataManager.credential = credential;
         Navigator.pop(context);
       } else {
         showDialog(

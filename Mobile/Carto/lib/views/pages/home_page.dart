@@ -29,7 +29,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   Padding( padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
                     child: FloatingActionButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/manage',);
+                          DataManager.isLogged ?
+                            Navigator.pushNamed(context, '/manage',)
+                            : Navigator.pushNamed(context, '/login',);
                         },
                         child: DataManager.isLogged ?
                           const Icon(Icons.account_box) : //TODO change by user picture if logged

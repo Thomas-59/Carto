@@ -2,8 +2,6 @@ import 'package:carto/views/widgets/buttons.dart';
 import 'package:carto/views/services/account_service.dart';
 import 'package:flutter/material.dart';
 
-import '../../data_manager.dart';
-
 class ManagePage extends StatefulWidget {
   const ManagePage({super.key});
 
@@ -23,41 +21,28 @@ class _ManagePageState extends State<ManagePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset("assets/logo/logo_purple.png"),
-                  !DataManager.isLogged ?
-                    const SizedBox() :
-                    MyElevatedButton(
-                      title: "gérer mon compte",
-                      onPressed: () {
-                        //TODO manage account
-                      },
-                    ),
-                  MyElevatedButton(
-                    title: DataManager.isLogged ?
-                      "Changer de compte" : "Se connecter",
+                  DefaultElevatedButton(
+                    title: "gérer mon compte",
                     onPressed: () {
-                      if(DataManager.isLogged) {
-                        disconnect();
-                      }
+                      Navigator.pushNamed(context, "/account",);
+                    },
+                  ),
+                  DefaultElevatedButton(
+                    title: "Changer de compte",
+                    onPressed: () {
+                      _disconnect();
                       Navigator.pushNamed(context, "/login",);
                     },
                   ),
-                  !DataManager.isLogged ?
-                    const SizedBox() :
-                    MyElevatedButton(
-                      title: "Se déconnecter",
-                      onPressed: () {
-                        disconnect();
-                      },
-                    ),
-                  !DataManager.isLogged ?
-                    const SizedBox() :
-                  MyElevatedButton(
-                      color : Colors.red,
-                      title: "Supprimer mon compte",
-                      textStyle: const TextStyle(color: Colors.white),
-                      onPressed: onDelete,
-                    ),
-                  MyElevatedButton(
+                  DefaultElevatedButton(
+                    title: "Se déconnecter",
+                    onPressed: _disconnect
+                  ),
+                  RedElevatedButton(
+                    title: "Supprimer mon compte",
+                    onPressed: _onDelete,
+                  ),
+                  DefaultElevatedButton(
                     title: "Retour à la carte",
                     onPressed: () {
                       Navigator.pop(context);
@@ -71,7 +56,7 @@ class _ManagePageState extends State<ManagePage> {
     );
   }
 
-  void onDelete() {
+  void _onDelete() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -93,18 +78,17 @@ class _ManagePageState extends State<ManagePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        MyElevatedButton(
+                        RedElevatedButton(
                           title: "Suprimer",
                           onPressed: () {
                             setState(() {
                               AccountService().deleteAccount();
-                              Navigator.of(context).pop();
+                              Navigator.of(context)..pop()..pop();
                             });
                           },
-                          color: Colors.red,
                           width: 125,
                         ),
-                        MyElevatedButton(
+                        DefaultElevatedButton(
                           title: "Annuler",
                           onPressed: () {
                             Navigator.of(context).pop();
@@ -123,9 +107,10 @@ class _ManagePageState extends State<ManagePage> {
     );//Navigator.pop(context);
   }
 
-  void disconnect() {
+  void _disconnect() {
     setState(() {
       AccountService().disconnect();
+      Navigator.pop(context);
     });
   }
 }

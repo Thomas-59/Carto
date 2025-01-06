@@ -1,5 +1,6 @@
 package fr.univ.carto.repository.entity;
 
+import fr.univ.carto.service.bo.ManagerInformationBo;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,4 +19,15 @@ public class ManagerInformationEntity {
     private String firstname;
     private String phoneNumber;
     private String sirenNumber;
+
+    public ManagerInformationBo toBo() {
+        ManagerInformationBo managerInformationBo = new ManagerInformationBo();
+        managerInformationBo.setId(id);
+        managerInformationBo.setSurname(surname);
+        managerInformationBo.setFirstname(firstname);
+        managerInformationBo.setPhoneNumber(phoneNumber);
+        managerInformationBo.setSirenNumber(sirenNumber);
+
+        return managerInformationBo;
+    }
 }

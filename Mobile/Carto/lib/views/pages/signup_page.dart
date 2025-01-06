@@ -1,4 +1,7 @@
-import 'package:carto/views/widgets/form/signup_form.dart';
+import 'package:carto/models/account.dart';
+import 'package:carto/views/services/account_service.dart';
+import 'package:carto/views/widgets/form/account_form.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -21,9 +24,13 @@ class _SignUpPage extends State<SignUpPage> {
               "Inscription",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.5),
             ),
-            const Padding(
-                padding: EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-                child: SignUpForm()),
+            Padding(
+                padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                child: AccountForm(
+                  onConfirmation: signUp,
+                  buttonTitle: "S'inscrire",
+                )
+            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
               child: GestureDetector(
@@ -37,5 +44,28 @@ class _SignUpPage extends State<SignUpPage> {
         ],
       ),
     );
+  }
+
+  void signUp(Account newAccount) async {
+    AccountService accountService = AccountService();
+    String? accountId;
+
+    String? id = await accountService.createAccount(newAccount);
+
+    if (id != null) {
+      setState(() {
+        accountId = id;
+      });
+
+      if (kDebugMode) {
+        print("Compte créé avec succès. ID du compte : $accountId");
+      }
+
+      Navigator.pushNamed(context, '/home');
+    } else {
+      if (kDebugMode) {
+        print("Erreur lors de la création du compte");
+      }
+    }
   }
 }

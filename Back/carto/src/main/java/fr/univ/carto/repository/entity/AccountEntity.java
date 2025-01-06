@@ -48,6 +48,9 @@ public class AccountEntity {
         accountBo.setCreatedAt(Date.from(createdAt.toInstant()));
         accountBo.setPassword(password);
         accountBo.setRole(role);
+        if(managerInformation != null) {
+            accountBo.setManagerInformation(managerInformation.toBo());
+        }
         return accountBo;
     }
 }

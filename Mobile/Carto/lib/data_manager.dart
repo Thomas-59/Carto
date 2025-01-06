@@ -11,6 +11,7 @@ class DataManager {
   static String credential = "";
   static String token = "";
   static Account? account;
+  static List<Establishment> possessedEstablishment = List.empty();
 
   static late Future<List<Establishment>> establishmentsFuture;
   static late SharedPreferences prefs;
@@ -22,7 +23,8 @@ class DataManager {
       credential = prefs.getString("credential")!;
       if(credential.isNotEmpty) {
         isLogged = true;
-        AccountService().getToken();
+        await AccountService().getToken();
+        await AccountService().getAccount();
       }
     }
 

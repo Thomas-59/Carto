@@ -1,4 +1,6 @@
+import 'package:carto/views/pages/account_page.dart';
 import 'package:carto/views/pages/establishement_details_page.dart';
+import 'package:carto/views/pages/forgotten_password_page.dart';
 import 'package:carto/views/pages/home_page.dart';
 import 'package:carto/views/pages/search_page.dart';
 import 'package:carto/views/pages/signup_page.dart';
@@ -33,7 +35,9 @@ class CartoApp extends StatelessWidget {
         '/signup': (context) => const SignUpPage(),
         '/search': (context) => const SearchPage(),
         '/login' : (context) => const LoginPage(),
+        '/forgotten' : (context) => const ForgottenPasswordPage(),
         '/manage' : (context) => const ManagePage(),
+        '/account' : (context) => const AccountPage(),
       },
     );
   }
