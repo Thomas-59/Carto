@@ -1,5 +1,5 @@
-import 'package:carto/views/pages/account_page.dart';
 import 'package:carto/views/pages/establishement_details_page.dart';
+import 'package:carto/views/pages/account_page.dart';
 import 'package:carto/views/pages/forgotten_password_page.dart';
 import 'package:carto/views/pages/home_page.dart';
 import 'package:carto/views/pages/search_page.dart';
@@ -9,7 +9,6 @@ import 'package:carto/views/pages/login_page.dart';
 import 'package:carto/views/pages/manage_page.dart';
 import 'package:carto/views/pages/suggestion_page.dart';
 import 'package:carto/views/pages/thanking_page.dart';
-import 'package:carto/views/services/location_service.dart';
 import 'package:flutter/material.dart';
 
 class CartoApp extends StatelessWidget {

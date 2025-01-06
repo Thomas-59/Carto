@@ -1,10 +1,12 @@
 import 'package:carto/data_manager.dart';
-import 'package:carto/views/services/account_service.dart';
+import 'package:carto/viewmodel/account_view_model.dart';
 import 'package:carto/views/widgets/buttons.dart';
 import 'package:carto/views/widgets/form/form_fields/my_form_field.dart';
 import 'package:carto/views/widgets/form/form_fields/single_password_form_field.dart';
 import 'package:carto/views/widgets/form/other_fields/my_checkbox_list_tile.dart';
 import 'package:flutter/material.dart';
+
+import '../../services/account_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -137,12 +139,11 @@ class _LoginPageState extends State<LoginPage> {
 
   void tryLog() async {
     if(_canLog) {
-      AccountService accountService = AccountService();
+      AccountViewModel accountService = AccountViewModel();
       bool isLog = await accountService.logIn(
           mailOrPseudoController.text,
           passwordController.text
       );
-
       if(isLog) {
         if (_remember) {
           DataManager.prefs.setString("credential", DataManager.credential);

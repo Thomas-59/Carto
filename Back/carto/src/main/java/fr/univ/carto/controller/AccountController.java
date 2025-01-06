@@ -55,9 +55,7 @@ public class AccountController {
         if(!pattern.matcher(password).matches()) {
             modelAndView.addObject("error", "Le mot de passe doivent comporter au moins 7 caractères, une majuscule, une minuscule et un chiffre.");
             return modelAndView;
-        }
-
-        try {
+        }try {
             long id = Token.decodedTokenForgottenPassword(token);
             accountService.updatePassword(password, id);
             modelAndView.setViewName("ResetPasswordSuccess");

@@ -21,12 +21,14 @@ class _InitPageState extends State<InitPage> {
         builder: (context, constraints) {
           return Scaffold(
               body:
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset("assets/logo/logo_purple.png"),
-                  const CircularProgressIndicator(),
-                ],
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset("assets/logo/logo_purple.png"),
+                    const CircularProgressIndicator(),
+                  ],
+                ),
               ),
             backgroundColor: const Color.fromARGB(255, 216, 184, 253),
           );

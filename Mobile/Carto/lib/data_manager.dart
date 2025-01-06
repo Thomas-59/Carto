@@ -1,6 +1,6 @@
 import 'package:carto/models/account.dart';
-import 'package:carto/views/services/account_service.dart';
-import 'package:carto/views/services/establishment_service.dart';
+import 'package:carto/viewmodel/account_view_model.dart';
+import 'package:carto/viewmodel/establishment_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/establishment.dart';
@@ -23,13 +23,13 @@ class DataManager {
       credential = prefs.getString("credential")!;
       if(credential.isNotEmpty) {
         isLogged = true;
-        await AccountService().getToken();
-        await AccountService().getAccount();
+        AccountViewModel().getToken();
+        AccountViewModel().getAccount();
       }
     }
 
-    final EstablishmentService establishmentService = EstablishmentService();
-    establishmentsFuture = establishmentService.getAllEstablishment();
+    final EstablishmentViewModel establishmentViewModel = EstablishmentViewModel();
+    establishmentsFuture = establishmentViewModel.getAllEstablishment();
     return _singleton;
   }
 }

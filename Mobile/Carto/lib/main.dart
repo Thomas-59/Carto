@@ -1,5 +1,5 @@
 import 'package:carto/carto_app.dart';
-import 'package:carto/views/services/location_service.dart';
+import 'package:carto/services/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
