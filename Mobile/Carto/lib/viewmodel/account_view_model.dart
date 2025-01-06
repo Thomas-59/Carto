@@ -5,8 +5,8 @@ import '../services/account_service.dart';
 class AccountViewModel{
   AccountService accountService = AccountService();
 
-  void createAccount(Account account){
-    accountService.createAccount(account);
+  Future<String?> createAccount(Account account){
+    return accountService.createAccount(account);
   }
 
   void updateAccount(Account account){
@@ -21,8 +21,28 @@ class AccountViewModel{
     return accountService.getCredential(usernameOrMail, password);
   }
 
-  void getToken(){
-    accountService.getToken();
+  Future<String> getToken(){
+    return accountService.getToken();
+  }
+
+  void forgottenPassword(String email) {
+    accountService.forgottenPassword(email);
+  }
+
+  Future<bool> logIn(String usernameOrMail, String password) {
+    return accountService.logIn(usernameOrMail, password);
+  }
+
+  Future<String> checkEmailExists(String emailAddress) {
+    return accountService.checkEmailExists(emailAddress);
+  }
+
+  Future<String> checkUsernameExists(String username) {
+    return accountService.checkUsernameExists(username);
+  }
+
+  Future<Account> getAccount() {
+    return accountService.getAccount();
   }
 
 

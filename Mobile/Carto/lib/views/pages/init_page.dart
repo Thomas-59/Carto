@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:carto/models/establishment.dart';
 import 'package:flutter/material.dart';
 
 import '../../data_manager.dart';

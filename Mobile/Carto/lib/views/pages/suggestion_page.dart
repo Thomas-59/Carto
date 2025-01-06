@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:carto/enum/price_enum.dart';
@@ -110,7 +111,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
         fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
       );
 
-      final publicUrl = supabase.storage.from('CartoBucket').getPublicUrl(filePath);
+      final publicUrl =
+        supabase.storage.from('CartoBucket').getPublicUrl(filePath);
 
       setState(() {
         _uploadedImageUrl = publicUrl;

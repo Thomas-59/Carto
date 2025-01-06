@@ -36,6 +36,10 @@ public class AccountEntity {
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private Role role;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "manager_information_id")
+    private ManagerInformationEntity managerInformation;
+
     public AccountBo toBo() {
         AccountBo accountBo = new AccountBo();
         accountBo.setId(id);
@@ -44,6 +48,9 @@ public class AccountEntity {
         accountBo.setCreatedAt(Date.from(createdAt.toInstant()));
         accountBo.setPassword(password);
         accountBo.setRole(role);
+        if(managerInformation != null) {
+            accountBo.setManagerInformation(managerInformation.toBo());
+        }
         return accountBo;
     }
 }

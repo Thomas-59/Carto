@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import '../../services/location_service.dart';
 import '../../models/establishment.dart';
+import 'buttons.dart';
 
 class MapWidget extends StatefulWidget {
   static final GlobalKey<_MapWidgetState> mapKey = GlobalKey<_MapWidgetState>();
@@ -174,7 +175,7 @@ class _MapWidgetState extends State<MapWidget> {
             ),
           ),
           Positioned(
-            top: 60,
+            top: 70,
             right: 0,
             child: FloatingActionButton(
               onPressed: () {
@@ -185,6 +186,18 @@ class _MapWidgetState extends State<MapWidget> {
               },
               child: const Icon(Icons.display_settings),
             ),
+          ),
+          Positioned(
+            top: 70,
+            left: 30,
+            child: BlueSquareIconButton(
+                icon: Icons.search,
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/search',
+                  );
+                }),
           ),
         ],
       ),

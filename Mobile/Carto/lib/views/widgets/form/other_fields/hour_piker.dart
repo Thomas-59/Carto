@@ -61,6 +61,8 @@ class _HourPikerState extends State<HourPiker> {
                     if (pickedTime != null && pickedTime != _openingTime) {
                       setState(() {
                         _openingTime = pickedTime;
+                        widget.onTimeChange(<TimeOfDay> [_openingTime,
+                          _closingTime]);
                       });
                     }
                   },

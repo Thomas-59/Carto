@@ -15,6 +15,7 @@ class DataManager {
   static String token = "";
   static Account? account;
   static HashMap<String, bool> filterMap = HashMap();
+  static List<Establishment> possessedEstablishment = List.empty();
 
 
   static late Future<List<Establishment>> establishmentsFuture;
@@ -29,6 +30,7 @@ class DataManager {
       if(credential.isNotEmpty) {
         isLogged = true;
         AccountViewModel().getToken();
+        AccountViewModel().getAccount();
       }
     }
 
