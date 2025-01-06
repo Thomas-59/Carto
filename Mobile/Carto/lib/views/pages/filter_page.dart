@@ -64,23 +64,29 @@ class _FilterPageState extends State<FilterPage> {
                     );
                   }).toList(),
                 ),
-              ElevatedButton(
-                  onPressed: () async {
-                    if(isReset(filterMap)){
-                      DataManager.reset();
-                      Navigator.pushNamed(context, '/home');
-                    }
-                    else{
+              Padding(padding: EdgeInsets.all(5.0),
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      if(isReset(filterMap)){
+                        DataManager.reset();
+                        Navigator.pushNamed(context, '/home');
+                      }
+                      else{
                         DataManager.appliedFilter(filterMap,
                             await DataManager.establishmentsOriginFuture);
                         Navigator.pushNamed(context, '/home');
                       }
                     },
-                  child: const Text('Appliquer')
-              ),
-                ElevatedButton(onPressed: () {
-                  resetMap(filterMap);
-                }, child: const Text('Réinitialiser'))
+                    child: const Text('Appliquer'),
+                    style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.greenAccent)),
+                  ),
+                  ElevatedButton(onPressed: () {
+                    resetMap(filterMap);
+                  }, child: const Text('Réinitialiser'))
+                ],
+              ),)
               ],
             ),
           ),
