@@ -1,6 +1,7 @@
 import 'package:carto/cubit/location_cubit.dart';
 import 'package:carto/services/location_service.dart';
 import 'package:carto/views/pages/establishement_details_page.dart';
+import 'package:carto/views/pages/filter_page.dart';
 import 'package:carto/views/pages/home_page.dart';
 import 'package:carto/views/pages/init_page.dart';
 import 'package:carto/views/pages/login_page.dart';
@@ -34,6 +35,7 @@ class CartoApp extends StatelessWidget {
             '/establishment_detail' : (context) => const EstablishmentDisplayPage(),
             '/login' : (context) => const LoginPage(),
             '/manage' : (context) => const ManagePage(),
+            '/filter' : (context)=> const FilterPage(),
           }
         ),
     );

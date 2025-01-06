@@ -173,6 +173,19 @@ class _MapWidgetState extends State<MapWidget> {
               child: const Icon(Icons.add),
             ),
           ),
+          Positioned(
+            top: 60,
+            right: 0,
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/filter',
+                );
+              },
+              child: const Icon(Icons.display_settings),
+            ),
+          ),
         ],
       ),
     );
