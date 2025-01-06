@@ -77,7 +77,6 @@ class _MapWidgetState extends State<MapWidget> {
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return const Center(child: Text('Aucun établissement trouvé'));
               }
-
               // Marker for establishments
               List<Marker> markers = snapshot.data!.map((establishment) {
                 return Marker(
@@ -172,6 +171,19 @@ class _MapWidgetState extends State<MapWidget> {
                 );
               },
               child: const Icon(Icons.add),
+            ),
+          ),
+          Positioned(
+            top: 70,
+            right: 0,
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/filter',
+                );
+              },
+              child: const Icon(Icons.display_settings),
             ),
           ),
           Positioned(
