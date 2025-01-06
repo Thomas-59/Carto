@@ -3,7 +3,8 @@ import 'package:carto/views/services/account_service.dart';
 import 'package:carto/views/widgets/constants.dart';
 import 'package:carto/views/widgets/form/form_fields/mail_form_field.dart';
 import 'package:carto/views/widgets/form/form_fields/manager_information_form_field.dart';
-import 'package:carto/views/widgets/form/form_fields/password_form_field.dart';
+import 'package:carto/views/widgets/form/form_fields/double_password_form_field.dart';
+import 'package:carto/views/widgets/form/other_fields/my_checkbox_list_tile.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -129,8 +130,8 @@ class AccountFormState extends State<AccountForm> {
               confirmationController: _passwordVerifyController,
               canBeEmpty: widget.onUpdate,
           ),
-          CheckboxListTile(
-            title: const Text("Êtes-vous un gérant d'établissement ?"),
+          MyCheckboxListTile(
+            title: "Êtes-vous un gérant d'établissement ?",
             value: _showManagerFields,
             onChanged: (bool? value) {
               setState(() {
@@ -143,7 +144,6 @@ class AccountFormState extends State<AccountForm> {
                 print("Formulaire valide : $_isFormValid");
               }
             },
-            controlAffinity: ListTileControlAffinity.leading,
           ),
           if (_showManagerFields) ...[
             StringFormField(label: "Nom", controller: _surnameController),

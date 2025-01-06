@@ -39,13 +39,6 @@ class _MyCheckboxListTileState extends State<MyCheckboxListTile> {
       ),
       title: Text(widget.title),
       focusColor: Colors.white,
-
-        /*WidgetStateProperty.resolveWith((states) {
-          if (!states.contains(WidgetState.selected)) {
-            return Colors.red;
-          }
-          return null;
-        }),*/
     );
   }
 }

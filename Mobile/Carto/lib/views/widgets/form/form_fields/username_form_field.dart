@@ -48,6 +48,7 @@ class _UsernameFormFieldState extends State<UsernameFormField> {
           suffixIcon: _isChecking ? const CircularProgressIndicator() : null,
           errorText: _usernameError,
           fillColor: Colors.white,
+          filled: true,
         ),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: _validator,

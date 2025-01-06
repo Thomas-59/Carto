@@ -2,6 +2,7 @@ import 'package:carto/data_manager.dart';
 import 'package:carto/views/services/account_service.dart';
 import 'package:carto/views/widgets/buttons.dart';
 import 'package:carto/views/widgets/form/form_fields/my_form_field.dart';
+import 'package:carto/views/widgets/form/form_fields/single_password_form_field.dart';
 import 'package:carto/views/widgets/form/other_fields/my_checkbox_list_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -63,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                       controller: mailOrPseudoController,
                       canBeEmpty: true,
                     ),
-                    MyFormField(
+                    SinglePasswordFormField(
                       label: "Mot de passe",
                       controller: passwordController,
                       canBeEmpty: true,
@@ -94,17 +95,9 @@ class _LoginPageState extends State<LoginPage> {
                         });
                       }
                     ),
-                    DefaultElevatedButton(
-                      validColor: _canLog ?
-                        Colors.blueAccent
-                        : Colors.grey,
+                    BlueElevatedButton(
                       onPressed: tryLog,
                       title: "Connexion",
-                      textStyle: TextStyle(
-                          color: _canLog ?
-                            Colors.white
-                            : Colors.white70
-                      ),
                     ),
 
                     Padding(

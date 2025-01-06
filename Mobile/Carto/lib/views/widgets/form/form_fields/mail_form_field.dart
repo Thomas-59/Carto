@@ -48,6 +48,7 @@ class _MailFormFieldState extends State<MailFormField> {
           suffixIcon: _isChecking ? const CircularProgressIndicator() : null,
           errorText: _mailError,
           fillColor: Colors.white,
+          filled: true,
         ),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: _validator,
