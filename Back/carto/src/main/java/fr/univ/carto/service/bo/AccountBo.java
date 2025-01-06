@@ -1,6 +1,5 @@
 package fr.univ.carto.service.bo;
 
-import fr.univ.carto.controller.dto.ManagerInformationDto;
 import fr.univ.carto.controller.dto.Role;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,5 +21,5 @@ public class AccountBo {
 
     private Role role;
 
-    private ManagerInformationDto managerInformation;
+    private ManagerInformationBo managerInformation;
 }

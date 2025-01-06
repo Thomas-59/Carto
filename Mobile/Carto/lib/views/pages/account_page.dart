@@ -37,9 +37,8 @@ class _AccountPage extends State<AccountPage> {
                 onUpdate: true,
               )
             ),
-            DataManager.account!.managerInformation == null ?
-              const SizedBox()
-              : Padding(
+            if(DataManager.account!.managerInformation != null)
+              Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
@@ -80,6 +79,7 @@ class _AccountPage extends State<AccountPage> {
     setState(() {
       AccountService accountService = AccountService();
       accountService.updateAccount(newAccount);
+      DataManager.account = newAccount;
       const snackBar = SnackBar(
         content: Text('Modification effectuée !'),
         duration: Duration(seconds: 3),

@@ -49,6 +49,8 @@ class AccountFormState extends State<AccountForm> {
   void initState() {
     Account initAccount = widget.account ?? Account.defaultAccount();
 
+    _showManagerFields = initAccount.managerInformation != null;
+
     _usernameController = TextEditingController(text: initAccount.username);
     _passwordController = TextEditingController(text: initAccount.password);
     _passwordVerifyController = TextEditingController(text: initAccount.password);
