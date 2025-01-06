@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.regex.Pattern;
 
+import fr.univ.carto.service.bo.ManagerInformationBo;
 import fr.univ.carto.utils.Token;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -146,7 +147,13 @@ public class AccountController {
         account.setRole(accountRequest.getRole());
 
         if (account.getRole() == Role.MANAGER && accountRequest.getManagerInformation() != null) {
-            account.setManagerInformation(accountRequest.getManagerInformation());
+            ManagerInformationBo managerInformationBo = new ManagerInformationBo();
+            managerInformationBo.setId(accountRequest.getManagerInformation().getId());
+            managerInformationBo.setSurname(accountRequest.getManagerInformation().getSurname());
+            managerInformationBo.setFirstname(accountRequest.getManagerInformation().getFirstname());
+            managerInformationBo.setSirenNumber(accountRequest.getManagerInformation().getSirenNumber());
+            managerInformationBo.setPhoneNumber(accountRequest.getManagerInformation().getPhoneNumber());
+            account.setManagerInformation(managerInformationBo);
         }
         return account;
     }
