@@ -1,5 +1,4 @@
 import 'package:carto/models/account.dart';
-import 'package:carto/views/services/account_service.dart';
 import 'package:carto/views/widgets/constants.dart';
 import 'package:carto/views/widgets/form/form_fields/mail_form_field.dart';
 import 'package:carto/views/widgets/form/form_fields/manager_information_form_field.dart';
@@ -8,6 +7,7 @@ import 'package:carto/views/widgets/form/other_fields/my_checkbox_list_tile.dart
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../viewmodel/account_view_model.dart';
 import 'form_fields/username_form_field.dart';
 
 class AccountForm extends StatefulWidget {
@@ -32,7 +32,7 @@ class AccountForm extends StatefulWidget {
 
 class AccountFormState extends State<AccountForm> {
   final _formKey = GlobalKey<FormState>();
-  final AccountService accountService = AccountService();
+  final AccountViewModel accountViewModel = AccountViewModel();
   bool _showManagerFields = false;
   bool _isFormValid = false;
 

@@ -1,4 +1,4 @@
-import 'package:carto/views/services/account_service.dart';
+import 'package:carto/viewmodel/account_view_model.dart';
 import 'package:carto/views/widgets/buttons.dart';
 import 'package:carto/views/widgets/form/form_fields/my_form_field_mail.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class ForgottenPasswordPage extends StatefulWidget {
 class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
   final TextEditingController _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final AccountService accountService = AccountService();
+  final AccountViewModel accountViewModel = AccountViewModel();
   bool _isFormValid = false;
 
   @override
@@ -73,7 +73,7 @@ class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
   }
 
   void _sendMail() {
-    accountService.forgottenPassword(_emailController.text);
+    accountViewModel.forgottenPassword(_emailController.text);
     Navigator.pop(context);
   }
 }

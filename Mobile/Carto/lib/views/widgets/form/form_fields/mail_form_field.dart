@@ -1,4 +1,4 @@
-import 'package:carto/views/services/account_service.dart';
+import 'package:carto/viewmodel/account_view_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +28,7 @@ class _MailFormFieldState extends State<MailFormField> {
   String? _mailError;
   bool _isChecking = false;
 
-  AccountService accountService = AccountService();
+  AccountViewModel accountViewModel = AccountViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -98,8 +98,8 @@ class _MailFormFieldState extends State<MailFormField> {
     });
 
     try {
-      if((widget.ignoreMail != null) & (widget.ignoreMail != emailAddress)) {
-        String? result = await accountService.checkEmailExists(emailAddress);
+      if((widget.ignoreMail == null) && (widget.ignoreMail != emailAddress)) {
+        String? result = await accountViewModel.checkEmailExists(emailAddress);
 
         if (result == 'Email address already exists') {
           setState(() {

@@ -1,16 +1,17 @@
 import 'dart:typed_data';
 
 import 'package:carto/enum/price_enum.dart';
-import 'package:carto/models/establishment.dart';
-import 'package:carto/views/services/establishment_service.dart';
-import 'package:carto/views/widgets/constants.dart';
+import 'package:carto/viewmodel/establishment_view_model.dart';
 import 'package:carto/views/widgets/form/games_form.dart';
 import 'package:carto/views/widgets/form/contact_form.dart';
 import 'package:carto/views/widgets/form/general_form.dart';
 import 'package:carto/views/widgets/form/opening_hour_form.dart';
+import 'package:carto/views/widgets/constants.dart';
 
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../services/establishment_service.dart';
 
 class SuggestionPage extends StatefulWidget {
   const SuggestionPage({super.key});
@@ -45,6 +46,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
   late List<int> _gameNumbers;
 
   // Service
+  EstablishmentViewModel establishmentViewModel = EstablishmentViewModel();
   EstablishmentService establishmentService = EstablishmentService();
 
   //image
@@ -127,23 +129,6 @@ class _SuggestionPageState extends State<SuggestionPage> {
     }
   }
 
-  String convertToString(TimeOfDay time){
-    String minRes;
-    String hourRes;
-    if(time.hour<10){
-      hourRes = "0${time.hour}";
-    }else{
-      hourRes = "${time.hour}";
-    }
-    if(time.minute<10){
-      minRes = "0${time.minute}";
-    }else{
-      minRes = "${time.minute}";
-    }
-
-    return "$hourRes:$minRes:00";
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,80 +175,37 @@ class _SuggestionPageState extends State<SuggestionPage> {
                    ),
                     child: const Text("SUGGÉRER", style: blueTextBold16,),
                     onPressed: () async {
-                      List<DayOfTheWeekElemDto> days = [];
-                      days.add(DayOfTheWeekElemDto(DayOfTheWeek.monday,
-                        convertToString(_weekOpeningHour[0][0]),
-                        convertToString(_weekOpeningHour[0][1]), !_weekOpening[0])
-                      );
-                      days.add(DayOfTheWeekElemDto(DayOfTheWeek.tuesday,
-                        convertToString(_weekOpeningHour[1][0]),
-                        convertToString(_weekOpeningHour[1][1]), !_weekOpening[1])
-                      );
-                      days.add(DayOfTheWeekElemDto(DayOfTheWeek.wednesday,
-                        convertToString(_weekOpeningHour[2][0]),
-                        convertToString(_weekOpeningHour[2][1]), !_weekOpening[2])
-                      );
-                      days.add(DayOfTheWeekElemDto(DayOfTheWeek.thursday,
-                        convertToString(_weekOpeningHour[3][0]),
-                        convertToString(_weekOpeningHour[3][1]), !_weekOpening[3])
-                      );
-                      days.add(DayOfTheWeekElemDto(DayOfTheWeek.friday,
-                        convertToString(_weekOpeningHour[4][0]),
-                        convertToString(_weekOpeningHour[4][1]), !_weekOpening[4])
-                      );
-                      days.add(DayOfTheWeekElemDto(DayOfTheWeek.saturday,
-                        convertToString(_weekOpeningHour[5][0]),
-                        convertToString(_weekOpeningHour[5][1]), !_weekOpening[5])
-                      );
-                      days.add(DayOfTheWeekElemDto(DayOfTheWeek.sunday,
-                        convertToString(_weekOpeningHour[6][0]),
-                        convertToString(_weekOpeningHour[6][1]), !_weekOpening[6])
-                      );
 
-                      List<GameTypeDto> games=[];
-                      int i =0;
-                      while(i<_gameTitles.length-1){
-                        if(_gameNumbers[i]>0){
-                          games.add(
-                            GameTypeDto(
-                              GameType.fromString(_gameTitles[i]),
-                              _gameNumbers[i]
-                            )
-                          );
-                        }
-                        i++;
-                      }
-                      Establishment establishment = Establishment(
-                        null,
-                        _name,
-                        _address,
-                        _site,
-                        _description,
-                        _nearTransport,
-                        _pmrAccess,
-                        Price.fromString(_gamePrice.value),
-                        _mail,
-                        _phoneNumber,
-                        double.parse(_longitude),
-                        double.parse(_latitude),
-                        days,
-                        games,
+                    if(formIsValid()){
+                      //BigInt id = await establishmentService.createEstablishment(establishment);
+                      BigInt id = await establishmentViewModel.createEstablishment(
+                          _name,
+                          _address,
+                          _site,
+                          _description,
+                          _nearTransport,
+                          _pmrAccess,
+                          _gamePrice,
+                          _mail,
+                          _phoneNumber,
+                          _longitude,
+                          _latitude,
+                          _weekOpeningHour,
+                          _weekOpening,
+                          _gameTitles,
+                          _gameNumbers
                       );
-                      if(formIsValid()){
-                        BigInt id = await
-                          establishmentService.createEstablishment(establishment);
-                        _uploadImage(id);
-                        Navigator.pushNamed(context, '/thank',);
-                      }
-                    },
-                  )
-                ),
-              ],
-            ),
-          ]
-        ),
+                      _uploadImage(id);
+                      Navigator.pushNamed(context, '/thank',);
+                    }
+                  },
+                )
+              ),
+            ],
+          ),
+        ]
       )
-    );
+    ));
   }
 
   bool formIsValid() {
