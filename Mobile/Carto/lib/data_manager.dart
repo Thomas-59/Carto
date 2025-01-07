@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:math';
 
 import 'package:carto/models/account.dart';
 import 'package:carto/viewmodel/account_view_model.dart';
@@ -66,7 +65,7 @@ class DataManager {
     establishmentsFuture=Future.value(filtered);
   }
 
-  static void reset(){
+  static void resetEstablishmentsFuture(){
     establishmentsFuture=establishmentsOriginFuture;
   }
 
