@@ -2,6 +2,7 @@ import 'package:carto/models/establishment.dart';
 import 'package:carto/views/widgets/accordeons.dart';
 import 'package:carto/views/widgets/buttons.dart';
 import 'package:carto/utils/intent_utils/intent_utils.dart';
+import 'package:carto/views/widgets/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:carto/views/widgets/tags.dart';
 import 'package:flutter/material.dart';
@@ -109,7 +110,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                   }),
               actions: [
                 WhiteSquareIconInvertedButton(
-                    icon: Icons.reply_outlined,
+                    icon: Icons.map,
                     onPressed: () {
                       IntentUtils.launchNavigation(context, establishment);
                     }),
@@ -142,7 +143,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                                 establishment.address,
                                 style: const TextStyle(
                                   fontSize: 16,
-                                  color: Colors.black,
+                                  color: black,
                                 ),
                               ),
                               GameTagsList(

@@ -1,4 +1,6 @@
 import 'package:carto/data_manager.dart';
+import 'package:carto/views/widgets/constants.dart';
+import 'package:carto/views/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/map_widget.dart';
@@ -37,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return Scaffold(
-          backgroundColor: const Color.fromARGB(255, 216, 184, 253),
+          backgroundColor: purple,
           body: _firstLaunch ? _initScreen(context) : _mapScreen(context),
         );
       },
@@ -66,15 +68,14 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Padding( padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                child: FloatingActionButton(
+                child: BlueSquareIconButton(
                   onPressed: () {
                     DataManager.isLogged ?
                     Navigator.pushNamed(context, '/manage',)
                         : Navigator.pushNamed(context, '/login',);
                   },
-                  child: DataManager.isLogged ?
-                  const Icon(Icons.account_box) : //TODO change by user picture if logged
-                  const Icon(Icons.account_box),
+                  icon: DataManager.isLogged ? Icons.account_box : //TODO change by user picture if logged
+                    Icons.account_box
                 )
             ),
           ],

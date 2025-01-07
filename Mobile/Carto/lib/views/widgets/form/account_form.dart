@@ -1,5 +1,4 @@
 import 'package:carto/models/account.dart';
-import 'package:carto/viewmodel/account_view_model.dart';
 import 'package:carto/views/widgets/constants.dart';
 import 'package:carto/views/widgets/form/form_fields/mail_form_field.dart';
 import 'package:carto/views/widgets/form/form_fields/manager_information_form_field.dart';
@@ -8,6 +7,7 @@ import 'package:carto/views/widgets/form/other_fields/my_checkbox_list_tile.dart
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../viewmodel/account_view_model.dart';
 import 'form_fields/username_form_field.dart';
 
 class AccountForm extends StatefulWidget {
@@ -134,6 +134,7 @@ class AccountFormState extends State<AccountForm> {
           ),
           MyCheckboxListTile(
             title: "Êtes-vous un gérant d'établissement ?",
+            textColor: black,
             value: _showManagerFields,
             onChanged: (bool? value) {
               setState(() {
@@ -168,7 +169,7 @@ class AccountFormState extends State<AccountForm> {
                   : null,
               child: Text(
                 widget.buttonTitle,
-                style: const TextStyle(color: Colors.white)
+                style: const TextStyle(color: white)
               )
             ),
           ),

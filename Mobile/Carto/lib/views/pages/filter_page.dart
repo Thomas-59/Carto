@@ -3,6 +3,8 @@ import 'package:carto/data_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:carto/views/widgets/filter_tag.dart';
 
+import '../widgets/constants.dart';
+
 class FilterPage extends StatefulWidget {
   const FilterPage({super.key});
 
@@ -29,20 +31,19 @@ class _FilterPageState extends State<FilterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("TES FILTRES"),
+        backgroundColor: blue,
+        titleTextStyle: appBarTextStyle,
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: white),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const Text(
-                  'TES FILTRES',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF005CFF),
-                  ),
-                ),
                 const SizedBox(height: 16.0),
                 const Text(
                   'Jeux',

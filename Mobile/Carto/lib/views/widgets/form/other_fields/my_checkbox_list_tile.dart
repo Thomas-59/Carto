@@ -4,12 +4,14 @@ class MyCheckboxListTile extends StatefulWidget {
   final bool value;
   final ValueChanged<bool?> onChanged;
   final String title;
+  final Color textColor;
 
   const MyCheckboxListTile({
     super.key,
     required this.value,
     required this.onChanged,
     required this.title,
+    required this.textColor
   });
 
   @override
@@ -37,7 +39,7 @@ class _MyCheckboxListTileState extends State<MyCheckboxListTile> {
           },
         ),
       ),
-      title: Text(widget.title),
+      title: Text(widget.title, style: TextStyle(color: widget.textColor),),
       focusColor: Colors.white,
     );
   }

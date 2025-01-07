@@ -1,3 +1,4 @@
+import 'package:carto/views/widgets/constants.dart';
 import 'package:flutter/material.dart';
 
 class HourPiker extends StatefulWidget {
@@ -40,7 +41,7 @@ class _HourPikerState extends State<HourPiker> {
     return Padding( padding: const EdgeInsets.all(8.0),
       child : Column(
         children: <Widget>[
-          Text(widget.text),
+          Text(widget.text, style: blueTextBold16,),
           Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
@@ -52,6 +53,7 @@ class _HourPikerState extends State<HourPiker> {
             child:Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                Text("de"),
                 InkWell(
                   onTap: () async {
                     final TimeOfDay? pickedTime = await showTimePicker(
@@ -68,6 +70,7 @@ class _HourPikerState extends State<HourPiker> {
                   },
                   child: _setTime(_openingTime.hour, _openingTime.minute),
                 ),
+                Text("à"),
                 InkWell(
                   onTap: () async {
                     final TimeOfDay? pickedTime = await showTimePicker(

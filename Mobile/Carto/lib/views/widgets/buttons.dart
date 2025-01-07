@@ -24,7 +24,7 @@ class WhiteSquareIconButton extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: white,
             borderRadius: BorderRadius.circular(12.0),
             boxShadow: [
               BoxShadow(
@@ -36,7 +36,7 @@ class WhiteSquareIconButton extends StatelessWidget {
           ),
           child: Icon(
             icon,
-            color: const Color(0xFF005CFF),
+            color: blue,
           ),
         ),
       ),
@@ -62,8 +62,8 @@ class BlueSquareIconButton extends StatelessWidget {
         onTap: onPressed,
         borderRadius: BorderRadius.circular(12.0),
         child: Container(
-          width: 50,
-          height: 50,
+          width: 55,
+          height: 55,
           decoration: BoxDecoration(
             color: blue,
             borderRadius: BorderRadius.circular(12.0),
@@ -228,6 +228,21 @@ class BlueElevatedButton extends DefaultElevatedButton {
   );
 }
 
+class WhiteElevatedButton extends DefaultElevatedButton {
+  const WhiteElevatedButton({
+    super.key,
+    required super.title,
+    required super.onPressed,
+    super.height,
+    super.width,
+    super.validator,
+    super.unValidColor,
+  }): super(
+      validColor: white,
+      textStyle: blueTextBold16
+  );
+}
+
 class RedElevatedButton extends DefaultElevatedButton {
   const RedElevatedButton({
     super.key,
@@ -240,5 +255,93 @@ class RedElevatedButton extends DefaultElevatedButton {
   }): super(
     validColor: Colors.red,
     textStyle: const TextStyle(color: Colors.white)
+  );
+}
+
+class LargeDefaultElevatedButton extends StatelessWidget {
+  final String title;
+  final VoidCallback onPressed;
+  final double height;
+  final double width;
+  final Color validColor;
+  final Color unValidColor;
+  final TextStyle textStyle;
+  final bool validator;
+
+  const LargeDefaultElevatedButton({
+    super.key,
+    required this.title,
+    required this.onPressed,
+    this.width = 200,
+    this.height = 20,
+    this.validColor = white,
+    this.unValidColor = Colors.grey,
+    this.textStyle = const TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+      color: blue
+    ),
+    this.validator = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return  Padding( padding: const EdgeInsets.all(8.0),
+      child : FractionallySizedBox(
+        alignment: Alignment.center,
+        widthFactor: 0.8,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              backgroundColor: validator ? validColor : unValidColor,
+              fixedSize: Size(width, height)
+          ),
+          onPressed: validator ?
+          onPressed
+              : null,
+          child: Text(
+            title,
+            style: textStyle,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class LargeBlueElevatedButton extends LargeDefaultElevatedButton {
+  const LargeBlueElevatedButton({
+    super.key,
+    required super.title,
+    required super.onPressed,
+    super.height,
+    super.width,
+    super.validator,
+    super.unValidColor,
+  }): super(
+      validColor: blue,
+      textStyle: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: white
+      ),
+  );
+}
+
+class LargeRedElevatedButton extends LargeDefaultElevatedButton {
+  const LargeRedElevatedButton({
+    super.key,
+    required super.title,
+    required super.onPressed,
+    super.height,
+    super.width,
+    super.validator,
+    super.unValidColor
+  }): super(
+      validColor: red,
+      textStyle: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: white
+      ),
   );
 }

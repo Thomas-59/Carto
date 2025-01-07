@@ -1,16 +1,17 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:carto/enum/price_enum.dart';
 import 'package:carto/viewmodel/establishment_view_model.dart';
 import 'package:carto/views/widgets/form/games_form.dart';
+import 'package:carto/views/widgets/form/contact_form.dart';
+import 'package:carto/views/widgets/form/general_form.dart';
+import 'package:carto/views/widgets/form/opening_hour_form.dart';
+import 'package:carto/views/widgets/constants.dart';
+
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../services/establishment_service.dart';
-import '../widgets/form/contact_form.dart';
-import '../widgets/form/general_form.dart';
-import '../widgets/form/opening_hour_form.dart';
 
 class SuggestionPage extends StatefulWidget {
   const SuggestionPage({super.key});
@@ -131,33 +132,49 @@ class _SuggestionPageState extends State<SuggestionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('AJOUTER UN LIEU'),
+        backgroundColor: blue,
+        titleTextStyle: appBarTextStyle,
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: white),
+      ),
       body:
-      ListView(
-        scrollDirection: Axis.vertical,
-        children: <Widget>[
-          Column(
-            children: [
-              Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-                child : _generalForm
-              ),
-              Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-                child : _contactForm
-              ),
-              Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-                child : _openingHourForm
-              ),
-              Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-                child : _gamesForm
-              ),
-              Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-                child : ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: formIsValid() ? Colors.white : Colors.grey,
-                  disabledForegroundColor: Colors.grey.withOpacity(0.38),
-                  disabledBackgroundColor: Colors.grey.withOpacity(0.12),
-                 ),
-                  child: const Text("Suggérer un établissement"),
-                  onPressed: () async {
+      Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xffffffff), Color(0xffd4bbf9)],
+            stops: [0.7, 1],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          children: <Widget>[
+            Column(
+              children: [
+                Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                  child : _generalForm
+                ),
+                Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                  child : _contactForm
+                ),
+                Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                  child : _openingHourForm
+                ),
+                Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                  child : _gamesForm
+                ),
+                Padding( padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                  child : ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: formIsValid() ? Colors.white : Colors.grey,
+                    disabledForegroundColor: Colors.grey.withOpacity(0.38),
+                    disabledBackgroundColor: Colors.grey.withOpacity(0.12),
+                   ),
+                    child: const Text("SUGGÉRER", style: blueTextBold16,),
+                    onPressed: () async {
 
                     if(formIsValid()){
                       //BigInt id = await establishmentService.createEstablishment(establishment);
@@ -188,7 +205,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
           ),
         ]
       )
-    );
+    ));
   }
 
   bool formIsValid() {

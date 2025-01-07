@@ -184,7 +184,7 @@ class _SearchPageState extends State<SearchPage>
                   onTap: () {
                     Navigator.popAndPushNamed(
                       context,
-                      '/etablishment_detail',
+                      '/establishment_detail',
                       arguments: {'establishment': establishment},
                     );
                   },

@@ -1,3 +1,4 @@
+import 'package:carto/views/widgets/constants.dart';
 import 'package:carto/views/widgets/form/form_fields/my_form_field.dart';
 import 'package:flutter/material.dart';
 
@@ -81,8 +82,8 @@ class _ContactFormState extends State<ContactForm> {
     return Column(
       children: [
         const Text(
-          "Contacts",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.5)
+          "CONTACTS",
+          style: blackTextBold20,
         ),
         const Divider(
           color: Colors.black

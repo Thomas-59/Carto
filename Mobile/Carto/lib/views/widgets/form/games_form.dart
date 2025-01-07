@@ -1,3 +1,4 @@
+import 'package:carto/views/widgets/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'other_fields/game_counter.dart';
@@ -54,8 +55,8 @@ class _GamesFormState extends State<GamesForm> {
     return Column(
       children: [
         const Text(
-            "Types de jeux",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.5),
+            "TYPES DE JEUX",
+          style: blackTextBold20,
         ),
         const Divider(
             color: Colors.black
