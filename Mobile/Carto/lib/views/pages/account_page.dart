@@ -2,6 +2,7 @@ import 'package:carto/data_manager.dart';
 import 'package:carto/models/account.dart';
 import 'package:carto/models/establishment.dart';
 import 'package:carto/views/services/account_service.dart';
+import 'package:carto/views/widgets/constants.dart';
 import 'package:carto/views/widgets/form/account_form.dart';
 import 'package:carto/views/widgets/text.dart';
 import 'package:carto/views/widgets/buttons.dart';
@@ -19,48 +20,62 @@ class _AccountPage extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 216, 184, 253),
-      body: ListView(
-        scrollDirection: Axis.vertical,
-        children: <Widget>[
-          Column(children: [
-            const DefaultText(
-              "Votre compte",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.5),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-              child: AccountForm(
-                onConfirmation: _onConfirmation,
-                account: DataManager.account,
-                buttonTitle: "Modiffier",
-                onUpdate: true,
-              )
-            ),
-            if(DataManager.account!.managerInformation != null)
+      appBar: AppBar(
+        title: const Text('VOTRE COMPTE'),
+        backgroundColor: blue,
+        titleTextStyle: appBarTextStyle,
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: white),
+      ),
+      backgroundColor: white,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xffffffff), Color(0xffd4bbf9)],
+            stops: [0.7, 1],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          children: <Widget>[
+            Column(children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const DefaultText("Liste de vos établissements : "),
-                        IconButton(
-                          onPressed: _claimEstablishment,
-                          icon: const Icon(Icons.add_circle_outline,),
-                          iconSize: 35,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: listEstablishmentCard(),
-                    ),
-                  ],
+                padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                child: AccountForm(
+                  onConfirmation: _onConfirmation,
+                  account: DataManager.account,
+                  buttonTitle: "Modifier",
+                  onUpdate: true,
                 )
               ),
-          ])
-        ],
+              if(DataManager.account!.managerInformation != null)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const DefaultText("Liste de vos établissements : ",
+                          style : textInPageTextStyle),
+                          IconButton(
+                            onPressed: _claimEstablishment,
+                            icon: const Icon(Icons.add_circle_outline,),
+                            iconSize: 35,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: listEstablishmentCard(),
+                      ),
+                    ],
+                  )
+                ),
+            ])
+          ],
+        ),
       ),
     );
   }
@@ -103,7 +118,7 @@ class _AccountPage extends State<AccountPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     const Text(
-                      "\nÊtes-vous sûr de vouloir supprimer vos données de manageur ?\n\n"
+                      "\nÊtes-vous sûr de vouloir supprimer vos données de manager ?\n\n"
                           "Cette action est définitive !",
                       textAlign: TextAlign.center,
                     ),
@@ -112,7 +127,7 @@ class _AccountPage extends State<AccountPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         RedElevatedButton(
-                          title: "Suprimer",
+                          title: "Supprimer",
                           onPressed: () {
                             setState(() {
                               updateAccount(newAccount);

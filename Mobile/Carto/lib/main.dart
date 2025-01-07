@@ -1,11 +1,15 @@
 import 'package:carto/carto_app.dart';
 import 'package:carto/views/services/location_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   final locationService = LocationService();
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp
+  ]);
 
   await Supabase.initialize(
     url: 'https://kiadpblpsnboeoidjngf.supabase.co',

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:carto/models/establishment.dart';
+import 'package:carto/views/widgets/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../../data_manager.dart';
@@ -24,11 +25,14 @@ class _InitPageState extends State<InitPage> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset("assets/logo/logo_purple.png"),
+                  Align(
+                      alignment: Alignment.center,
+                      child: Image.asset("assets/logo/logo_purple.png")
+                  ),
                   const CircularProgressIndicator(),
                 ],
               ),
-            backgroundColor: const Color.fromARGB(255, 216, 184, 253),
+            backgroundColor: purple,
           );
         }
     );

@@ -1,6 +1,7 @@
 import 'package:carto/models/account.dart';
 import 'package:carto/views/services/account_service.dart';
 import 'package:carto/views/widgets/form/account_form.dart';
+import 'package:carto/views/widgets/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -16,32 +17,45 @@ class _SignUpPage extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        scrollDirection: Axis.vertical,
-        children: <Widget>[
-          Column(children: [
-            const Text(
-              "Inscription",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.5),
-            ),
-            Padding(
-                padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-                child: AccountForm(
-                  onConfirmation: signUp,
-                  buttonTitle: "S'inscrire",
-                )
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, "/login",);
-                },
-                child: const Text("J'ai déjà un compte"),
+      appBar: AppBar(
+        title: const Text("INSCRIPTION"),
+        backgroundColor: blue,
+        titleTextStyle: appBarTextStyle,
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: white),
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xffffffff), Color(0xffd4bbf9)],
+            stops: [0.7, 1],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          children: <Widget>[
+            Column(children: [
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                  child: AccountForm(
+                    onConfirmation: signUp,
+                    buttonTitle: "S'inscrire",
+                  )
               ),
-            )
-          ])
-        ],
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, "/login",);
+                  },
+                  child: const Text("J'ai déjà un compte", style: blueTextNormal14),
+                ),
+              )
+            ])
+          ],
+        ),
       ),
     );
   }

@@ -134,6 +134,7 @@ class AccountFormState extends State<AccountForm> {
           ),
           MyCheckboxListTile(
             title: "Êtes-vous un gérant d'établissement ?",
+            textColor: black,
             value: _showManagerFields,
             onChanged: (bool? value) {
               setState(() {
@@ -168,7 +169,7 @@ class AccountFormState extends State<AccountForm> {
                   : null,
               child: Text(
                 widget.buttonTitle,
-                style: const TextStyle(color: Colors.white)
+                style: const TextStyle(color: white)
               )
             ),
           ),

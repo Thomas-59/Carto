@@ -14,6 +14,12 @@ const TextStyle blueTextBold16 = TextStyle(
   fontSize: 16,
 );
 
+const TextStyle blueTextNormal14 = TextStyle(
+  color: blue,
+  fontWeight: FontWeight.normal,
+  fontSize: 14
+);
+
 const TextStyle redTextBold16 = TextStyle(
   color: red,
   fontWeight: FontWeight.bold,
@@ -26,6 +32,12 @@ const TextStyle whiteTextBold16 = TextStyle(
   fontSize: 16,
 );
 
+const TextStyle blackTextBold16 = TextStyle(
+  color: black,
+  fontWeight: FontWeight.bold,
+  fontSize: 16,
+);
+
 const TextStyle appBarTextStyle = TextStyle(
   color: white,
   fontWeight: FontWeight.bold,
@@ -33,7 +45,7 @@ const TextStyle appBarTextStyle = TextStyle(
 );
 
 const TextStyle textInPageTextStyle = TextStyle(
-  color : black,
+  color: black,
   fontWeight: FontWeight.normal,
   fontSize: 16,
 );
@@ -49,3 +61,9 @@ const TextStyle whiteTextBold14 = TextStyle(
   fontWeight: FontWeight.normal,
   fontSize: 14,
 );
+
+const TextStyle blackTextBold20 =
+    TextStyle(color: black, fontWeight: FontWeight.bold, fontSize: 20);
+
+const TextStyle greyTextBold16 =
+    TextStyle(color : Colors.grey, fontSize: 16, fontWeight: FontWeight.bold);

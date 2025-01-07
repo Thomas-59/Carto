@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/address.dart';
 import '../services/address_service.dart';
+import '../widgets/constants.dart';
 
 class AddressInputPage extends StatefulWidget {
   final Address? initialAddress;
@@ -79,7 +80,11 @@ class _AddressInputPageState extends State<AddressInputPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Entrer l'adresse"),
+        title: const Text("ENTRER L'ADRESSE"),
+          backgroundColor: blue,
+          titleTextStyle: appBarTextStyle,
+          centerTitle: true,
+      iconTheme: const IconThemeData(color: white),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -87,8 +92,8 @@ class _AddressInputPageState extends State<AddressInputPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              "Adresse :",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              "Saisissez l'adresse de l'établissement :",
+              style: blackTextBold16,
             ),
             const SizedBox(height: 8),
             TextField(
@@ -99,6 +104,7 @@ class _AddressInputPageState extends State<AddressInputPage> {
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: "1 Rue de la Paix 75002 Paris",
+                hintStyle: greyTextBold16,
               ),
             ),
             _listAddress.isNotEmpty? Expanded(
@@ -122,7 +128,10 @@ class _AddressInputPageState extends State<AddressInputPage> {
             _addressPick!=null?Center(
               child: ElevatedButton(
                 onPressed: _validateAddress,
-                child: const Text("Valider"),
+                child: const Text("Valider", style: blueTextBold16,),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: white,
+                ),
               ),
             ):SizedBox(),
           ],

@@ -1,4 +1,5 @@
 import 'package:carto/data_manager.dart';
+import 'package:carto/views/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/map_widget.dart';
@@ -27,16 +28,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding( padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                    child: FloatingActionButton(
+                    child: BlueSquareIconButton(
+                        icon: DataManager.isLogged ?
+                        Icons.account_box : //TODO change by user picture if logged
+                        Icons.account_box,
                         onPressed: () {
                           DataManager.isLogged ?
-                            Navigator.pushNamed(context, '/manage',)
-                            : Navigator.pushNamed(context, '/login',);
-                        },
-                        child: DataManager.isLogged ?
-                          const Icon(Icons.account_box) : //TODO change by user picture if logged
-                          const Icon(Icons.account_box),
-                    )
+                          Navigator.pushNamed(context, '/manage',)
+                              : Navigator.pushNamed(context, '/login',);
+                        })
                   ),
                 ],
               )

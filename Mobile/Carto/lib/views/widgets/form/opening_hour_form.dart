@@ -1,3 +1,4 @@
+import 'package:carto/views/widgets/constants.dart';
 import 'package:carto/views/widgets/form/other_fields/hour_piker.dart';
 import 'package:flutter/material.dart';
 
@@ -101,8 +102,8 @@ class _OpeningHourFormState extends State<OpeningHourForm> {
     return Column(
       children: [
         const Text(
-          "Horaires d'ouverture",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.5),
+          "HORAIRES D'OUVERTURE",
+          style: blackTextBold20,
         ),
         const Divider(
             color: Colors.black
