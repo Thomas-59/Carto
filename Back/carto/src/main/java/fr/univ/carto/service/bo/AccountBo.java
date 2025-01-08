@@ -20,4 +20,6 @@ public class AccountBo {
     private Date createdAt;
 
     private Role role;
+
+    private ManagerInformationBo managerInformation;
 }

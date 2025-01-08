@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/establishment.dart';
+import 'constants.dart';
 
 class HoursAccordion extends StatefulWidget {
   final List<DayOfTheWeekElemDto> schedule;
@@ -51,7 +52,7 @@ class _HoursAccordionState extends State<HoursAccordion> {
       padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: white,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -74,7 +75,7 @@ class _HoursAccordionState extends State<HoursAccordion> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: black,
               ),
             ),
             trailing: Icon(
@@ -139,7 +140,7 @@ class DayRow extends StatelessWidget {
               : "${formatTime(daySchedule.openingTime)} - ${formatTime(daySchedule.closingTime)}",
           style: TextStyle(
             fontSize: 16,
-            color: daySchedule.isClosed ? Colors.red : Colors.black,
+            color: daySchedule.isClosed ? red : black,
           ),
         ),
       ],
@@ -181,7 +182,7 @@ class TodayRow extends StatelessWidget {
               : "${formatTime(daySchedule.openingTime)} - ${formatTime(daySchedule.closingTime)}",
           style: TextStyle(
             fontSize: 16,
-            color: daySchedule.isClosed ? Colors.red : Colors.black,
+            color: daySchedule.isClosed ? red : black,
             fontWeight: FontWeight.bold,
           ),
         ),

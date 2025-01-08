@@ -16,8 +16,10 @@ import fr.univ.carto.exception.BadTokenException;
 public class Token {
     private static final String SECRET_KEY_1 = "7Kt#9pLzX6vQo2bDy1GjF5sEwRmNcJhTtAqZ";
     private static final String SECRET_KEY_2 = "40KugkuhhlUGUF44dDI#V51EIVH345gfd7o0";
+    private static final String SECRET_KEY_3 = "hugu5RDcI9#fgj5ED#jiuFr57jZ21jfo09KJ";
     private static final Algorithm algorithm_1 = Algorithm.HMAC256(SECRET_KEY_1);
     private static final Algorithm algorithm_2 = Algorithm.HMAC256(SECRET_KEY_2);
+    private static final Algorithm algorithm_3 = Algorithm.HMAC256(SECRET_KEY_3);
 
     public static String createCredential(String userNameOrMail, String password) {
 
@@ -26,7 +28,7 @@ public class Token {
             .withClaim("password", password)
             .sign(algorithm_1);
     }
-    
+
     public static String createToken(Long id) {
         LocalDateTime expirationDate = LocalDateTime.now().plusHours(1);
 
@@ -35,6 +37,16 @@ public class Token {
                 .withExpiresAt(Date.from(expirationDate.atZone(ZoneId.systemDefault())
                         .toInstant()))
                 .sign(algorithm_2);
+    }
+
+    public static String createTokenForgottenPassword(Long id) {
+        LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(30);
+
+        return JWT.create()
+                .withClaim("id", id)
+                .withExpiresAt(Date.from(expirationDate.atZone(ZoneId.systemDefault())
+                        .toInstant()))
+                .sign(algorithm_3);
     }
 
     public static String[] decodedCredential(String credential) throws TokenExpiredException, BadTokenException {
@@ -53,6 +65,19 @@ public class Token {
     public static long decodedToken(String token) throws TokenExpiredException, BadTokenException {
         try {
             DecodedJWT decodedJWT = JWT.require(algorithm_2)
+                    .build()
+                    .verify(token);
+            return decodedJWT.getClaim("id").asInt();
+        } catch (TokenExpiredException exception) {
+            throw exception;
+        } catch (Exception exception) {
+            throw new BadTokenException("invalid token");
+        }
+    }
+
+    public static long decodedTokenForgottenPassword(String token) throws TokenExpiredException, BadTokenException {
+        try {
+            DecodedJWT decodedJWT = JWT.require(algorithm_3)
                     .build()
                     .verify(token);
             return decodedJWT.getClaim("id").asInt();

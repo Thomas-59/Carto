@@ -2,6 +2,7 @@ import 'package:carto/models/establishment.dart';
 import 'package:carto/views/widgets/accordeons.dart';
 import 'package:carto/views/widgets/buttons.dart';
 import 'package:carto/utils/intent_utils/intent_utils.dart';
+import 'package:carto/views/widgets/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:carto/views/widgets/tags.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +57,8 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
       final fileExists = response.any((file) => file.name == fileName);
 
       if (fileExists) {
-        final publicUrl = supabase.storage.from('CartoBucket').getPublicUrl(filePath);
+        final publicUrl =
+          supabase.storage.from('CartoBucket').getPublicUrl(filePath);
         return publicUrl;
       } else {
         if (kDebugMode) {
@@ -96,7 +98,8 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
                 background: _isLoading? null :Image.network(
-                  _imageUrl??"https://www.shutterstock.com/image-photo/arcade-machine-game-600nw-706155493.jpg",
+                  _imageUrl ?? "https://www.shutterstock.com/image-photo/"
+                      "arcade-machine-game-600nw-706155493.jpg",
                   fit: BoxFit.cover,
                 ),
               ),
@@ -107,7 +110,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                   }),
               actions: [
                 WhiteSquareIconInvertedButton(
-                    icon: Icons.reply_outlined,
+                    icon: Icons.map,
                     onPressed: () {
                       IntentUtils.launchNavigation(context, establishment);
                     }),
@@ -140,7 +143,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                                 establishment.address,
                                 style: const TextStyle(
                                   fontSize: 16,
-                                  color: Colors.black,
+                                  color: black,
                                 ),
                               ),
                               GameTagsList(
@@ -228,18 +231,18 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                             establishment.emailAddress.isEmpty ?
                               const SizedBox() :
                               OutlineButtonWithTextAndIcon(
-                                  icon: Icons.mail,
-                                  onPressed: () async {
-                                    if(establishment.emailAddress.isNotEmpty) {
-                                      Uri url = Uri.parse("mailto:"
-                                          "${establishment.emailAddress}");
-                                      if (!await launchUrl(url)) {
-                                        throw Exception('Could not launch $url');
-                                      }
+                                icon: Icons.mail,
+                                onPressed: () async {
+                                  if(establishment.emailAddress.isNotEmpty) {
+                                    Uri url = Uri.parse("mailto:"
+                                        "${establishment.emailAddress}");
+                                    if (!await launchUrl(url)) {
+                                      throw Exception('Could not launch $url');
                                     }
-                                  },
-                                  text: establishment.emailAddress
-                                ),
+                                  }
+                                },
+                                text: establishment.emailAddress
+                              ),
                             ],
                           ),
                         )
@@ -257,18 +260,17 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
 
   void shareEstablishment(Establishment establishment) async {
     String text = "${establishment.name}\n"
-        "Au : ${establishment.address}\n"
-        "Jeux disponibles :\n";
-    for(GameTypeDto game in
-    establishment.gameTypeDtoList)
-    {
-      text += "   ${game.gameType.value} : "
-          "${game.numberOfGame}\n";
+      "Au : ${establishment.address}\n"
+      "Jeux disponibles :\n";
+    for(GameTypeDto game in establishment.gameTypeDtoList) {
+      text += "   ${game.gameType.value} : ${game.numberOfGame}\n";
     }
     if(establishment.site.isNotEmpty) {
       text += "Site web : ${establishment.site}\n";
     }
-    if(establishment.phoneNumber.isNotEmpty || establishment.emailAddress.isNotEmpty) {
+    if(establishment.phoneNumber.isNotEmpty ||
+        establishment.emailAddress.isNotEmpty)
+    {
       text += "Contact :\n";
       if(establishment.phoneNumber.isNotEmpty) {
         text += "   Téléphone : ${establishment.phoneNumber}\n";
@@ -278,7 +280,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
       }
     }
     final result = await Share.share(text);
-    if(result.status != ShareResultStatus.success){
+    if(result.status != ShareResultStatus.success) {
       throw Exception('Could not share');
     }
   }

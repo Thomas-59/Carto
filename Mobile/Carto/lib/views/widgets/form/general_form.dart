@@ -2,11 +2,11 @@ import 'dart:typed_data';
 
 import 'package:carto/enum/price_enum.dart';
 import 'package:carto/models/address.dart';
+import 'package:carto/views/widgets/constants.dart';
 import 'package:carto/views/widgets/form/form_fields/my_form_field_http_link.dart';
 import 'package:carto/views/widgets/form/other_fields/my_checkbox_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../pages/address_input_page.dart';
 import 'form_fields/my_form_field.dart';
@@ -19,11 +19,9 @@ class GeneralForm extends StatefulWidget {
   final PriceEnum gamePrice;
   final bool nearTransport, pmrAccess;
 
-
   final Uint8List? imageBytes;
 
-
-  GeneralForm({
+  const GeneralForm({
     super.key,
     required this.formIsValid,
     required this.formChange,
@@ -45,24 +43,24 @@ class GeneralForm extends StatefulWidget {
 
 class _GeneralFormState extends State<GeneralForm> {
   //controller
-  late final MyFormField _nameField, _addressField,
-      _longitudeField, _siteField, _descriptionField;
+  late final MyFormField _nameField,
+      _addressField,
+      _longitudeField,
+      _siteField,
+      _descriptionField;
 
   //checkBox
   late bool _nearTransport = widget.nearTransport,
       _pmrAccess = widget.nearTransport;
 
   //validator
-  late bool _nameIsValid, _addressIsValid,
-    _siteIsValid, _descriptionIsValid;
-
-
+  late bool _nameIsValid, _addressIsValid, _siteIsValid, _descriptionIsValid;
 
   late PriceEnum _gamePrice = widget.gamePrice;
   Address? _addressPick;
-  String _adressLabel="";
-  String _longitude="0";
-  String _latitude="0";
+  String _adressLabel = "";
+  String _longitude = "0";
+  String _latitude = "0";
 
   //image
   final ImagePicker _picker = ImagePicker();
@@ -71,19 +69,16 @@ class _GeneralFormState extends State<GeneralForm> {
   @override
   void initState() {
     TextEditingController nameController =
-      TextEditingController(text: widget.name);
+        TextEditingController(text: widget.name);
     TextEditingController addressController =
-      TextEditingController(text: widget.address);
+        TextEditingController(text: widget.address);
     TextEditingController siteController =
-      TextEditingController(text: widget.site);
+        TextEditingController(text: widget.site);
     TextEditingController descriptionController =
-      TextEditingController(text: widget.description);
+        TextEditingController(text: widget.description);
 
-
-    _nameField = MyFormField(
-        label: "Nom d'établissement",
-        controller: nameController
-    );
+    _nameField =
+        MyFormField(label: "Nom d'établissement", controller: nameController);
     _nameIsValid = _fieldIsValid(_nameField);
     nameController.addListener(() {
       setState(() {
@@ -97,8 +92,7 @@ class _GeneralFormState extends State<GeneralForm> {
     _addressField = MyFormField(
         label: "Adresse d'établissement",
         isFeminine: true,
-        controller: addressController
-    );
+        controller: addressController);
     _addressIsValid = _fieldIsValid(_addressField);
     addressController.addListener(() {
       setState(() {
@@ -107,8 +101,6 @@ class _GeneralFormState extends State<GeneralForm> {
         widget.formChange(getAllParameter());
       });
     });
-
-
 
     _siteField = MyFormFieldHttpLink(
       label: "Site web d'établissement",
@@ -156,8 +148,7 @@ class _GeneralFormState extends State<GeneralForm> {
   }
 
   List<String> getAllParameter() {
-    print(_siteField.getValue());
-    return <String> [
+    return <String>[
       _nameField.getValue(),
       _adressLabel,
       _latitude,
@@ -171,118 +162,122 @@ class _GeneralFormState extends State<GeneralForm> {
     ];
   }
 
-  void _openAddressInputPage(){
+  void _openAddressInputPage() {
     Navigator.push(
         context,
         MaterialPageRoute(
-        builder: (context) => AddressInputPage(
-      initialAddress: _addressPick,
-      onAddressValidated: (updatedAddress, latitude, longitude) {
-        setState(() {
-          _addressPick = updatedAddress;
-          if(updatedAddress!=null){
-            _adressLabel = updatedAddress.properties.label;
-          }
-          _latitude = latitude;
-          _longitude = longitude;
-          _addressIsValid = _addressValueIsValid(_adressLabel);
-          widget.formIsValid(_formIsValid());
-          widget.formChange(getAllParameter());
-        });
-      },
-    ),
-    ));
+          builder: (context) => AddressInputPage(
+            initialAddress: _addressPick,
+            onAddressValidated: (updatedAddress, latitude, longitude) {
+              setState(() {
+                _addressPick = updatedAddress;
+                if (updatedAddress != null) {
+                  _adressLabel = updatedAddress.properties.label;
+                }
+                _latitude = latitude;
+                _longitude = longitude;
+                _addressIsValid = _addressValueIsValid(_adressLabel);
+                widget.formIsValid(_formIsValid());
+                widget.formChange(getAllParameter());
+              });
+            },
+          ),
+        ));
   }
 
   Future<void> _pickImage() async {
-    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       var toStore = Uint8List.fromList(await pickedFile.readAsBytes());
-      setState(()  {
+      setState(() {
         _imageBytes = toStore;
         widget.formChange(getAllParameter());
       });
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Text(
-        "Informations générales",
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.5),
-        ),
-        const Divider(
-          color: Colors.black
-        ),
-        _nameField,
-        FractionallySizedBox(
-          alignment: Alignment.center,
-          widthFactor: 0.8,
-          child: ElevatedButton(
-            onPressed: () {
-              _openAddressInputPage();
-            },
-            style: ButtonStyle(
-              backgroundColor:_addressPick!=null ? 
-                WidgetStatePropertyAll<Color>(Colors.greenAccent)
-                : WidgetStatePropertyAll(Colors.redAccent),
-            ),
-            child: Text(
-              _addressPick!=null ? 
-                _addressPick!.properties.label 
+    return Column(children: [
+      const Text(
+        "INFORMATIONS GÉNÉRALES",
+        style: blackTextBold20,
+      ),
+      const Divider(color: Colors.black),
+      _nameField,
+      FractionallySizedBox(
+        alignment: Alignment.center,
+        widthFactor: 0.8,
+        child: ElevatedButton(
+          onPressed: () {
+            _openAddressInputPage();
+          },
+          style: ButtonStyle(
+            backgroundColor: _addressPick != null
+                ? const WidgetStatePropertyAll<Color>(Colors.greenAccent)
+                : const WidgetStatePropertyAll(Colors.redAccent),
+          ),
+          child: Text(
+            _addressPick != null
+                ? _addressPick!.properties.label
                 : "Choisir une adresse",
-              style: _addressPick!=null? null:const TextStyle(color: Colors.white),
-            ),
+            style: _addressPick != null
+                ? null
+                : whiteTextBold16,
           ),
         ),
-        _siteField,
-        _descriptionField,
-        PriceButton(
-          text: "Prix moyen des jeux",
-          averageGamePrice: _gamePrice,
-          onPriceChanged: _handlePriceChange,
-        ),
-        MyCheckboxListTile(
+      ),
+      _siteField,
+      _descriptionField,
+      PriceButton(
+        text: "Prix moyen des jeux",
+        averageGamePrice: _gamePrice,
+        onPriceChanged: _handlePriceChange,
+      ),
+      MyCheckboxListTile(
           value: _nearTransport,
+          textColor: black,
           title: "Proche des transports",
-          onChanged:(newValue){
+          onChanged: (newValue) {
             setState(() {
               _nearTransport = newValue ?? _nearTransport;
               widget.formChange(getAllParameter());
             });
           }),
-        MyCheckboxListTile(
+      MyCheckboxListTile(
           value: _pmrAccess,
-          title: "Accès PMR",
-          onChanged:(newValue){
+          textColor: black,
+          title: "Accès personne à mobilité réduite",
+          onChanged: (newValue) {
             setState(() {
               _pmrAccess = newValue ?? _pmrAccess;
               widget.formChange(getAllParameter());
             });
           }),
-          Column(
-            children: [
-            ElevatedButton(
-              onPressed: _pickImage,
-              child: const Text('Choisir une image'),
+      Column(
+        children: [
+          OutlinedButton(
+            onPressed: _pickImage,
+            style: OutlinedButton.styleFrom(
+              backgroundColor: blue,
+            ),
+            child: const Text('Choisir une image', style: whiteTextBold16),
           ),
           if (_imageBytes != null)
-          Column(
-            children: [
-            Image.memory(
-              _imageBytes!,
-              height: 150,
-              width: 150,
-              fit: BoxFit.cover,
-              ),
-          ],
-        ),
-      ],
-    )]);
+            Column(
+              children: [
+                Image.memory(
+                  _imageBytes!,
+                  height: 150,
+                  width: 150,
+                  fit: BoxFit.cover,
+                ),
+              ],
+            ),
+        ],
+      )
+    ]);
   }
 
   void _handlePriceChange(PriceEnum newPrice) {

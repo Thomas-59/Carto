@@ -121,7 +121,7 @@ class PriceTag extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: Text(
-        "prix : ${formatPrice(price)}",
+        "prix jeux : ${formatPrice(price)}",
         style: const TextStyle(
           color: Color(0xFF005CFF),
           fontWeight: FontWeight.bold,
@@ -148,7 +148,7 @@ class EstablishmentInfo extends StatelessWidget {
     }
 
     if (establishment.accessPRM) {
-      infoTags.add(const InfoTag(infoName: "Accès PMR"));
+      infoTags.add(const InfoTag(infoName: "Accès Personne à Mobilité Réduite"));
     }
 
     return Padding(

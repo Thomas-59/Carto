@@ -1,8 +1,8 @@
 import 'package:carto/viewmodel/account_view_model.dart';
 import 'package:carto/views/widgets/buttons.dart';
+import 'package:carto/views/widgets/constants.dart';
 import 'package:flutter/material.dart';
 
-import '../../data_manager.dart';
 import '../../services/account_service.dart';
 
 class ManagePage extends StatefulWidget {
@@ -20,61 +20,49 @@ class _ManagePageState extends State<ManagePage> {
         builder: (context, constraints) {
           return Scaffold(
               body:
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset("assets/logo/logo_purple.png"),
-                    !DataManager.isLogged ?
-                      const SizedBox() :
-                      MyElevatedButton(
-                        title: "gérer mon compte",
-                        onPressed: () {
-                          //TODO manage account
-                        },
-                      ),
-                    MyElevatedButton(
-                      title: DataManager.isLogged ?
-                        "Changer de compte" : "Se connecter",
-                      onPressed: () {
-                        if(DataManager.isLogged) {
-                          disconnect();
-                        }
-                        Navigator.pushNamed(context, "/login",);
-                      },
-                    ),
-                    !DataManager.isLogged ?
-                      const SizedBox() :
-                      MyElevatedButton(
-                        title: "Se déconnecter",
-                        onPressed: () {
-                          disconnect();
-                        },
-                      ),
-                    !DataManager.isLogged ?
-                      const SizedBox() :
-                    MyElevatedButton(
-                        color : Colors.red,
-                        title: "Supprimer mon compte",
-                        textStyle: const TextStyle(color: Colors.white),
-                        onPressed: onDelete,
-                      ),
-                    MyElevatedButton(
-                      title: "Retour à la carte",
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Align(
+                      alignment: Alignment.center,
+                      child: Image.asset("assets/logo/logo_blue.png")
+                  ),
+                  LargeDefaultElevatedButton(
+                    title: "Gérer mon compte",
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/account",);
+                    },
+                  ),
+                  LargeDefaultElevatedButton(
+                    title: "Changer de compte",
+                    onPressed: () {
+                      _disconnect();
+                      Navigator.pushNamed(context, "/login",);
+                    },
+                  ),
+                  LargeDefaultElevatedButton(
+                    title: "Se déconnecter",
+                    onPressed: _disconnect
+                  ),
+                  LargeRedElevatedButton(
+                    title: "Supprimer mon compte",
+                    onPressed: _onDelete,
+                  ),
+                  LargeDefaultElevatedButton(
+                    title: "Retour à la carte",
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
               ),
-            backgroundColor: const Color.fromARGB(255, 216, 184, 253),
+            backgroundColor: blue,
           );
         }
     );
   }
 
-  void onDelete() {
+  void _onDelete() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -96,18 +84,17 @@ class _ManagePageState extends State<ManagePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        MyElevatedButton(
-                          title: "Suprimer",
+                        RedElevatedButton(
+                          title: "Supprimer",
                           onPressed: () {
                             setState(() {
                               accountViewModel.deleteAccount();
-                              Navigator.of(context).pop();
+                              Navigator.of(context)..pop()..pop();
                             });
                           },
-                          color: Colors.red,
                           width: 125,
                         ),
-                        MyElevatedButton(
+                        DefaultElevatedButton(
                           title: "Annuler",
                           onPressed: () {
                             Navigator.of(context).pop();
@@ -126,9 +113,10 @@ class _ManagePageState extends State<ManagePage> {
     );//Navigator.pop(context);
   }
 
-  void disconnect() {
+  void _disconnect() {
     setState(() {
       AccountService().disconnect();
+      Navigator.pop(context);
     });
   }
 }

@@ -1,11 +1,13 @@
 import 'package:carto/data_manager.dart';
 import 'package:carto/viewmodel/establishment_view_model.dart';
+import 'package:carto/views/widgets/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import '../../services/location_service.dart';
 import '../../models/establishment.dart';
+import 'buttons.dart';
 
 class MapWidget extends StatefulWidget {
   static final GlobalKey<_MapWidgetState> mapKey = GlobalKey<_MapWidgetState>();
@@ -89,7 +91,7 @@ class _MapWidgetState extends State<MapWidget> {
                       '/establishment_detail',
                       arguments: {'establishment': establishment},
                     );
-                  }, icon: const Icon(Icons.location_on, color: Colors.red, size: 40)),
+                  }, icon: const Icon(Icons.location_on, color: red, size: 40)),
                 );
               }).toList();
 
@@ -99,7 +101,7 @@ class _MapWidgetState extends State<MapWidget> {
                   width: 80.0,
                   height: 80.0,
                   point: LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
-                  child: const Icon(Icons.circle_rounded, color: Colors.blue, size: 20),
+                  child: const Icon(Icons.circle_rounded, color: blue, size: 20),
                 ));
               }
 
@@ -137,41 +139,60 @@ class _MapWidgetState extends State<MapWidget> {
           Positioned(
             bottom: 0,
             right: 0,
-            child: FloatingActionButton(
-              child: Icon(_isDarkMode ? Icons.dark_mode : Icons.light_mode),
-              onPressed: () {
-                setState(() {
-                  _isDarkMode = !_isDarkMode;
-                });
-              },
-            ),
+            child: BlueSquareIconButton(
+                icon: _isDarkMode ? Icons.dark_mode : Icons.light_mode,
+                onPressed: () {
+                  setState(() {
+                    _isDarkMode = !_isDarkMode;
+                  });
+                }),
           ),
           // Button for recenter on map
           Positioned(
             bottom: 70,
             right: 0,
-            child: FloatingActionButton(
+            child: BlueSquareIconButton(
+                icon: Icons.center_focus_strong_rounded,
               onPressed: () {
-                _currentPosition != null
-                    ? _mapController.move(LatLng(_currentPosition!.latitude, _currentPosition!.longitude), 15)
-                    : _mapController.move(LatLng(defaultLatitude, defaultLongitude), 15);
-              },
-              child: const Icon(Icons.center_focus_strong_rounded),
+                  _currentPosition != null
+                ? _mapController.move(LatLng(_currentPosition!.latitude, _currentPosition!.longitude), 15)
+                : _mapController.move(LatLng(defaultLatitude, defaultLongitude), 15);
+                  },
             ),
           ),
           // Button for recenter on map
           Positioned(
             bottom: 140,
             right: 0,
-            child: FloatingActionButton(
+            child: BlueSquareIconButton(icon: Icons.add, onPressed: () {
+              Navigator.pushNamed(
+                context,
+                '/suggestion',
+              );
+            },)
+          ),
+          Positioned(
+            top: 70,
+            right: 0,
+            child: BlueSquareIconButton(icon : Icons.display_settings,
               onPressed: () {
                 Navigator.pushNamed(
                   context,
-                  '/suggestion',
-                );
-              },
-              child: const Icon(Icons.add),
-            ),
+                  '/filter',
+              );
+            },)
+          ),
+          Positioned(
+            top: 70,
+            left: 30,
+            child: BlueSquareIconButton(
+                icon: Icons.search,
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/search',
+                  );
+                }),
           ),
         ],
       ),

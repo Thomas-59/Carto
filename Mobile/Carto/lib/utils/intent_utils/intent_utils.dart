@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:carto/models/establishment.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 
@@ -13,10 +12,14 @@ class IntentUtils {
     final encodedAddress = Uri.encodeComponent(establishment.address);
 
     final Uri googleMapsWebUri = Uri.parse(
-        'https://www.google.com/maps/dir/?api=1&destination=$encodedAddress&travelmode=driving');
+        'https://www.google.com/maps/dir/?api=1&destination=$encodedAddress'
+            '&travelmode=driving'
+    );
 
     final Uri googleMapsWalkingWebUri = Uri.parse(
-        'https://www.google.com/maps/dir/?api=1&destination=$encodedAddress&travelmode=walking');
+        'https://www.google.com/maps/dir/?api=1&destination=$encodedAddress'
+            '&travelmode=walking'
+    );
 
     final Uri wazeUri =
         Uri.parse('https://waze.com/ul?q=$encodedAddress&navigate=yes');
