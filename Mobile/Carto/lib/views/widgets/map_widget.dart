@@ -42,6 +42,11 @@ class _MapWidgetState extends State<MapWidget> {
   double defaultLatitude = 50.63294;
   double defaultLongitude = 3.05843;
 
+  void reload(){
+    setState(() {
+      DataManager.establishmentsFuture = establishmentViewModel.getAllEstablishment();
+    });
+  }
   @override
   void initState() {
     super.initState();
@@ -230,7 +235,4 @@ class _MapWidgetState extends State<MapWidget> {
     _mapController.move(LatLng(latitude, longitude), 15);
   }
 
-  void reload() {
-    DataManager.establishmentsFuture = establishmentViewModel.getAllEstablishment();
-  }
 }
