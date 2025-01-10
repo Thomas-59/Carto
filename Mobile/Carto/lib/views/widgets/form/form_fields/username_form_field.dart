@@ -90,7 +90,7 @@ class _UsernameFormFieldState extends State<UsernameFormField> {
     });
 
     try {
-      if((widget.ignoreUsername != null) && (widget.ignoreUsername != username)) {
+      if((widget.ignoreUsername == null) || (widget.ignoreUsername != username)) {
         String? result = await accountViewModel.checkUsernameExists(username);
 
         if (result == 'Username already exists') {
