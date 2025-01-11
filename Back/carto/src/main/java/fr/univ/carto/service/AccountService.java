@@ -110,17 +110,27 @@ public class AccountService {
         }
 
         if (accountBo.getRole() == Role.MANAGER) {
-            ManagerInformationEntity managerInformationEntity = new ManagerInformationEntity();
 
-            managerInformationEntity.setSurname(accountBo.getManagerInformation().getSurname());
-            managerInformationEntity.setFirstname(accountBo.getManagerInformation().getFirstname());
-            managerInformationEntity.setPhoneNumber(accountBo.getManagerInformation().getPhoneNumber());
-            managerInformationEntity.setSirenNumber(accountBo.getManagerInformation().getSirenNumber());
+            if (accountEntity.getManagerInformation() == null) {
+                ManagerInformationEntity managerInformationEntity = new ManagerInformationEntity();
+                managerInformationEntity.setSurname(accountBo.getManagerInformation().getSurname());
+                managerInformationEntity.setFirstname(accountBo.getManagerInformation().getFirstname());
+                managerInformationEntity.setPhoneNumber(accountBo.getManagerInformation().getPhoneNumber());
+                managerInformationEntity.setSirenNumber(accountBo.getManagerInformation().getSirenNumber());
+                accountEntity.setManagerInformation(managerInformationEntity);
+            } else {
+                ManagerInformationEntity existingManagerInfo = accountEntity.getManagerInformation();
+                existingManagerInfo.setSurname(accountBo.getManagerInformation().getSurname());
+                existingManagerInfo.setFirstname(accountBo.getManagerInformation().getFirstname());
+                existingManagerInfo.setPhoneNumber(accountBo.getManagerInformation().getPhoneNumber());
+                existingManagerInfo.setSirenNumber(accountBo.getManagerInformation().getSirenNumber());
+            }
 
-            accountEntity.setManagerInformation(managerInformationEntity);
         } else if ((accountBo.getRole() == Role.USER) && (accountEntity.getRole() == Role.MANAGER)) {
-            managerInformationRepository.deleteById(accountEntity.getManagerInformation().getId());
-            accountEntity.setManagerInformation(null);
+            if (accountEntity.getManagerInformation() != null) {
+                managerInformationRepository.deleteById(accountEntity.getManagerInformation().getId());
+                accountEntity.setManagerInformation(null);
+            }
         }
 
         accountEntity.setRole(accountBo.getRole());
