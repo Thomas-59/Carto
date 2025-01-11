@@ -51,7 +51,14 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset("assets/logo/logo_purple.png"),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset("assets/logo/logo_purple.png"),
+          ),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text("Récupération des données... \nCela peut prendre quelques minutes...", style: textInPageTextStyle),
+          ),
           const CircularProgressIndicator(),
         ],
       ),
