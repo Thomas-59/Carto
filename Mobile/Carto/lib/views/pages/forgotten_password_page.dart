@@ -65,6 +65,7 @@ class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
                   title: "Envoyer le mail de récupération",
                   onPressed: _sendMail,
                   validator: _isFormValid,
+                  height: 50,
                 )
               ],
             )),
