@@ -141,10 +141,10 @@ public class AccountService {
 
         account = accountRepository.findByEmailAddress(userNameOrMail);
         if (account.isPresent()) {
-            if (account.get().getPassword().equals(password)) {
-                return Token.createCredential(userNameOrMail, password);
+            if (!passwordEncoder.matches(password, account.get().getPassword())) {
+                throw new UnauthorizedException("bad password");
             }
-            throw new UnauthorizedException("bad password");
+            return Token.createCredential(userNameOrMail, password);
         } else {
             throw new AccountNotFoundException("No account found for given " + userNameOrMail + "/" + password);
         }
@@ -162,10 +162,10 @@ public class AccountService {
 
         account = accountRepository.findByEmailAddress(decodedCredential[0]);
         if (account.isPresent()) {
-            if (account.get().getPassword().equals(decodedCredential[1])) {
-                return Token.createToken(account.get().getId());
+            if (!passwordEncoder.matches(decodedCredential[1], account.get().getPassword())) {
+                throw new UnauthorizedException("bad password");
             }
-            throw new UnauthorizedException("bad password");
+            return Token.createToken(account.get().getId());
         } else {
             throw new AccountNotFoundException("No account found for given " + decodedCredential[0] + "/" + decodedCredential[1]);
         }
