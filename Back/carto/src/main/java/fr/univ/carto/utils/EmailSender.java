@@ -15,8 +15,8 @@ public class EmailSender {
 
     public void sendEmail(String to, String subject, String content, boolean html) {
         String host = "smtp.gmail.com";
-        String email = System.getenv("SMTP_EMAIL");
-        String appPassword = System.getenv("SMTP_PASSWORD");
+        String email = System.getenv("EMAIL");
+        String appPassword = System.getenv("PASSWORD");
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
