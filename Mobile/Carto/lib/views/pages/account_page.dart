@@ -170,7 +170,7 @@ class _AccountPage extends State<AccountPage> {
         onTap: () {
           Navigator.popAndPushNamed(
             context,
-            '/etablishment_detail',
+            '/establishment_detail',
             arguments: {'establishment': establishment},
           );
         },
@@ -202,5 +202,16 @@ class _AccountPage extends State<AccountPage> {
 
   void _claimEstablishment() {
     //TODO claim establishment
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Fonctionnalité bientôt disponible !', style: blueTextBold16),
+        duration: const Duration(seconds: 3),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: white,
+        shape : RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        )
+      ),
+    );
   }
 }
