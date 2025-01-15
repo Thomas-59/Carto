@@ -3,8 +3,10 @@ import 'package:carto/data_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:carto/views/widgets/filter_tag.dart';
 
+import '../../models/establishment.dart';
 import '../widgets/constants.dart';
 import '../widgets/map_widget.dart';
+
 
 class FilterPage extends StatefulWidget {
   const FilterPage({super.key});
@@ -66,25 +68,25 @@ class _FilterPageState extends State<FilterPage> {
                     );
                   }).toList(),
                 ),
-              Padding(padding: EdgeInsets.all(5.0),
+              Padding(padding: const EdgeInsets.all(5.0),
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
                     onPressed: () async {
-                      if(isReset(filterMap)){
-                        DataManager.resetEstablishmentsFuture();
+                      if(noFilterSelected(filterMap)){
+                        resetFilter();
                         Navigator.pop(context);
                         MapWidget.mapKey.currentState?.reload();
                       }
                       else{
-                        DataManager.appliedFilter(filterMap,
+                        appliedFilter(filterMap,
                             await DataManager.establishmentsOriginFuture);
                         Navigator.pop(context);
                         MapWidget.mapKey.currentState?.reload();
                       }
                     },
-                    child: const Text('Appliquer'),
                     style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.greenAccent)),
+                    child: const Text('Appliquer'),
                   ),
                   ElevatedButton(onPressed: () {
                     resetMap(filterMap);
@@ -116,12 +118,29 @@ class _FilterPageState extends State<FilterPage> {
     DataManager.filterMap = filterMap;
   }
 
-  isReset(HashMap<String,bool> filterMap){
+  noFilterSelected(HashMap<String,bool> filterMap){
     for(MapEntry<String,bool> entry in filterMap.entries){
       if(entry.value){
         return false;
       }
     }
     return true;
+  }
+
+  appliedFilter(HashMap<String,bool> filterMap,List<Establishment> toFiltered){
+    List<Establishment> filtered= [];
+    for(Establishment establishment in toFiltered){
+      for(GameTypeDto gameTypeDto in establishment.gameTypeDtoList){
+        if(filterMap[gameTypeDto.gameType.value]!){
+          filtered.add(establishment);
+          break;
+        }
+      }
+    }
+    DataManager.establishmentsFuture=Future.value(filtered);
+  }
+
+  resetFilter(){
+    DataManager.establishmentsFuture = DataManager.establishmentsOriginFuture;
   }
 }

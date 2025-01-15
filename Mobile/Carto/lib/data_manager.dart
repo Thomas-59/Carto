@@ -22,14 +22,15 @@ class DataManager {
   static late SharedPreferences prefs;
 
   DataManager._internal();
+
   static Future<DataManager> getInstance() async {
     prefs = await SharedPreferences.getInstance();
     if(prefs.containsKey("credential")) {
       credential = prefs.getString("credential")!;
       if(credential.isNotEmpty) {
         isLogged = true;
-        AccountViewModel().getToken();
-        AccountViewModel().getAccount();
+        await AccountViewModel().getToken();
+        await AccountViewModel().getAccount();
       }
     }
 
@@ -51,23 +52,4 @@ class DataManager {
 
     return _singleton;
   }
-
-
-  static void appliedFilter(HashMap<String,bool> filterMap,List<Establishment> toFiltered){
-    List<Establishment> filtered= [];
-    for(Establishment establishment in toFiltered){
-      for(GameTypeDto gameTypeDto in establishment.gameTypeDtoList){
-        if(filterMap[gameTypeDto.gameType.value]!){
-          filtered.add(establishment);
-          break;
-        }
-      }
-    }
-    establishmentsFuture=Future.value(filtered);
-  }
-
-  static void resetEstablishmentsFuture(){
-    establishmentsFuture=establishmentsOriginFuture;
-  }
-
 }
