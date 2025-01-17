@@ -5,15 +5,22 @@ import 'package:flutter/material.dart';
 
 import '../widgets/map_widget.dart';
 
+/// The home page of the application where the map with all establishment and
+/// most of the access to the other page is displayed
 class MyHomePage extends StatefulWidget {
+
+  /// The initializer of the class
   const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+/// The state of the MyHomePage stateful widget
 class _MyHomePageState extends State<MyHomePage> {
+  /// Show if it the first launch of this page
   bool _firstLaunch = true;
+  /// The map where the establishment where displayed
   MapWidget map = const MapWidget();
 
   @override
@@ -22,6 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
+  /// initialise the application
   Future<void> _initApp() async {
     await Future.delayed(const Duration(seconds: 3)); //mounted check, DON'T delete this
     await DataManager.getInstance();
@@ -46,6 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  /// Give the initialisation screen
   Widget _initScreen(BuildContext context) {
     return Center(
       child: Column(
@@ -65,6 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  /// Give the home screen with the map
   Widget _mapScreen(BuildContext context) {
     return Stack(
       children: [

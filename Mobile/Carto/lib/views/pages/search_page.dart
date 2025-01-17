@@ -1,4 +1,3 @@
-import 'package:carto/viewmodel/account_view_model.dart';
 import 'package:carto/viewmodel/establishment_view_model.dart';
 import 'package:flutter/material.dart';
 
@@ -6,20 +5,32 @@ import 'package:carto/models/establishment.dart';
 import 'package:carto/views/widgets/constants.dart';
 import 'package:carto/views/widgets/tags.dart';
 
+/// The page to search a establishment by his name or the city where he located
 class SearchPage extends StatefulWidget {
+
+  /// The initializer of the class
   const SearchPage({super.key});
 
   @override
   _SearchPageState createState() => _SearchPageState();
 }
 
+/// The state of the SearchPage stateful widget
 class _SearchPageState extends State<SearchPage>
     with SingleTickerProviderStateMixin
 {
+  /// The TextEditingController of the field where enter the establishment or
+  /// city name
   final TextEditingController _searchController = TextEditingController();
+  /// The view model to access to the service which communicate with the
+  /// establishment part of our API
   final EstablishmentViewModel _establishmentViewModel = EstablishmentViewModel();
+  /// The list of all establishment know by the application
   List<Establishment> _allEstablishments = [];
+  /// The list of corresponding establishment
   List<Establishment> _filteredEstablishments = [];
+  /// The TabController instance to switch between the establishment name
+  /// search and the city name search
   TabController? _tabController;
 
   @override
@@ -37,6 +48,7 @@ class _SearchPageState extends State<SearchPage>
     super.dispose();
   }
 
+  /// Change the type of search between the establishment name and the city name
   void _onTabChanged() {
     if (!_tabController!.indexIsChanging) {
       String currentQuery = _searchController.text;
@@ -50,6 +62,7 @@ class _SearchPageState extends State<SearchPage>
     }
   }
 
+  /// Refresh the list of know establishment
   void _loadEstablishments() async {
     try {
       List<Establishment> establishments =
@@ -66,6 +79,7 @@ class _SearchPageState extends State<SearchPage>
     }
   }
 
+  /// filter establishment to only show those with a corresponding name
   void _filterEstablishmentsByName(String query) {
     if (query.length >= 4) {
       setState(() {
@@ -81,6 +95,7 @@ class _SearchPageState extends State<SearchPage>
     }
   }
 
+  /// filter establishment to only show those with a corresponding address
   void _filterEstablishmentsByAddress(String query) {
     if (query.length >= 4) {
       setState(() {
@@ -132,6 +147,7 @@ class _SearchPageState extends State<SearchPage>
     );
   }
 
+  /// Give the widget to search an establishment
   Widget _buildSearchTab({
     required String hintText,
     required Function(String) onSearch

@@ -7,15 +7,20 @@ import '../../models/establishment.dart';
 import '../widgets/constants.dart';
 import '../widgets/map_widget.dart';
 
-
+/// The page with all filter the user can apply on the map
 class FilterPage extends StatefulWidget {
+
+  /// The initializer of the class
   const FilterPage({super.key});
 
   @override
   State<FilterPage> createState() => _FilterPageState();
 }
 
+
+/// The state of the FilterPage stateful widget
 class _FilterPageState extends State<FilterPage> {
+  /// The list of all used filter
   late HashMap<String, bool> filterMap;
 
   @override
@@ -24,6 +29,7 @@ class _FilterPageState extends State<FilterPage> {
     filterMap = DataManager.filterMap;
   }
 
+  /// Apply or discard a filter
   void _toggleFilter(String tagName) {
     setState(() {
       filterMap[tagName] = !filterMap[tagName]!;
@@ -102,6 +108,7 @@ class _FilterPageState extends State<FilterPage> {
     );
   }
 
+  /// Discard all filter in the hashMap
   resetMap(HashMap<String,bool> filterMap){
     setState(() {
       filterMap['Billard']= false;
@@ -118,6 +125,7 @@ class _FilterPageState extends State<FilterPage> {
     DataManager.filterMap = filterMap;
   }
 
+  /// return true if no filter is used
   noFilterSelected(HashMap<String,bool> filterMap){
     for(MapEntry<String,bool> entry in filterMap.entries){
       if(entry.value){
@@ -127,6 +135,7 @@ class _FilterPageState extends State<FilterPage> {
     return true;
   }
 
+  /// apply all chosen filter on the map
   appliedFilter(HashMap<String,bool> filterMap,List<Establishment> toFiltered){
     List<Establishment> filtered= [];
     for(Establishment establishment in toFiltered){
@@ -140,6 +149,7 @@ class _FilterPageState extends State<FilterPage> {
     DataManager.establishmentsFuture=Future.value(filtered);
   }
 
+  /// Discard all used filter
   resetFilter(){
     DataManager.establishmentsFuture = DataManager.establishmentsOriginFuture;
   }

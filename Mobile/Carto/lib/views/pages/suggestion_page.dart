@@ -11,47 +11,82 @@ import 'package:carto/views/widgets/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../services/establishment_service.dart';
-
+/// It the page where the user can suggest a new establishment to add in the
+/// application
 class SuggestionPage extends StatefulWidget {
+
+  /// The initializer of the class
   const SuggestionPage({super.key});
 
   @override
   State<SuggestionPage> createState() => _SuggestionPageState();
 }
 
+/// The state of the SuggestionPage stateful widget
 class _SuggestionPageState extends State<SuggestionPage> {
+  /// The form with the general data field
   late final GeneralForm _generalForm;
+  /// The form with the contact field
   late final ContactForm _contactForm;
+  /// The form with the opening hour field
   late final OpeningHourForm _openingHourForm;
+  /// The form with the games field
   late final GamesForm _gamesForm;
 
+  /// The state of validity of the general field
   bool _generalFormIsValid = false;
+  /// The state of validity of the general field
   bool _contactFormIsValid = true;
 
   // GeneralForm
-  late String _name, _address, _latitude, _longitude, _site, _description;
+  /// The name of the establishment
+  late String _name,
+  /// The address of the establishment
+    _address,
+  /// The latitude of the establishment
+    _latitude,
+  /// The longitude of the establishment
+    _longitude,
+  /// The web site of the establishment
+    _site,
+  /// The description of the establishment
+    _description;
+  /// The average price of the game in the establishment
   late PriceEnum _gamePrice;
-  late bool _nearTransport, _pmrAccess;
+  /// If the establishment is near the public transport
+  late bool _nearTransport,
+  /// If the establishment have pmr access
+    _pmrAccess;
 
   // ContactForm
-  late String _mail, _phoneNumber;
+  /// The email address of the establishment
+  late String _mail,
+  /// The phone number of the establishment
+    _phoneNumber;
 
   // OpeningHourForm
+  /// The list of opening in the week
   late List<bool> _weekOpening;
+  /// The list of opening hour in the week
   late List<List<TimeOfDay>> _weekOpeningHour;
 
   // GameForm
+  /// The list of game titles
   late List<String> _gameTitles;
+  /// The list of number of game
   late List<int> _gameNumbers;
 
   // Service
+  /// The view model to access to the service which communicate with the
+  /// establishment part of our API
   EstablishmentViewModel establishmentViewModel = EstablishmentViewModel();
-  EstablishmentService establishmentService = EstablishmentService();
 
   //image
+  /// The image of the establishment
   late Uint8List? _imageBytes;
+  /// To delete
   bool _isUploading= false;
+  /// To delete
   String? _uploadedImageUrl;
 
   @override
@@ -93,6 +128,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
     super.initState();
   }
 
+  /// Upload in the service the image of the new establishment
   Future<void> _uploadImage(BigInt id) async {
     if (_imageBytes == null) return;
 
@@ -177,7 +213,6 @@ class _SuggestionPageState extends State<SuggestionPage> {
                     onPressed: () async {
 
                     if(formIsValid()){
-                      //BigInt id = await establishmentService.createEstablishment(establishment);
                       BigInt id = await establishmentViewModel.createEstablishment(
                           _name,
                           _address,
@@ -208,16 +243,19 @@ class _SuggestionPageState extends State<SuggestionPage> {
     ));
   }
 
+  /// Give the sate of validity of the form
   bool formIsValid() {
     return _generalFormIsValid & _contactFormIsValid;
   }
 
+  /// Give the sate of validity of the general form
   void _handleGeneralFormValidity(bool formIsValid) {
     setState(() {
       _generalFormIsValid = formIsValid;
     });
   }
 
+  /// The call back of the general form
   void _handleGeneralFormChange(List<String> newValues) {
     _name = newValues[0];
     _address = newValues[1];
@@ -240,27 +278,32 @@ class _SuggestionPageState extends State<SuggestionPage> {
     }
   }
 
+  /// Give the sate of validity of the contact form
   void _handleContactFormValidity(bool formIsValid) {
     setState(() {
       _contactFormIsValid = formIsValid;
     });
   }
 
+  /// The call back of the contact form
   void _handleContactFormChange(List<String> newValues) {
     _mail = newValues[0];
     _phoneNumber = newValues[1];
   }
 
+  /// The call back of the opening hour form
   void _handleOpeningHourFormOpeningChange(List<bool> newWeekOpening) {
     _weekOpening = newWeekOpening;
   }
 
+  /// The call back of the opening hour form
   void _handleOpeningHourFormOpeningHourChange(
       List<List<TimeOfDay>> newWeekOpeningHour
       ) {
     _weekOpeningHour = newWeekOpeningHour;
   }
 
+  /// The call back of the game form
   void _handleGameFormChange(List<int> newGameNumbers) {
     _gameNumbers = newGameNumbers;
   }
