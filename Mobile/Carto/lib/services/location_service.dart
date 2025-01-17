@@ -6,6 +6,11 @@ import 'dart:async';
 class LocationService {
   /// A stream to track the user position
   StreamSubscription<Position>? _positionStreamSubscription;
+  /// The setting of the accuracy location track
+  LocationSettings locationSettings = const LocationSettings(
+    accuracy: LocationAccuracy.high,
+    distanceFilter: 2,
+  );
 
   /// Request the permission to use the location service when the application is used
   Future<bool> _requestLocationPermission() async {
@@ -26,13 +31,9 @@ class LocationService {
     bool hasPermission = await _requestLocationPermission();
     if (!hasPermission) return;
 
-    LocationSettings locationSettings = const LocationSettings(
-      accuracy: LocationAccuracy.high,
-      distanceFilter: 2,
-    );
-
-    _positionStreamSubscription = Geolocator.getPositionStream(locationSettings: locationSettings)
-        .listen((Position position) {
+    _positionStreamSubscription = Geolocator.getPositionStream(
+        locationSettings: locationSettings
+    ).listen((Position position) {
       onLocationUpdate(position);
     });
   }
@@ -48,7 +49,9 @@ class LocationService {
     if (!hasPermission) return null;
 
     try {
-      return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      return await Geolocator.getCurrentPosition(
+          locationSettings: locationSettings
+      );
     } catch (e) {
       return null;
     }
