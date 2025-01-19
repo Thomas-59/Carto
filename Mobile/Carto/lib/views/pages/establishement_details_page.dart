@@ -1,3 +1,4 @@
+import 'package:carto/data_manager.dart';
 import 'package:carto/models/establishment.dart';
 import 'package:carto/views/widgets/accordeons.dart';
 import 'package:carto/views/widgets/buttons.dart';
@@ -23,6 +24,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
   final supabase = Supabase.instance.client;
   final folderName = 'establishment-images';
   bool _isLoading = true;
+  late Establishment establishment;
 
 
   @override
@@ -79,7 +81,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
   Widget build(BuildContext context)  {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <Establishment, dynamic>{}) as Map;
-    Establishment establishment = arguments['establishment'];
+    establishment = arguments['establishment'];
     _fetchImageUrl();
     return Scaffold(
       body: Container(
@@ -159,36 +161,19 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                              IconButton(
                                icon: const Icon(Icons.phone,
                                    color: Color(0xFF005CFF)),
-                               onPressed: () async {
-                                 if(establishment.phoneNumber.isNotEmpty) {
-                                   Uri url = Uri.parse
-                                     ("tel:${establishment.phoneNumber}");
-                                   if (!await launchUrl(url)) {
-                                     throw Exception('Could not launch $url');
-                                   }
-                                 }
-                               },
+                               onPressed: _call,
                              ),
-                           IconButton(
-                             icon: const Icon(Icons.share,
-                                 color: Color(0xFF005CFF)),
-                             onPressed: () {
-                               shareEstablishment(establishment);
-                             },
-                           ),
+                             IconButton(
+                               icon: const Icon(Icons.share,
+                                   color: Color(0xFF005CFF)),
+                               onPressed: _shareEstablishment,
+                             ),
                            establishment.site.isEmpty ?
                              const SizedBox() :
                              IconButton(
                                icon: const Icon(Icons.open_in_browser,
                                    color: Color(0xFF005CFF)),
-                               onPressed: () async {
-                                 if(establishment.site.isNotEmpty) {
-                                   Uri url = Uri.parse(establishment.site);
-                                   if (!await launchUrl(url)) {
-                                     throw Exception('Could not launch $url');
-                                   }
-                                 }
-                               },
+                               onPressed: _openBrowser,
                              ),
                          ],
                        )
@@ -217,30 +202,14 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                                 const SizedBox() :
                                 OutlineButtonWithTextAndIcon(
                                   icon: Icons.phone,
-                                  onPressed: () async {
-                                    if(establishment.phoneNumber.isNotEmpty) {
-                                      Uri url = Uri.parse("tel:"
-                                          "${establishment.phoneNumber}");
-                                      if (!await launchUrl(url)) {
-                                        throw Exception('Could not launch $url');
-                                      }
-                                    }
-                                  },
+                                  onPressed: _call,
                                   text: establishment.phoneNumber
                                 ),
                             establishment.emailAddress.isEmpty ?
                               const SizedBox() :
                               OutlineButtonWithTextAndIcon(
                                 icon: Icons.mail,
-                                onPressed: () async {
-                                  if(establishment.emailAddress.isNotEmpty) {
-                                    Uri url = Uri.parse("mailto:"
-                                        "${establishment.emailAddress}");
-                                    if (!await launchUrl(url)) {
-                                      throw Exception('Could not launch $url');
-                                    }
-                                  }
-                                },
+                                onPressed: _sendEmail,
                                 text: establishment.emailAddress
                               ),
                             ],
@@ -248,6 +217,18 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
                         )
                       ],
                     ),
+                    if(DataManager.isLogged)
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Divider(height: 32, thickness: 1, color: Colors.black),
+                          LargeDefaultElevatedButton(
+                            title: "Des informations sont erronées ? ",
+                            onPressed: _falseData,
+                            height: 50,
+                          ),
+                        ],
+                      ),
                   ],
                 ),
               ),
@@ -258,7 +239,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
     );
   }
 
-  void shareEstablishment(Establishment establishment) async {
+  void _shareEstablishment() async {
     String text = "${establishment.name}\n"
       "Au : ${establishment.address}\n"
       "Jeux disponibles :\n";
@@ -285,5 +266,48 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
     }
   }
 
+  void _call() async {
+    if(establishment.phoneNumber.isNotEmpty) {
+      Uri url = Uri.parse
+      ("tel:${establishment.phoneNumber}");
+      if (!await launchUrl(url)) {
+        throw Exception('Could not launch $url');
+      }
+    }
+  }
 
+  _openBrowser() async {
+    if(establishment.site.isNotEmpty) {
+      Uri url = Uri.parse(establishment.site);
+      if (!await launchUrl(url)) {
+        throw Exception('Could not launch $url');
+      }
+    }
+  }
+
+  _sendEmail() async {
+    if(establishment.emailAddress.isNotEmpty) {
+      Uri url = Uri.parse("mailto:"
+          "${establishment.emailAddress}");
+      if (!await launchUrl(url)) {
+        throw Exception('Could not launch $url');
+      }
+    }
+  }
+
+  void _falseData() async {
+    String subject = Uri.encodeComponent("Information établissement erronée");
+    String body = Uri.encodeComponent(
+        "Bonjour,\n\n"
+        "Je suis l'utilisateur ${DataManager.account?.username} et je vous "
+          "contacte car j'ai repéré des erreurs dans l'établissement "
+          "\"${establishment.name}\" situé au ${establishment.address}.\n\n"
+        "Les erreurs sont :\n"
+        "   -"
+    );
+    Uri url = Uri.parse("mailto:cartoapp.contact@gmail.com?subject=$subject&body=$body");
+    if (!await launchUrl(url)) {
+    throw Exception('Could not launch $url');
+    }
+  }
 }

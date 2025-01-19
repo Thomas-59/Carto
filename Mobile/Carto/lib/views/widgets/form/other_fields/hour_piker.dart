@@ -129,7 +129,7 @@ class _HourPikerState extends State<HourPiker> {
 
   Widget _setBox(String title) {
     return Container(
-      width: 75.0,
+      width: 60.0,
       height: 50.0,
       decoration: BoxDecoration(
         color: Colors.white,

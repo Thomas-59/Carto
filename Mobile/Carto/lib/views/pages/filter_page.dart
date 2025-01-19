@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:carto/views/widgets/filter_tag.dart';
 
 import '../widgets/constants.dart';
+import '../widgets/map_widget.dart';
 
 class FilterPage extends StatefulWidget {
   const FilterPage({super.key});
@@ -73,11 +74,13 @@ class _FilterPageState extends State<FilterPage> {
                       if(isReset(filterMap)){
                         DataManager.resetEstablishmentsFuture();
                         Navigator.pop(context);
+                        MapWidget.mapKey.currentState?.reload();
                       }
                       else{
                         DataManager.appliedFilter(filterMap,
                             await DataManager.establishmentsOriginFuture);
                         Navigator.pop(context);
+                        MapWidget.mapKey.currentState?.reload();
                       }
                     },
                     child: const Text('Appliquer'),
@@ -85,6 +88,7 @@ class _FilterPageState extends State<FilterPage> {
                   ),
                   ElevatedButton(onPressed: () {
                     resetMap(filterMap);
+                    MapWidget.mapKey.currentState?.reload();
                   }, child: const Text('Réinitialiser'))
                 ],
               ),)

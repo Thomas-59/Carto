@@ -301,6 +301,7 @@ class LargeDefaultElevatedButton extends StatelessWidget {
           child: Text(
             title,
             style: textStyle,
+            textAlign: TextAlign.center,
           ),
         ),
       ),

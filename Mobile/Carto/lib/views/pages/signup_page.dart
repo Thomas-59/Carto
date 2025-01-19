@@ -75,6 +75,18 @@ class _SignUpPage extends State<SignUpPage> {
         print("Compte créé avec succès. ID du compte : $accountId");
       }
 
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: const Text('Bienvenue sur Carto ! Tu peux te connecter à présent, un mail te confirmera ton inscription.', style: blueTextBold16,),
+            duration: const Duration(seconds: 5),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: white,
+            shape : RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            )
+        ),
+      );
+
       Navigator.pop(context);
     } else {
       if (kDebugMode) {

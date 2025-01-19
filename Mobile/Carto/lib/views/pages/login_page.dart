@@ -182,9 +182,10 @@ class _LoginPageState extends State<LoginPage> {
                 textAlign: TextAlign.center,
               ),
               content: const Text(
-                "Le mot de passe ou nom utilisateur/mail utilisé est"
-                " incorrect",
+                "Le pseudo/mail utilisé ou le mot de passe est"
+                " incorrect. Veuillez réessayer.",
                 textAlign: TextAlign.center,
+                style: textInPageTextStyle,
               ),
               actions: <Widget>[
                 Center(

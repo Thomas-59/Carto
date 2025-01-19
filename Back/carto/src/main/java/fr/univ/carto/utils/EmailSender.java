@@ -15,8 +15,8 @@ public class EmailSender {
 
     public void sendEmail(String to, String subject, String content, boolean html) {
         String host = "smtp.gmail.com";
-        String email = "cartoapp.noreply@gmail.com";
-        String appPassword = "ixfr brkz oksh czlt";
+        String email = System.getenv("EMAIL");
+        String appPassword = System.getenv("PASSWORD");
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");

@@ -153,9 +153,16 @@ class AccountFormState extends State<AccountForm> {
             StringFormField(label: "Prénom", controller: _firstnameController),
             IntegerFormField(
                 label: "Numéro SIREN de la société",
-                controller: _sirenNumController),
+                controller: _sirenNumController,
+                minLength: 9,
+                maxLength: 9,
+            ),
             IntegerFormField(
-                label: "Numéro de téléphone", controller: _phoneController),
+                label: "Numéro de téléphone",
+                controller: _phoneController,
+                minLength: 10,
+                maxLength: 10,
+            ),
           ],
           FractionallySizedBox(
             alignment: Alignment.center,
