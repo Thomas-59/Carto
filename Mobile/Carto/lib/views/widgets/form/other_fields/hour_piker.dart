@@ -7,12 +7,12 @@ class HourPiker extends StatefulWidget {
   final TimeOfDay openingTime;
   final TimeOfDay closingTime;
   final String text;
-  final bool opened;
+  final bool isClosed;
 
   const HourPiker({
     super.key,
     required this.text,
-    required this.opened,
+    required this.isClosed,
     required this.openingTime,
     required this.closingTime,
     required this.onTimeChange,
@@ -26,12 +26,12 @@ class HourPiker extends StatefulWidget {
 class _HourPikerState extends State<HourPiker> {
   late TimeOfDay _openingTime;
   late TimeOfDay _closingTime;
-  late bool _opened;
+  late bool _isClosed;
 
   @override
   void initState() {
     super.initState();
-    _opened = widget.opened;
+    _isClosed = widget.isClosed;
     _openingTime = widget.openingTime;
     _closingTime = widget.closingTime;
   }
@@ -45,15 +45,15 @@ class _HourPikerState extends State<HourPiker> {
           Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            _setButton("ouvert", true),
-            _setButton("fermé", false),
+            _setButton("ouvert", false),
+            _setButton("fermé", true),
           ],),
           Visibility(
-            visible: _opened,
+            visible: !_isClosed,
             child:Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text("de"),
+                const Text("de"),
                 InkWell(
                   onTap: () async {
                     final TimeOfDay? pickedTime = await showTimePicker(
@@ -70,7 +70,7 @@ class _HourPikerState extends State<HourPiker> {
                   },
                   child: _setTime(_openingTime.hour, _openingTime.minute),
                 ),
-                Text("à"),
+                const Text("à"),
                 InkWell(
                   onTap: () async {
                     final TimeOfDay? pickedTime = await showTimePicker(
@@ -104,11 +104,11 @@ class _HourPikerState extends State<HourPiker> {
             style: const TextStyle(fontSize: 15)
         ),
         value: value,
-        groupValue: _opened,
+        groupValue: _isClosed,
         onChanged: (bool? value) {
           if (value != null) {
             setState(() {
-              _opened = value;
+              _isClosed = value;
               widget.onOpeningChange(value);
             });
           }

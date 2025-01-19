@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:carto/enum/price_enum.dart';
+import 'package:carto/utils/establishment_games.dart';
+import 'package:carto/utils/opening_hours.dart';
 import 'package:carto/viewmodel/establishment_view_model.dart';
 import 'package:carto/views/widgets/form/games_form.dart';
 import 'package:carto/views/widgets/form/contact_form.dart';
@@ -65,16 +67,12 @@ class _SuggestionPageState extends State<SuggestionPage> {
     _phoneNumber;
 
   // OpeningHourForm
-  /// The list of opening in the week
-  late List<bool> _weekOpening;
   /// The list of opening hour in the week
-  late List<List<TimeOfDay>> _weekOpeningHour;
+  late WeekOpening _weekOpeningHour;
 
   // GameForm
-  /// The list of game titles
-  late List<String> _gameTitles;
-  /// The list of number of game
-  late List<int> _gameNumbers;
+  /// The list of games in the establishment
+  EstablishmentGames _games = EstablishmentGames();
 
   // Service
   /// The view model to access to the service which communicate with the
@@ -84,10 +82,6 @@ class _SuggestionPageState extends State<SuggestionPage> {
   //image
   /// The image of the establishment
   late Uint8List? _imageBytes;
-  /// To delete
-  bool _isUploading= false;
-  /// To delete
-  String? _uploadedImageUrl;
 
   @override
   void initState() {
@@ -110,20 +104,13 @@ class _SuggestionPageState extends State<SuggestionPage> {
     _mail = _contactForm.mail;
     _phoneNumber = _contactForm.phoneNumber;
     _openingHourForm = OpeningHourForm(
-      weekOpeningChange: _handleOpeningHourFormOpeningChange,
-      weekOpeningHourChange: _handleOpeningHourFormOpeningHourChange,
+      weekOpeningChange: _handleOpeningHourFormChange,
     );
-    _weekOpening = _openingHourForm.weekOpening;
-    _weekOpeningHour = _openingHourForm.weekOpeningHour;
+    _weekOpeningHour = WeekOpening();
 
     _gamesForm = GamesForm(
       formChange: _handleGameFormChange,
     );
-    _gameTitles = _gamesForm.gameTitles;
-    _gameNumbers = [];
-    for(String _ in _gameTitles) {
-      _gameNumbers.add(0);
-    }
 
     super.initState();
   }
@@ -131,10 +118,6 @@ class _SuggestionPageState extends State<SuggestionPage> {
   /// Upload in the service the image of the new establishment
   Future<void> _uploadImage(BigInt id) async {
     if (_imageBytes == null) return;
-
-    setState(() {
-      _isUploading = true;
-    });
 
     final supabase = Supabase.instance.client;
     const folderName = 'establishment-images';
@@ -148,17 +131,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
         fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
       );
 
-      final publicUrl =
-        supabase.storage.from('CartoBucket').getPublicUrl(filePath);
-
-      setState(() {
-        _uploadedImageUrl = publicUrl;
-        _isUploading = false;
-      });
     } catch (error) {
-      setState(() {
-        _isUploading = false;
-      });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to upload image: $error')),
       );
@@ -226,9 +199,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
                           _longitude,
                           _latitude,
                           _weekOpeningHour,
-                          _weekOpening,
-                          _gameTitles,
-                          _gameNumbers
+                          _games,
                       );
                       _uploadImage(id);
                       Navigator.pushNamed(context, '/thank',);
@@ -292,19 +263,12 @@ class _SuggestionPageState extends State<SuggestionPage> {
   }
 
   /// The call back of the opening hour form
-  void _handleOpeningHourFormOpeningChange(List<bool> newWeekOpening) {
-    _weekOpening = newWeekOpening;
-  }
-
-  /// The call back of the opening hour form
-  void _handleOpeningHourFormOpeningHourChange(
-      List<List<TimeOfDay>> newWeekOpeningHour
-      ) {
+  void _handleOpeningHourFormChange(WeekOpening newWeekOpeningHour) {
     _weekOpeningHour = newWeekOpeningHour;
   }
 
   /// The call back of the game form
-  void _handleGameFormChange(List<int> newGameNumbers) {
-    _gameNumbers = newGameNumbers;
+  void _handleGameFormChange(EstablishmentGames newGames) {
+    _games = newGames;
   }
 }

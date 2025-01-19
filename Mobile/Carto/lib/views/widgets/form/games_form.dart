@@ -1,28 +1,16 @@
+import 'package:carto/utils/establishment_games.dart';
 import 'package:carto/views/widgets/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'other_fields/game_counter.dart';
 
 class GamesForm extends StatefulWidget {
-  final ValueChanged<List<int>> formChange;
-  final List<String> gameTitles;
-  final List<int> initialGameNumbers;
+  final ValueChanged<EstablishmentGames> formChange;
+  final EstablishmentGames? games;
 
   const GamesForm({
     super.key,
-    this.gameTitles = const [
-      "Billard",
-      "Flipper",
-      "Fléchettes",
-      "Ping-Pong",
-      "Sociétés",
-      "Babyfoot",
-      "Karaoké",
-      "Arcade",
-      "Cartes",
-      "Pétanque",
-    ],
-    this.initialGameNumbers = const <int> [],
+    this.games,
     required this.formChange
   });
 
@@ -31,21 +19,12 @@ class GamesForm extends StatefulWidget {
 }
 
 class _GamesFormState extends State<GamesForm> {
-  late final List<int> _gameNumbers = [];
   late final List<GameCounter> _gameCounters = [];
+  late final EstablishmentGames _games;
 
   @override
   void initState() {
-    _gameNumbers.addAll(widget.initialGameNumbers);
-    if(_gameNumbers.length < widget.gameTitles.length) {
-      for(
-        int idx = _gameNumbers.length;
-        idx < widget.gameTitles.length;
-        idx++
-      ) {
-        _gameNumbers.add(0);
-      }
-    }
+    _games = widget.games ?? EstablishmentGames();
 
     super.initState();
   }
@@ -61,25 +40,26 @@ class _GamesFormState extends State<GamesForm> {
         const Divider(
             color: Colors.black
         ),
-        _setGameCounters(widget.gameTitles, _gameNumbers)
+        _setGameCounters()
       ],
     );
   }
 
-  Widget _setGameCounters(List <String> titles, List <int> initialValue) {
+  Widget _setGameCounters() {
     List <Widget> leftColumn = [];
     List <Widget> rightColumn = [];
     bool isLeftRow = true;
-    for(int idx = 0; idx < titles.length; idx++) {
-      String title = titles[idx].length > 9 ?
-        "${titles[idx].substring(0, 7)}..." : titles[idx];
+    for(EstablishmentGame game in _games.games) {
+      String title = game.getName().length > 9 ?
+        "${game.getName().substring(0, 7)}..." : game.getName();
       GameCounter gameCounter = GameCounter(
         title: title,
-        min: 0,
-        max: 10,
         initial:
-        initialValue[idx],
-        onChange: _onChange,
+        game.numberOfGame,
+        onChange: (int value) {
+          game.numberOfGame = value;
+          widget.formChange(_games);
+        },
       );
       _gameCounters.add(gameCounter);
       if(isLeftRow) {
@@ -103,13 +83,5 @@ class _GamesFormState extends State<GamesForm> {
         )
       ],
     );
-  }
-
-  void _onChange(int value) {
-    int idx = 0;
-    for(GameCounter gameCounter in _gameCounters) {
-      _gameNumbers[idx++] = gameCounter.value;
-    }
-    widget.formChange(_gameNumbers);
   }
 }
