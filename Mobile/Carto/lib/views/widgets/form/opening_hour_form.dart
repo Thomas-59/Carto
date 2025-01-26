@@ -4,10 +4,14 @@ import 'package:flutter/material.dart';
 
 import '../../../utils/opening_hours.dart';
 
+/// The frame concerning the opening hour of the establishment in the form
 class OpeningHourForm extends StatefulWidget {
+  /// The action to take when value change
   final ValueChanged<WeekOpening> weekOpeningChange;
+  /// The opening hours of the week to initialize the form
   final WeekOpening? weekOpeningHour;
 
+  /// The initializer of the class
   const OpeningHourForm({
     super.key,
     required this.weekOpeningChange,
@@ -18,7 +22,9 @@ class OpeningHourForm extends StatefulWidget {
   State<OpeningHourForm> createState() => _OpeningHourFormState();
 }
 
+/// The state of OpeningHourForm
 class _OpeningHourFormState extends State<OpeningHourForm> {
+  /// The current opening hours of the week in the form
   late WeekOpening _weekOpeningHour;
 
   @override
@@ -49,6 +55,7 @@ class _OpeningHourFormState extends State<OpeningHourForm> {
     );
   }
 
+  /// Set the widget to show and select new hour
   Widget _setHourPiker(OpeningHours openingHours) {
     return HourPiker(
       text: openingHours.dayOfTheWeek.value,
@@ -67,6 +74,7 @@ class _OpeningHourFormState extends State<OpeningHourForm> {
     );
   }
 
+  /// The action to take on value change
   void _weekOpeningChange() {
     widget.weekOpeningChange(_weekOpeningHour);
   }

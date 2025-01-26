@@ -4,10 +4,14 @@ import 'package:flutter/material.dart';
 
 import 'other_fields/game_counter.dart';
 
+/// The frame concerning the games of the establishment in the form
 class GamesForm extends StatefulWidget {
+  /// The action to take when value change
   final ValueChanged<EstablishmentGames> formChange;
+  /// The games to initialize the form
   final EstablishmentGames? games;
 
+  /// The initializer of the class
   const GamesForm({
     super.key,
     this.games,
@@ -18,8 +22,9 @@ class GamesForm extends StatefulWidget {
   State<GamesForm> createState() => _GamesFormState();
 }
 
+/// The state of GamesForm
 class _GamesFormState extends State<GamesForm> {
-  late final List<GameCounter> _gameCounters = [];
+  /// The current games in the form
   late final EstablishmentGames _games;
 
   @override
@@ -45,6 +50,7 @@ class _GamesFormState extends State<GamesForm> {
     );
   }
 
+  /// Give the games counters split in two column
   Widget _setGameCounters() {
     List <Widget> leftColumn = [];
     List <Widget> rightColumn = [];
@@ -61,7 +67,6 @@ class _GamesFormState extends State<GamesForm> {
           widget.formChange(_games);
         },
       );
-      _gameCounters.add(gameCounter);
       if(isLeftRow) {
         leftColumn.add(gameCounter);
       } else {

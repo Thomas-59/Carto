@@ -3,10 +3,14 @@ import 'package:carto/views/widgets/constants.dart';
 
 import 'dart:math' as math;
 
+/// The default white square icon button
 class WhiteSquareIconButton extends StatelessWidget {
+  /// The icon to apply on the button
   final IconData icon;
+  /// the action to take when pressed
   final VoidCallback onPressed;
 
+  /// The initializers of the class
   const WhiteSquareIconButton({
     required this.icon,
     required this.onPressed,
@@ -44,10 +48,14 @@ class WhiteSquareIconButton extends StatelessWidget {
   }
 }
 
+/// The default blue square icon button
 class BlueSquareIconButton extends StatelessWidget {
+  /// The icon to apply on the button
   final IconData icon;
+  /// the action to take when pressed
   final VoidCallback onPressed;
 
+  /// The initializers of the class
   const BlueSquareIconButton({
     required this.icon,
     required this.onPressed,
@@ -85,10 +93,14 @@ class BlueSquareIconButton extends StatelessWidget {
   }
 }
 
+/// The default white square icon inverted button
 class WhiteSquareIconInvertedButton extends StatelessWidget {
+  /// The icon to apply on the button
   final IconData icon;
+  /// the action to take when pressed
   final VoidCallback onPressed;
 
+  /// The initializers of the class
   const WhiteSquareIconInvertedButton({
     required this.icon,
     required this.onPressed,
@@ -130,11 +142,16 @@ class WhiteSquareIconInvertedButton extends StatelessWidget {
   }
 }
 
+/// The default outline button with text and icon
 class OutlineButtonWithTextAndIcon extends StatelessWidget {
+  /// The icon to apply on the button
   final IconData icon;
+  /// the action to take when pressed
   final VoidCallback onPressed;
+  /// The label to apply next to the icon
   final String text;
 
+  /// The initializers of the class
   const OutlineButtonWithTextAndIcon({
     required this.icon,
     required this.onPressed,
@@ -171,16 +188,26 @@ class OutlineButtonWithTextAndIcon extends StatelessWidget {
   }
 }
 
+/// The default elevated button medium size
 class DefaultElevatedButton extends StatelessWidget {
+  /// The label to apply on the button
   final String title;
+  /// The action to take when pressing the button
   final VoidCallback onPressed;
+  /// The height of the button
   final double height;
+  /// The width of the button
   final double width;
+  /// The color of the button when action is possible
   final Color validColor;
+  /// The color of the button when action is not possible
   final Color unValidColor;
+  /// The style to apply on the label
   final TextStyle textStyle;
+  /// If the button can take action
   final bool validator;
-  
+
+  /// The initializers of the class
   const DefaultElevatedButton({
     super.key,
     required this.title,
@@ -213,7 +240,9 @@ class DefaultElevatedButton extends StatelessWidget {
   }
 }
 
+/// The default blue elevated button medium size
 class BlueElevatedButton extends DefaultElevatedButton {
+  /// The initializers of the class
   const BlueElevatedButton({
     super.key,
     required super.title,
@@ -228,7 +257,10 @@ class BlueElevatedButton extends DefaultElevatedButton {
   );
 }
 
+
+/// The default white elevated button medium size
 class WhiteElevatedButton extends DefaultElevatedButton {
+  /// The initializers of the class
   const WhiteElevatedButton({
     super.key,
     required super.title,
@@ -243,7 +275,9 @@ class WhiteElevatedButton extends DefaultElevatedButton {
   );
 }
 
+/// The default red elevated button medium size
 class RedElevatedButton extends DefaultElevatedButton {
+  /// The initializers of the class
   const RedElevatedButton({
     super.key,
     required super.title,
@@ -258,16 +292,26 @@ class RedElevatedButton extends DefaultElevatedButton {
   );
 }
 
+/// The default elevated button large size
 class LargeDefaultElevatedButton extends StatelessWidget {
+  /// The label to apply on the button
   final String title;
+  /// The action to take when pressing the button
   final VoidCallback onPressed;
+  /// The height of the button
   final double height;
+  /// The width of the button
   final double width;
+  /// The color of the button when action is possible
   final Color validColor;
+  /// The color of the button when action is not possible
   final Color unValidColor;
+  /// The style to apply on the label
   final TextStyle textStyle;
+  /// If the button can take action
   final bool validator;
 
+  /// The initializers of the class
   const LargeDefaultElevatedButton({
     super.key,
     required this.title,
@@ -309,7 +353,9 @@ class LargeDefaultElevatedButton extends StatelessWidget {
   }
 }
 
+/// The default blue elevated button large size
 class LargeBlueElevatedButton extends LargeDefaultElevatedButton {
+  /// The initializers of the class
   const LargeBlueElevatedButton({
     super.key,
     required super.title,
@@ -328,7 +374,9 @@ class LargeBlueElevatedButton extends LargeDefaultElevatedButton {
   );
 }
 
+/// The default red elevated button large size
 class LargeRedElevatedButton extends LargeDefaultElevatedButton {
+  /// The initializers of the class
   const LargeRedElevatedButton({
     super.key,
     required super.title,

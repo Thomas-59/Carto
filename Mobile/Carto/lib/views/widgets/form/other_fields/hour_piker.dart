@@ -1,14 +1,22 @@
 import 'package:carto/views/widgets/constants.dart';
 import 'package:flutter/material.dart';
 
+/// The widget to show and pick opening hour
 class HourPiker extends StatefulWidget {
+  /// The action to take on hour change
   final ValueChanged<List<TimeOfDay>> onTimeChange;
+  /// The action to take on opening change
   final ValueChanged<bool> onOpeningChange;
+  /// The initial opening hour
   final TimeOfDay openingTime;
+  /// The initial closing hour
   final TimeOfDay closingTime;
+  /// The label of the day
   final String text;
+  /// The initial opening state
   final bool isClosed;
 
+  /// The initializer of the class
   const HourPiker({
     super.key,
     required this.text,
@@ -23,9 +31,13 @@ class HourPiker extends StatefulWidget {
   State<HourPiker> createState() => _HourPikerState();
 }
 
+/// The state of HourPiker
 class _HourPikerState extends State<HourPiker> {
+  /// The current opening hour
   late TimeOfDay _openingTime;
+  /// The current closing hour
   late TimeOfDay _closingTime;
+  /// The current opening state
   late bool _isClosed;
 
   @override
@@ -96,6 +108,7 @@ class _HourPikerState extends State<HourPiker> {
     );
   }
 
+  /// Give the widget which chose the opening state
   Widget _setButton(String title, bool value) {
     return Expanded(
       child: RadioListTile<bool>(
@@ -117,6 +130,7 @@ class _HourPikerState extends State<HourPiker> {
     );
   }
 
+  /// Give the widget representing a hour
   Widget _setTime(int hour, int minute) {
     return Row(
       children: [
@@ -127,6 +141,7 @@ class _HourPikerState extends State<HourPiker> {
     );
   }
 
+  /// Give the box representing a hour or a minute
   Widget _setBox(String title) {
     return Container(
       width: 60.0,

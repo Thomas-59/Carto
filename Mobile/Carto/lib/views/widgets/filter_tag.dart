@@ -1,11 +1,16 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
 
+/// The tag used in filter
 class FilterTag extends StatefulWidget {
+  /// The map of tag with their state
   final HashMap<String, bool> filterMap;
+  /// The label to apply on the tag
   final String tagName;
+  /// The action to take when user touch the tag
   final ValueChanged<String> onToggle;
 
+  /// The initializer of the class
   const FilterTag({
     super.key,
     required this.filterMap,
@@ -17,6 +22,7 @@ class FilterTag extends StatefulWidget {
   State<FilterTag> createState() => _FilterTagState();
 }
 
+/// The state of FilterTag
 class _FilterTagState extends State<FilterTag> {
   @override
   Widget build(BuildContext context) {
@@ -47,6 +53,7 @@ class _FilterTagState extends State<FilterTag> {
     );
   }
 
+  /// The action to take when user touch the tag
   void _toggleSelection() {
     widget.onToggle(widget.tagName);
   }
