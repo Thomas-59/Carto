@@ -67,12 +67,15 @@ class IntegerFormField extends StatefulWidget {
     this.canBeEmpty = false,
     this.minLines = 1,
     this.maxLines = 1,
+    this.minLength,
+    this.maxLength,
   });
 
   final String label;
   final TextEditingController controller;
   final bool isFeminine, canBeEmpty;
   final int minLines, maxLines;
+  final int? minLength, maxLength;
 
   @override
   State<IntegerFormField> createState() => _IntegerFormFieldState();
@@ -114,6 +117,16 @@ class _IntegerFormFieldState extends State<IntegerFormField> {
       return 'Veuillez entrer ${widget.isFeminine ? "une" : "un"} '
           '${widget.label.toLowerCase()}';
     }
+
+    if (value != null) {
+      if (widget.minLength != null && value.length < widget.minLength!) {
+        return 'Le ${widget.label.toLowerCase()} doit contenir au moins\n${widget.minLength} caractères.';
+      }
+      if (widget.maxLength != null && value.length > widget.maxLength!) {
+        return 'Le ${widget.label.toLowerCase()} ne peut pas dépasser\n${widget.maxLength} caractères.';
+      }
+    }
+
     return _fieldError;
   }
 }
