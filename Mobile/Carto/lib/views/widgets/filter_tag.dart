@@ -33,7 +33,7 @@ class _FilterTagState extends State<FilterTag> {
           ? ElevatedButton(
         onPressed: null,
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Color(0xFFEB663B)),
+          backgroundColor: WidgetStateProperty.all(const Color(0xFFEB663B)),
         ),
         child: Text(
           widget.tagName,
