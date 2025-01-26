@@ -52,6 +52,7 @@ class DataManager {
     return _singleton;
   }
 
+
   static void appliedFilter(HashMap<String,bool> filterMap,List<Establishment> toFiltered){
     List<Establishment> filtered= [];
     for(Establishment establishment in toFiltered){

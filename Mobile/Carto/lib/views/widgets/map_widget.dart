@@ -39,9 +39,16 @@ class _MapWidgetState extends State<MapWidget> {
   bool isFirstLoad = true;
   bool _isDarkMode = false;
   final LocationService _locationService = LocationService();
-  double defaultLatitude = 50.63294;
-  double defaultLongitude = 3.05843;
 
+  // Default location when user do not permit to use its location
+  static const double defaultLatitude = 48.8602658;
+  static const double defaultLongitude = 2.3420773;
+
+  void reload(){
+    setState(() {
+      DataManager.establishmentsFuture = establishmentViewModel.getAllEstablishment();
+    });
+  }
   @override
   void initState() {
     super.initState();
@@ -165,10 +172,22 @@ class _MapWidgetState extends State<MapWidget> {
             bottom: 140,
             right: 0,
             child: BlueSquareIconButton(icon: Icons.add, onPressed: () {
-              Navigator.pushNamed(
-                context,
-                '/suggestion',
-              );
+              if (DataManager.isLogged) {
+                Navigator.pushNamed(context, '/suggestion');
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: const Text('Tu dois être connecté(e) avant de suggérer un lieu !', style: blueTextBold16,),
+                    duration: const Duration(seconds: 3),
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: white,
+                    shape : RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    )
+                  ),
+                );
+                Navigator.pushNamed(context, '/login');
+              }
             },)
           ),
           Positioned(
@@ -230,7 +249,4 @@ class _MapWidgetState extends State<MapWidget> {
     _mapController.move(LatLng(latitude, longitude), 15);
   }
 
-  void reload() {
-    DataManager.establishmentsFuture = establishmentViewModel.getAllEstablishment();
-  }
 }
