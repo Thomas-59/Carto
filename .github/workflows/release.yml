@@ -17,12 +17,12 @@ jobs:
         id: commit
         run: |
           echo "COMMIT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-          echo "COMMIT_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+          echo "COMMIT_DATE=$(date +'%Y-%m-%d-%s')" >> $GITHUB_ENV
 
       - name: Generate tag name
         id: tag
         run: |
-          echo "TAG_NAME=v$(date +'%Y.%m.%d')-$(git rev-list --count HEAD)" >> $GITHUB_ENV
+          echo "TAG_NAME=v$(date +'%Y.%m.%d.%s')-$(git rev-list --count HEAD)" >> $GITHUB_ENV
           echo "TAG_NAME=${TAG_NAME}" # Logs the generated tag name
 
       - name: Create Git tag
