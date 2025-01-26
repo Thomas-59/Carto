@@ -1,0 +1,45 @@
+name: Auto Tag and Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  tag-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Get commit details
+        id: commit
+        run: |
+          echo "COMMIT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+          echo "COMMIT_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      - name: Generate tag name
+        id: tag
+        run: |
+          echo "TAG_NAME=v$(date +'%Y.%m.%d')-$(git rev-list --count HEAD)" >> $GITHUB_ENV
+          echo "TAG_NAME=${TAG_NAME}" # Logs the generated tag name
+
+      - name: Create Git tag
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git tag $TAG_NAME
+          git push origin $TAG_NAME
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          release_name: Release ${{ env.TAG_NAME }}
+          body: |
+            ## Release Details
+            - **Commit**: ${{ env.COMMIT_SHA }}
+            - **Date**: ${{ env.COMMIT_DATE }}
+          draft: false
+          prerelease: false
