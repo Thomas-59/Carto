@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// The default form field
 class MyFormField extends StatelessWidget {
+  /// The initializer of the class
   const MyFormField({
     super.key,
     required this.label,
@@ -11,10 +13,18 @@ class MyFormField extends StatelessWidget {
     this.maxLines = 1,
   });
 
+  /// The label of the field
   final String label;
+  /// The controller of the form field
   final TextEditingController controller;
-  final bool isFeminine, canBeEmpty;
-  final int minLines, maxLines;
+  /// If the label if feminine (French particularity)
+  final bool isFeminine,
+  /// If the field can be empty
+    canBeEmpty;
+  /// The minimal line to show in the field
+  final int minLines,
+  /// The maximal line to show in the field
+    maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +49,12 @@ class MyFormField extends StatelessWidget {
     );
   }
 
+  /// Give the value of the field
   String getValue() {
     return controller.text;
   }
 
+  /// Return a string with the message error if the value is not valid
   String? validator(String? value) {
     if (canBeEmpty ? false : (value == null || value.isEmpty)) {
       return 'Veuillez entrer ${isFeminine ? "une" : "un"} '

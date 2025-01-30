@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 
+/// The text with parameter and padding by default for the application
 class DefaultText extends Text {
 
+  /// The initializer of the class
   const DefaultText(
     super.data,
     {

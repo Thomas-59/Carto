@@ -12,12 +12,15 @@ import 'package:carto/views/pages/suggestion_page.dart';
 import 'package:carto/views/pages/thanking_page.dart';
 import 'package:flutter/material.dart';
 
+/// The root widget of the application
 class CartoApp extends StatelessWidget {
+  /// The instance of LocationService used in the application
   final LocationService locationService;
 
+  /// The initializer of the class
   const CartoApp({super.key, required this.locationService});
 
-  // This widget is the root of your application.
+  /// The builder of the class
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

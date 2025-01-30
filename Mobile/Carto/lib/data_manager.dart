@@ -7,29 +7,41 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/establishment.dart';
 
+// This class must not have any function except getInstance()
+/// A class who keep all value need by the rest of the application
 class DataManager {
+  /// The instance of DataManager
   static final DataManager _singleton = DataManager._internal();
+  /// The state of connection of user
   static bool isLogged = false;
+  /// The token used as credential for getting the functional token
   static String credential = "";
+  /// The token used to identify the user in the carto API
   static String token = "";
+  /// The data of the user if logged
   static Account? account;
+  /// The list of filter used in the map
   static HashMap<String, bool> filterMap = HashMap();
+  /// The list of establishment possessed by user
   static List<Establishment> possessedEstablishment = List.empty();
-
-
+  /// The list of all establishments to show
   static late Future<List<Establishment>> establishmentsFuture;
+  /// The list of all establishments know by the carto API
   static late Future<List<Establishment>> establishmentsOriginFuture;
+  /// The instance of SharedPreferences
   static late SharedPreferences prefs;
 
   DataManager._internal();
+
+  /// Create the first instance of DataManager and init all value who are not constant
   static Future<DataManager> getInstance() async {
     prefs = await SharedPreferences.getInstance();
     if(prefs.containsKey("credential")) {
       credential = prefs.getString("credential")!;
       if(credential.isNotEmpty) {
         isLogged = true;
-        AccountViewModel().getToken();
-        AccountViewModel().getAccount();
+        await AccountViewModel().getToken();
+        await AccountViewModel().getAccount();
       }
     }
 
@@ -51,23 +63,4 @@ class DataManager {
 
     return _singleton;
   }
-
-
-  static void appliedFilter(HashMap<String,bool> filterMap,List<Establishment> toFiltered){
-    List<Establishment> filtered= [];
-    for(Establishment establishment in toFiltered){
-      for(GameTypeDto gameTypeDto in establishment.gameTypeDtoList){
-        if(filterMap[gameTypeDto.gameType.value]!){
-          filtered.add(establishment);
-          break;
-        }
-      }
-    }
-    establishmentsFuture=Future.value(filtered);
-  }
-
-  static void resetEstablishmentsFuture(){
-    establishmentsFuture=establishmentsOriginFuture;
-  }
-
 }

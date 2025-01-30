@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../../models/establishment.dart';
 
+/// The tag to show a game and the number of instance of this one
 class GameTag extends StatelessWidget {
+
+  /// The game to show
   final GameTypeDto game;
 
+  /// The initializer of the class
   const GameTag({super.key, required this.game});
 
   @override
@@ -39,9 +43,12 @@ class GameTag extends StatelessWidget {
   }
 }
 
+/// A list of game tag
 class GameTagsList extends StatelessWidget {
+  /// The list of games
   final List<GameTypeDto> games;
 
+  /// The initializer of the class
   const GameTagsList({super.key, required this.games});
 
   @override
@@ -62,9 +69,12 @@ class GameTagsList extends StatelessWidget {
   }
 }
 
+/// A tag to show some information
 class InfoTag extends StatelessWidget {
+  /// The information to show
   final String infoName;
 
+  /// The initializer of the class
   const InfoTag({super.key, required this.infoName});
 
   @override
@@ -87,11 +97,15 @@ class InfoTag extends StatelessWidget {
   }
 }
 
+/// A tag to show the average price of games
 class PriceTag extends StatelessWidget {
+  /// The average price to show
   final Price price;
 
+  /// The initializer of the class
   const PriceTag({super.key, required this.price});
 
+  /// Parse the price to a String with €
   String formatPrice(Price price) {
     String value;
 
@@ -132,9 +146,12 @@ class PriceTag extends StatelessWidget {
   }
 }
 
+/// Show the list of info tag and price tag of a establishment
 class EstablishmentInfo extends StatelessWidget {
+  /// The establishment to get data
   final Establishment establishment;
 
+  /// The initializer of the class
   const EstablishmentInfo({super.key, required this.establishment});
 
   @override

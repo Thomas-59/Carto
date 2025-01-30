@@ -4,12 +4,17 @@ import 'package:flutter/material.dart';
 import '../../models/address.dart';
 import '../widgets/constants.dart';
 
+/// The page to seek after a address existing in the French government API
 class AddressInputPage extends StatefulWidget {
+
+  /// The address to initially show in the page
   final Address? initialAddress;
+
+  /// The call back to doe when the address is validated
   final Function(Address? address, String latitude, String longitude)
     onAddressValidated;
 
-
+  /// The initializer of the class
   const AddressInputPage({
     super.key,
     required this.initialAddress,
@@ -20,12 +25,20 @@ class AddressInputPage extends StatefulWidget {
   State<AddressInputPage> createState() => _AddressInputPageState();
 }
 
+/// The state of the AddressInputPage stateful widget
 class _AddressInputPageState extends State<AddressInputPage> {
+  /// The TextEditingController of the field where enter the new address
   late TextEditingController _addressController;
+  /// The list of corresponding address to show to the user
   late List<Address> _listAddress=[];
+  /// The view model to access to the service which communicate with the french
+  /// government API
   AddressViewModel addressViewModel = AddressViewModel();
+  /// The chosen address
   Address? _addressPick;
+  /// The validity state of the address
   bool _addressIsValid = false;
+
   @override
   void initState() {
     super.initState();
@@ -38,13 +51,15 @@ class _AddressInputPageState extends State<AddressInputPage> {
     });
   }
 
+  /// Try if the address is valid
   bool _addressValueIsValid(String value) {
     return value.isNotEmpty;
   }
 
+  /// update _listAddress with new corresponding address
   void getResult()  async {
     if (_addressController.text.length > 2) {
-      var res = await addressViewModel.searchAdress(_addressController.text);
+      var res = await addressViewModel.searchAddress(_addressController.text);
       setState(() {
         _listAddress = res;
       });
@@ -57,6 +72,9 @@ class _AddressInputPageState extends State<AddressInputPage> {
   }
 
 
+  /// If a address is chosen, call onAddressValidated and go back to the last
+  /// page or send a popup to warn the user to chose a address before retrying
+  /// this action
   void _validateAddress() {
     var lat =_addressPick!.geometry.coordinates[1];
     var long =_addressPick!.geometry.coordinates[0];
@@ -137,10 +155,10 @@ class _AddressInputPageState extends State<AddressInputPage> {
             _addressPick!=null?Center(
               child: ElevatedButton(
                 onPressed: _validateAddress,
-                child: const Text("Valider", style: blueTextBold16,),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: white,
                 ),
+                child: const Text("Valider", style: blueTextBold16,),
               ),
             ):const SizedBox(),
           ],

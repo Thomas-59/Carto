@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:carto/enum/price_enum.dart';
+import 'package:carto/utils/establishment_games.dart';
+import 'package:carto/utils/opening_hours.dart';
 import 'package:carto/viewmodel/establishment_view_model.dart';
 import 'package:carto/views/widgets/form/games_form.dart';
 import 'package:carto/views/widgets/form/contact_form.dart';
@@ -11,48 +13,75 @@ import 'package:carto/views/widgets/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../services/establishment_service.dart';
-
+/// It the page where the user can suggest a new establishment to add in the
+/// application
 class SuggestionPage extends StatefulWidget {
+
+  /// The initializer of the class
   const SuggestionPage({super.key});
 
   @override
   State<SuggestionPage> createState() => _SuggestionPageState();
 }
 
+/// The state of the SuggestionPage stateful widget
 class _SuggestionPageState extends State<SuggestionPage> {
+  /// The form with the general data field
   late final GeneralForm _generalForm;
+  /// The form with the contact field
   late final ContactForm _contactForm;
+  /// The form with the opening hour field
   late final OpeningHourForm _openingHourForm;
+  /// The form with the games field
   late final GamesForm _gamesForm;
 
+  /// The state of validity of the general field
   bool _generalFormIsValid = false;
+  /// The state of validity of the general field
   bool _contactFormIsValid = true;
 
   // GeneralForm
-  late String _name, _address, _latitude, _longitude, _site, _description;
+  /// The name of the establishment
+  late String _name,
+  /// The address of the establishment
+    _address,
+  /// The latitude of the establishment
+    _latitude,
+  /// The longitude of the establishment
+    _longitude,
+  /// The web site of the establishment
+    _site,
+  /// The description of the establishment
+    _description;
+  /// The average price of the game in the establishment
   late PriceEnum _gamePrice;
-  late bool _nearTransport, _pmrAccess;
+  /// If the establishment is near the public transport
+  late bool _nearTransport,
+  /// If the establishment have pmr access
+    _pmrAccess;
 
   // ContactForm
-  late String _mail, _phoneNumber;
+  /// The email address of the establishment
+  late String _mail,
+  /// The phone number of the establishment
+    _phoneNumber;
 
   // OpeningHourForm
-  late List<bool> _weekOpening;
-  late List<List<TimeOfDay>> _weekOpeningHour;
+  /// The list of opening hour in the week
+  late WeekOpening _weekOpeningHour;
 
   // GameForm
-  late List<String> _gameTitles;
-  late List<int> _gameNumbers;
+  /// The list of games in the establishment
+  EstablishmentGames _games = EstablishmentGames();
 
   // Service
+  /// The view model to access to the service which communicate with the
+  /// establishment part of our API
   EstablishmentViewModel establishmentViewModel = EstablishmentViewModel();
-  EstablishmentService establishmentService = EstablishmentService();
 
   //image
+  /// The image of the establishment
   late Uint8List? _imageBytes;
-  bool _isUploading= false;
-  String? _uploadedImageUrl;
 
   @override
   void initState() {
@@ -75,30 +104,20 @@ class _SuggestionPageState extends State<SuggestionPage> {
     _mail = _contactForm.mail;
     _phoneNumber = _contactForm.phoneNumber;
     _openingHourForm = OpeningHourForm(
-      weekOpeningChange: _handleOpeningHourFormOpeningChange,
-      weekOpeningHourChange: _handleOpeningHourFormOpeningHourChange,
+      weekOpeningChange: _handleOpeningHourFormChange,
     );
-    _weekOpening = _openingHourForm.weekOpening;
-    _weekOpeningHour = _openingHourForm.weekOpeningHour;
+    _weekOpeningHour = WeekOpening();
 
     _gamesForm = GamesForm(
       formChange: _handleGameFormChange,
     );
-    _gameTitles = _gamesForm.gameTitles;
-    _gameNumbers = [];
-    for(String _ in _gameTitles) {
-      _gameNumbers.add(0);
-    }
 
     super.initState();
   }
 
+  /// Upload in the service the image of the new establishment
   Future<void> _uploadImage(BigInt id) async {
     if (_imageBytes == null) return;
-
-    setState(() {
-      _isUploading = true;
-    });
 
     final supabase = Supabase.instance.client;
     const folderName = 'establishment-images';
@@ -112,17 +131,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
         fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
       );
 
-      final publicUrl =
-        supabase.storage.from('CartoBucket').getPublicUrl(filePath);
-
-      setState(() {
-        _uploadedImageUrl = publicUrl;
-        _isUploading = false;
-      });
     } catch (error) {
-      setState(() {
-        _isUploading = false;
-      });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to upload image: $error')),
       );
@@ -177,7 +186,6 @@ class _SuggestionPageState extends State<SuggestionPage> {
                     onPressed: () async {
 
                     if(formIsValid()){
-                      //BigInt id = await establishmentService.createEstablishment(establishment);
                       BigInt id = await establishmentViewModel.createEstablishment(
                           _name,
                           _address,
@@ -191,9 +199,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
                           _longitude,
                           _latitude,
                           _weekOpeningHour,
-                          _weekOpening,
-                          _gameTitles,
-                          _gameNumbers
+                          _games,
                       );
                       _uploadImage(id);
                       Navigator.pushNamed(context, '/thank',);
@@ -208,16 +214,19 @@ class _SuggestionPageState extends State<SuggestionPage> {
     ));
   }
 
+  /// Give the sate of validity of the form
   bool formIsValid() {
     return _generalFormIsValid & _contactFormIsValid;
   }
 
+  /// Give the sate of validity of the general form
   void _handleGeneralFormValidity(bool formIsValid) {
     setState(() {
       _generalFormIsValid = formIsValid;
     });
   }
 
+  /// The call back of the general form
   void _handleGeneralFormChange(List<String> newValues) {
     _name = newValues[0];
     _address = newValues[1];
@@ -240,28 +249,26 @@ class _SuggestionPageState extends State<SuggestionPage> {
     }
   }
 
+  /// Give the sate of validity of the contact form
   void _handleContactFormValidity(bool formIsValid) {
     setState(() {
       _contactFormIsValid = formIsValid;
     });
   }
 
+  /// The call back of the contact form
   void _handleContactFormChange(List<String> newValues) {
     _mail = newValues[0];
     _phoneNumber = newValues[1];
   }
 
-  void _handleOpeningHourFormOpeningChange(List<bool> newWeekOpening) {
-    _weekOpening = newWeekOpening;
-  }
-
-  void _handleOpeningHourFormOpeningHourChange(
-      List<List<TimeOfDay>> newWeekOpeningHour
-      ) {
+  /// The call back of the opening hour form
+  void _handleOpeningHourFormChange(WeekOpening newWeekOpeningHour) {
     _weekOpeningHour = newWeekOpeningHour;
   }
 
-  void _handleGameFormChange(List<int> newGameNumbers) {
-    _gameNumbers = newGameNumbers;
+  /// The call back of the game form
+  void _handleGameFormChange(EstablishmentGames newGames) {
+    _games = newGames;
   }
 }

@@ -5,13 +5,17 @@ import 'package:carto/views/widgets/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+/// The page to let the user create a new account
 class SignUpPage extends StatefulWidget {
+
+  /// The initializer of the class
   const SignUpPage({super.key});
 
   @override
   State<SignUpPage> createState() => _SignUpPage();
 }
 
+/// The state of the SignUpPage stateful widget
 class _SignUpPage extends State<SignUpPage> {
 
   @override
@@ -60,6 +64,7 @@ class _SignUpPage extends State<SignUpPage> {
     );
   }
 
+  /// Create a new account in our API
   void signUp(Account newAccount) async {
     AccountViewModel accountViewModel = AccountViewModel();
     String? accountId;

@@ -4,11 +4,15 @@ import 'package:carto/models/establishment.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 
+/// A utilitarian class
 class IntentUtils {
   IntentUtils._();
 
+  /// Launch an extern app to navigate the user to a chosen establishment
   static Future<void> launchNavigation(
-      BuildContext context, Establishment establishment) async {
+      BuildContext context,
+      Establishment establishment
+  ) async {
     final encodedAddress = Uri.encodeComponent(establishment.address);
 
     final Uri googleMapsWebUri = Uri.parse(
