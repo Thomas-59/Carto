@@ -2,7 +2,9 @@ import 'package:carto/viewmodel/account_view_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+/// The form field for email address of a user
 class MailFormField extends StatefulWidget {
+  /// The initializer of the class
   const MailFormField({
     super.key,
     required this.label,
@@ -14,20 +16,33 @@ class MailFormField extends StatefulWidget {
     this.ignoreMail,
   });
 
+  /// The label of the field
   final String label;
+  /// The address email to ignore
   final String? ignoreMail;
+  /// The controller of the form field
   final TextEditingController controller;
-  final bool isFeminine, canBeEmpty;
-  final int minLines, maxLines;
+  /// If the label if feminine (French particularity)
+  final bool isFeminine,
+  /// If the field can be empty
+    canBeEmpty;
+  /// The minimal line to show in the field
+  final int minLines,
+  /// The maximal line to show in the field
+    maxLines;
 
   @override
   State<MailFormField> createState() => _MailFormFieldState();
 }
 
+/// The state of MailFormField
 class _MailFormFieldState extends State<MailFormField> {
+  /// The error message to show
   String? _mailError;
+  /// If the widget is checking the usability of the value
   bool _isChecking = false;
 
+  /// The view model to deal with an account
   AccountViewModel accountViewModel = AccountViewModel();
 
   @override
@@ -56,6 +71,7 @@ class _MailFormFieldState extends State<MailFormField> {
     );
   }
 
+  /// Return a string with the message error if the value is not valid
   String? _validator(String? value) {
     if (widget.canBeEmpty ? false : (value == null || value.isEmpty)) {
       return 'Veuillez entrer ${widget.isFeminine ? "une" : "un"} '
@@ -84,6 +100,7 @@ class _MailFormFieldState extends State<MailFormField> {
     super.dispose();
   }
 
+  /// check if the address email is valid and available
   void _validateMail() async {
     final emailAddress = widget.controller.text;
     if (emailAddress.isEmpty) {

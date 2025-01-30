@@ -11,7 +11,10 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 
+/// The page who display the establishment data to a user
 class EstablishmentDisplayPage extends StatefulWidget {
+
+  /// The initializer of the class
   const EstablishmentDisplayPage({super.key});
 
   @override
@@ -19,11 +22,18 @@ class EstablishmentDisplayPage extends StatefulWidget {
       _EstablishmentDisplayPageState();
 }
 
+
+/// The state of the EstablishmentDisplayPage stateful widget
 class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
+  /// The url to the image who represent the establishment
   String? _imageUrl;
+  /// The Supabase instance to fetch the image
   final supabase = Supabase.instance.client;
+  /// The folder name where to search the image
   final folderName = 'establishment-images';
+  /// The state of loading for the image
   bool _isLoading = true;
+  /// The establishment who information where displayed
   late Establishment establishment;
 
 
@@ -32,6 +42,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
     super.initState();
   }
 
+  /// Fetch the image of the establishment
   void _fetchImageUrl() async {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <Establishment, dynamic>{}) as Map;
@@ -47,6 +58,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
     });
   }
 
+  /// Give the url used to fetch the image of the establishment
   Future<String?> getImageUrl(String filePath) async {
     try {
       final fileName = filePath.split('/').last;
@@ -239,6 +251,14 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
     );
   }
 
+  /// Share the establishment with other application
+  ///
+  /// ```
+  /// name
+  /// address
+  /// available game
+  /// contact (if available)
+  /// ```
   void _shareEstablishment() async {
     String text = "${establishment.name}\n"
       "Au : ${establishment.address}\n"
@@ -266,6 +286,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
     }
   }
 
+  /// Launch the telephone app with the number of the establishment
   void _call() async {
     if(establishment.phoneNumber.isNotEmpty) {
       Uri url = Uri.parse
@@ -276,6 +297,7 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
     }
   }
 
+  /// Open the preferred browser on the website of the establishment
   _openBrowser() async {
     if(establishment.site.isNotEmpty) {
       Uri url = Uri.parse(establishment.site);
@@ -285,6 +307,8 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
     }
   }
 
+  /// Let the user chose the email app he want and open a new email with the
+  /// coordinate of the establishment
   _sendEmail() async {
     if(establishment.emailAddress.isNotEmpty) {
       Uri url = Uri.parse("mailto:"
@@ -295,6 +319,10 @@ class _EstablishmentDisplayPageState extends State<EstablishmentDisplayPage> {
     }
   }
 
+
+  /// Let the user chose the email app he want and open a new email with the
+  /// coordinate of contact of the application and a patron of email to warn
+  /// the need of change of expired data in the page
   void _falseData() async {
     String subject = Uri.encodeComponent("Information établissement erronée");
     String body = Uri.encodeComponent(

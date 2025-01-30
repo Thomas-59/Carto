@@ -1,6 +1,8 @@
 import 'package:carto/views/widgets/form/form_fields/my_form_field.dart';
 
+/// The default form field for email address
 class MyFormFieldMail extends MyFormField {
+  /// The initializer of the class
   const MyFormFieldMail({
     super.key,
     required super.label,
@@ -11,6 +13,7 @@ class MyFormFieldMail extends MyFormField {
     super.maxLines,
   });
 
+  /// Return a string with the message error if the value is not valid
   @override
   String? validator(String? value) {
     if (value == null || value.isEmpty) {

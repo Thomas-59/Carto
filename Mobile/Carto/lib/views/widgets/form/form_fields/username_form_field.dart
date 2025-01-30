@@ -2,7 +2,9 @@ import 'package:carto/viewmodel/account_view_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+/// The default form field for user name
 class UsernameFormField extends StatefulWidget {
+  /// The initializer of the class
   const UsernameFormField({
     super.key,
     required this.label,
@@ -14,20 +16,33 @@ class UsernameFormField extends StatefulWidget {
     this.ignoreUsername
   });
 
+  /// The label of the field
   final String label;
+  /// The user name to not test
   final String? ignoreUsername;
+  /// The controller of the form field
   final TextEditingController controller;
-  final bool isFeminine, canBeEmpty;
-  final int minLines, maxLines;
+  /// If the label if feminine (French particularity)
+  final bool isFeminine,
+  /// If the field can be empty
+    canBeEmpty;
+  /// The minimal line to show in the field
+  final int minLines,
+  /// The maximal line to show in the field
+    maxLines;
 
   @override
   State<UsernameFormField> createState() => _UsernameFormFieldState();
 }
 
+/// The state of UsernameFormField
 class _UsernameFormFieldState extends State<UsernameFormField> {
+  /// The error message to show
   String? _usernameError;
+  /// If the widget is checking the usability of the value
   bool _isChecking = false;
 
+  /// The view model to deal with an account
   AccountViewModel accountViewModel = AccountViewModel();
 
   @override
@@ -56,6 +71,7 @@ class _UsernameFormFieldState extends State<UsernameFormField> {
     );
   }
 
+  /// Return a string with the message error if the value is not valid
   String? _validator(String? value) {
     if (widget.canBeEmpty ? false : (value == null || value.isEmpty)) {
       return 'Veuillez entrer ${widget.isFeminine ? "une" : "un"} '
@@ -76,6 +92,7 @@ class _UsernameFormFieldState extends State<UsernameFormField> {
     super.dispose();
   }
 
+  /// Check if the user name is valid and available
   void _validateUsername() async {
     final username = widget.controller.text;
     if (username.isEmpty) {

@@ -7,20 +7,28 @@ import 'package:carto/views/widgets/form/form_fields/single_password_form_field.
 import 'package:carto/views/widgets/form/other_fields/my_checkbox_list_tile.dart';
 import 'package:flutter/material.dart';
 
-import '../../services/account_service.dart';
-
+/// The page where the user can log to is account
 class LoginPage extends StatefulWidget {
+
+  /// The initializer of the class
   const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
+/// The state of the LoginPage stateful widget
 class _LoginPageState extends State<LoginPage> {
+  /// The TextEditingController of the field where enter the address email or
+  /// the user name of the user account
   TextEditingController mailOrPseudoController =
       TextEditingController(text: "");
+  /// The TextEditingController of the field where enter the password of the
+  /// user account
   TextEditingController passwordController = TextEditingController(text: "");
+  /// The state of validity of the form
   bool _canLog = false;
+  /// If the application have to remember the user when restart
   bool _remember = false;
 
   @override
@@ -155,11 +163,13 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
+  /// Check the validity state of the form
   bool _canTryToLog() {
     return mailOrPseudoController.text.isNotEmpty &&
         passwordController.text.isNotEmpty;
   }
 
+  /// Try to log the user with the given credential
   void tryLog() async {
     if(_canLog) {
       AccountViewModel accountService = AccountViewModel();

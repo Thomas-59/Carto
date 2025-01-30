@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+/// The initializer of the application
 Future<void> main() async {
   final locationService = LocationService();
   WidgetsFlutterBinding.ensureInitialized();

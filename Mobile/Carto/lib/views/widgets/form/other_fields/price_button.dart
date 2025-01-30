@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 
 import '../../../../enum/price_enum.dart';
 
+/// The widget to chose the average price between is three state
 class PriceButton extends StatefulWidget {
+  /// The initial average price
   final PriceEnum averageGamePrice;
+  /// The action to take on price change
   final ValueChanged<PriceEnum> onPriceChanged;
+  /// The text to show before the button
   final String text;
 
+  /// The initializer of the class
   const PriceButton({
     super.key,
     required this.averageGamePrice,
@@ -18,7 +23,9 @@ class PriceButton extends StatefulWidget {
   State<PriceButton> createState() => _PriceButtonState();
 }
 
+/// The state of PriceButton
 class _PriceButtonState extends State<PriceButton> {
+  /// The chosen average price
   late PriceEnum _selectedPrice;
 
   @override
@@ -37,16 +44,17 @@ class _PriceButtonState extends State<PriceButton> {
           /*Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[*/
-            setButton("€", PriceEnum.low),
-            setButton("€€", PriceEnum.medium),
-            setButton("€€€", PriceEnum.high),
+            _setButton("€", PriceEnum.low),
+            _setButton("€€", PriceEnum.medium),
+            _setButton("€€€", PriceEnum.high),
           //],),
         ],
       )
     );
   }
 
-  Widget setButton(String title, PriceEnum value) {
+  /// Set the radio button on the widget
+  Widget _setButton(String title, PriceEnum value) {
     return Column(
       children: [
         Text(title),

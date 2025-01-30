@@ -1,6 +1,8 @@
 import 'package:carto/views/widgets/form/form_fields/my_form_field.dart';
 
+/// The default form field for http link
 class MyFormFieldHttpLink extends MyFormField {
+  /// The initializer of the class
   const MyFormFieldHttpLink({
     super.key,
     required super.label,
@@ -11,6 +13,7 @@ class MyFormFieldHttpLink extends MyFormField {
     super.maxLines,
   });
 
+  /// Give the value and add "http://" if not present
   @override
   String getValue() {
     return controller.text.isEmpty
@@ -20,6 +23,7 @@ class MyFormFieldHttpLink extends MyFormField {
         : "http://${controller.text}";
   }
 
+  /// Return a string with the message error if the value is not valid
   @override
   String? validator(String? value) {
     if (value == null || value.isEmpty) {

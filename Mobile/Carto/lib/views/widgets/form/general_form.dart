@@ -12,15 +12,35 @@ import '../../pages/address_input_page.dart';
 import 'form_fields/my_form_field.dart';
 import 'other_fields/price_button.dart';
 
+/// The frame concerning the general information of the establishment in the form
 class GeneralForm extends StatefulWidget {
+  /// The action to take when validity of the frame change
   final ValueChanged<bool> formIsValid;
+  /// The action to take when value change
   final ValueChanged<List<String>> formChange;
-  final String name, address, latitude, longitude, site, description;
+  /// The initial name of the establishment
+  final String name,
+  /// The initial address of the establishment
+    address,
+  /// The initial latitude of the establishment
+    latitude,
+  /// The initial longitude of the establishment
+    longitude,
+  /// The initial web site of the establishment
+    site,
+  /// The initial description of the establishment
+    description;
+  /// The initial average price of the establishment
   final PriceEnum gamePrice;
-  final bool nearTransport, pmrAccess;
+  /// The initial state if the establishment is near public transport
+  final bool nearTransport,
+  /// The initial state if the establishment  have pmr access
+    pmrAccess;
 
+  /// The initial image of the establishment
   final Uint8List? imageBytes;
 
+  /// The initializer of the class
   const GeneralForm({
     super.key,
     required this.formIsValid,
@@ -41,29 +61,47 @@ class GeneralForm extends StatefulWidget {
   State<GeneralForm> createState() => _GeneralFormState();
 }
 
+/// The state of GeneralForm
 class _GeneralFormState extends State<GeneralForm> {
   //controller
+  /// The form field of the establishment name
   late final MyFormField _nameField,
+  /// The form field of the establishment address
       _addressField,
-      _longitudeField,
+  /// The form field of the establishment website
       _siteField,
+  /// The form field of the establishment description
       _descriptionField;
 
   //checkBox
+  /// If the establishment is near public transport
   late bool _nearTransport = widget.nearTransport,
-      _pmrAccess = widget.nearTransport;
+  /// If the establishment have pmr access
+    _pmrAccess = widget.pmrAccess;
 
   //validator
-  late bool _nameIsValid, _addressIsValid, _siteIsValid, _descriptionIsValid;
+  /// The validity of the name field
+  late bool _nameIsValid,
+  /// The validity of the address field
+    _addressIsValid,
+  /// The validity of the web site field
+    _siteIsValid;
 
+  /// The average price of game in the establishment
   late PriceEnum _gamePrice = widget.gamePrice;
+  /// The model of the chosen address
   Address? _addressPick;
-  String _adressLabel = "";
+  /// The address name of the establishment
+  String _addressLabel = "";
+  /// The longitude of the establishment
   String _longitude = "0";
+  /// The latitude of the establishment
   String _latitude = "0";
 
   //image
+  /// The instance of the class to pick image
   final ImagePicker _picker = ImagePicker();
+  /// The image given to the establishment
   Uint8List? _imageBytes;
 
   @override
@@ -88,7 +126,7 @@ class _GeneralFormState extends State<GeneralForm> {
       });
     });
 
-    _addressIsValid = _addressValueIsValid(_adressLabel);
+    _addressIsValid = _addressValueIsValid(_addressLabel);
     _addressField = MyFormField(
         label: "Adresse d'établissement",
         isFeminine: true,
@@ -123,34 +161,30 @@ class _GeneralFormState extends State<GeneralForm> {
       maxLines: 10,
       canBeEmpty: true,
     );
-    _descriptionIsValid = _fieldIsValid(_descriptionField);
-    descriptionController.addListener(() {
-      setState(() {
-        _descriptionIsValid = _fieldIsValid(_longitudeField);
-        widget.formIsValid(_formIsValid());
-        widget.formChange(getAllParameter());
-      });
-    });
 
     super.initState();
   }
 
+  /// Give the validity of the value for the text field
   bool _fieldIsValid(MyFormField field) {
     return (field.validator(field.getValue()) == null);
   }
 
+  /// Give the validity of the value for the address field
   bool _addressValueIsValid(String value) {
     return value.isNotEmpty;
   }
 
+  /// Give the validity state of the form frame
   bool _formIsValid() {
-    return _nameIsValid & _addressIsValid & _siteIsValid & _descriptionIsValid;
+    return _nameIsValid & _addressIsValid & _siteIsValid;
   }
 
+  /// Give a list of all field in the frame
   List<String> getAllParameter() {
     return <String>[
       _nameField.getValue(),
-      _adressLabel,
+      _addressLabel,
       _latitude,
       _longitude,
       _siteField.getValue(),
@@ -162,6 +196,7 @@ class _GeneralFormState extends State<GeneralForm> {
     ];
   }
 
+  /// Open the page to the address search page
   void _openAddressInputPage() {
     Navigator.push(
         context,
@@ -172,11 +207,11 @@ class _GeneralFormState extends State<GeneralForm> {
               setState(() {
                 _addressPick = updatedAddress;
                 if (updatedAddress != null) {
-                  _adressLabel = updatedAddress.properties.label;
+                  _addressLabel = updatedAddress.properties.label;
                 }
                 _latitude = latitude;
                 _longitude = longitude;
-                _addressIsValid = _addressValueIsValid(_adressLabel);
+                _addressIsValid = _addressValueIsValid(_addressLabel);
                 widget.formIsValid(_formIsValid());
                 widget.formChange(getAllParameter());
               });
@@ -185,6 +220,7 @@ class _GeneralFormState extends State<GeneralForm> {
         ));
   }
 
+  /// Pike a ime from the phone gallery of the user
   Future<void> _pickImage() async {
     final XFile? pickedFile =
         await _picker.pickImage(source: ImageSource.gallery);
@@ -280,6 +316,7 @@ class _GeneralFormState extends State<GeneralForm> {
     ]);
   }
 
+  /// The action to take on change of average price
   void _handlePriceChange(PriceEnum newPrice) {
     setState(() {
       _gamePrice = newPrice;

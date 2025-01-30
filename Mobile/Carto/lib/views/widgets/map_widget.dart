@@ -9,11 +9,15 @@ import '../../services/location_service.dart';
 import '../../models/establishment.dart';
 import 'buttons.dart';
 
+/// Give the map and control it display and setting
 class MapWidget extends StatefulWidget {
+  /// The key of the widget
   static final GlobalKey<_MapWidgetState> mapKey = GlobalKey<_MapWidgetState>();
 
+  /// The initializer of the class
   const MapWidget({super.key});
 
+  /// Set the center of the map at the given coordinate
   void setCoordinate(double latitude, double longitude) {
     final state = mapKey.currentState;
     if (state != null) {
@@ -21,6 +25,7 @@ class MapWidget extends StatefulWidget {
     }
   }
 
+  /// Reload the establishments on the map
   void reload() {
     final state = mapKey.currentState;
     if (state != null) {
@@ -32,23 +37,34 @@ class MapWidget extends StatefulWidget {
   _MapWidgetState createState() => _MapWidgetState();
 }
 
+/// The state of  MapWidget
 class _MapWidgetState extends State<MapWidget> {
+  /// The map controller
   final MapController _mapController = MapController();
+  /// The view model to deal with all establishment
   final EstablishmentViewModel establishmentViewModel = EstablishmentViewModel();
+  /// The current position of the user or null if permission denied
   Position? _currentPosition;
+  /// If it the first load of the widget
   bool isFirstLoad = true;
+  /// If the map is in dark mode
   bool _isDarkMode = false;
+  /// The tracker of the user
   final LocationService _locationService = LocationService();
 
   // Default location when user do not permit to use its location
+  /// The default latitude of the map
   static const double defaultLatitude = 48.8602658;
+  /// The default longitude of the map
   static const double defaultLongitude = 2.3420773;
 
+  /// Reload the establishments on the map
   void reload(){
     setState(() {
       DataManager.establishmentsFuture = establishmentViewModel.getAllEstablishment();
     });
   }
+
   @override
   void initState() {
     super.initState();
@@ -218,6 +234,7 @@ class _MapWidgetState extends State<MapWidget> {
     );
   }
 
+  /// Give the gray filter to apply on the map
   Widget _grayModeTileBuilder(
       BuildContext context, Widget tileWidget, TileImage tile) {
     return ColorFiltered(
@@ -231,6 +248,7 @@ class _MapWidgetState extends State<MapWidget> {
     );
   }
 
+  /// Give the night filter to apply on the map
   Widget _nightModeTileBuilder(
       BuildContext context, Widget tileWidget, TileImage tile) {
     return ColorFiltered(
@@ -244,7 +262,7 @@ class _MapWidgetState extends State<MapWidget> {
     );
   }
 
-  // Fonction pour déplacer la carte sur les nouvelles coordonnées
+  /// Set the center of the map at the given coordinate
   void setCoordinate(double latitude, double longitude) {
     _mapController.move(LatLng(latitude, longitude), 15);
   }

@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 
+/// A checkbox with a color background on the case
 class MyCheckboxListTile extends StatefulWidget {
+  /// The initial value of the checkbox
   final bool value;
+  /// The action to take on value change
   final ValueChanged<bool?> onChanged;
+  /// The label of the checkbox
   final String title;
+  /// The color of the label
   final Color textColor;
 
+  /// The initializer of the class
   const MyCheckboxListTile({
     super.key,
     required this.value,
@@ -18,6 +24,7 @@ class MyCheckboxListTile extends StatefulWidget {
   _MyCheckboxListTileState createState() => _MyCheckboxListTileState();
 }
 
+/// The state of MyCheckboxListTile
 class _MyCheckboxListTileState extends State<MyCheckboxListTile> {
   @override
   Widget build(BuildContext context) {

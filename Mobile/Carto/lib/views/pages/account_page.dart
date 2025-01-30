@@ -8,13 +8,19 @@ import 'package:carto/views/widgets/text.dart';
 import 'package:carto/views/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 
+/// The page to update the user account and the possibility for manager to see
+/// their establishment, reclaim new establishment and having access to the
+/// page to modify the data of their establishment
 class AccountPage extends StatefulWidget {
+
+  /// The initializer of the class
   const AccountPage({super.key});
 
   @override
   State<AccountPage> createState() => _AccountPage();
 }
 
+/// The state of the AccountPage stateful widget
 class _AccountPage extends State<AccountPage> {
 
   @override
@@ -80,6 +86,8 @@ class _AccountPage extends State<AccountPage> {
     );
   }
 
+  /// Update account data and asks the user if he is sure he wants to if user
+  /// discard is MANAGER status is the situation happen
   void _onConfirmation(Account newAccount) {
     if((newAccount.managerInformation == null) &&
       (DataManager.account!.managerInformation != null))
@@ -90,6 +98,7 @@ class _AccountPage extends State<AccountPage> {
     }
   }
 
+  /// Update the data of the user account
   void updateAccount(Account newAccount) {
     setState(() {
       AccountViewModel accountViewModel = AccountViewModel();
@@ -99,11 +108,12 @@ class _AccountPage extends State<AccountPage> {
         content: Text('Modification effectuée !'),
         duration: Duration(seconds: 3),
       );
-
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     });
   }
 
+  ///asks the user if he is sure he wants to discard is MANAGER status and
+  ///update them if he agree
   void confirmationLostManagement(Account newAccount) {
     showDialog(
       context: context,
@@ -118,8 +128,9 @@ class _AccountPage extends State<AccountPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     const Text(
-                      "\nÊtes-vous sûr de vouloir supprimer vos données de manager ?\n\n"
-                          "Cette action est définitive !",
+                      "\nÊtes-vous sûr de vouloir supprimer vos données de "
+                        "manager ?\n\n"
+                        "Cette action est définitive !",
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 16),
@@ -154,7 +165,8 @@ class _AccountPage extends State<AccountPage> {
       },
     );//Navigator.pop(context);
   }
-  
+
+  /// Give a list of card of all establishments possessed by the user
   List<Widget> listEstablishmentCard() {
     List<Widget> cards = List.empty(growable: true);
     for(Establishment establishment in DataManager.possessedEstablishment) {
@@ -162,7 +174,8 @@ class _AccountPage extends State<AccountPage> {
     }
     return cards;
   }
-  
+
+  /// Give a card of the given establishment
   Widget establishmentCard(Establishment establishment) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -175,8 +188,7 @@ class _AccountPage extends State<AccountPage> {
           );
         },
         child: Card(
-          margin: const EdgeInsets.symmetric(
-              vertical: 8, horizontal: 16),
+          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -200,6 +212,8 @@ class _AccountPage extends State<AccountPage> {
     );
   }
 
+  /// Allow the  user to try to claim a establishment (Not implemented, so show
+  /// a  message "Coming soon" to the user
   void _claimEstablishment() {
     //TODO claim establishment
     ScaffoldMessenger.of(context).showSnackBar(

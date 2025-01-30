@@ -4,18 +4,24 @@ import 'package:intl/intl.dart';
 import '../../models/establishment.dart';
 import 'constants.dart';
 
+/// The widget who show opening hours in a accordion
 class HoursAccordion extends StatefulWidget {
+  /// The list of opening hour of the week
   final List<DayOfTheWeekElemDto> schedule;
 
+  /// The initializer of the class
   const HoursAccordion({super.key, required this.schedule});
 
   @override
   _HoursAccordionState createState() => _HoursAccordionState();
 }
 
+/// The state of HoursAccordion
 class _HoursAccordionState extends State<HoursAccordion> {
+  /// If the HoursAccordion is expended
   bool _isExpanded = false;
 
+  /// Return true if the given day is today
   bool isToday(String weekdayFromSchedule) {
     DateTime now = DateTime.now();
     int weekday = now.weekday;
@@ -25,6 +31,7 @@ class _HoursAccordionState extends State<HoursAccordion> {
     return false;
   }
 
+  /// Give the name of the day by it index
   String getDayOfWeek(int weekday) {
     switch (weekday) {
       case 1:
@@ -107,12 +114,16 @@ class _HoursAccordionState extends State<HoursAccordion> {
   }
 }
 
+/// A row in the HoursAccordion
 class DayRow extends StatelessWidget {
 
+  /// The schedule to show
   final DayOfTheWeekElemDto daySchedule;
 
+  /// The initializer of the class
   const DayRow({super.key, required this.daySchedule});
 
+  /// Parse the time to the 'HH:mm' format
   String formatTime(String time) {
     try {
       final parsedTime = DateFormat('HH:mm:ss').parse(time);
@@ -148,12 +159,16 @@ class DayRow extends StatelessWidget {
   }
 }
 
+/// A row in the HoursAccordion which is today
 class TodayRow extends StatelessWidget {
 
+  /// The schedule to show
   final DayOfTheWeekElemDto daySchedule;
 
+  /// The initializer of the class
   const TodayRow({super.key, required this.daySchedule});
 
+  /// Parse the time to the 'HH:mm' format
   String formatTime(String time) {
     try {
       final parsedTime = DateFormat('HH:mm:ss').parse(time);

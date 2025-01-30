@@ -2,14 +2,21 @@ import 'package:carto/views/widgets/buttons.dart';
 import 'package:carto/views/widgets/constants.dart';
 import 'package:flutter/material.dart';
 
+/// The page where we thank the user to suggest the new establishment and recall
+/// him that was a suggestion and he have to wait that suggestion receive
+/// approve to see the new establishment in the map
 class ThankingPage extends StatefulWidget {
+
+  /// The initializer of the class
   const ThankingPage({super.key});
 
   @override
   State<ThankingPage> createState() => _ThankingPageState();
 }
 
+/// The state of the AccountPage stateful widget
 class _ThankingPageState extends State<ThankingPage> {
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {

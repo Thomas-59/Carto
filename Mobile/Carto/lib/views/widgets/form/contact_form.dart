@@ -5,12 +5,18 @@ import 'package:flutter/material.dart';
 import 'form_fields/my_form_field_mail.dart';
 import 'form_fields/my_form_field_int.dart';
 
+/// The frame concerning the means of contact of the establishment in the form
 class ContactForm extends StatefulWidget {
+  /// The action to take when validity of the frame change
   final ValueChanged<bool> formIsValid;
+  /// The action to take when value change
   final ValueChanged<List<String>> formChange;
+  /// The initial mail value
   final String mail;
+  /// The initial phone number value
   final String phoneNumber;
 
+  /// The initializer of the class
   const ContactForm({
     super.key,
     required this.formIsValid,
@@ -23,13 +29,18 @@ class ContactForm extends StatefulWidget {
   State<ContactForm> createState() => _ContactFormState();
 }
 
+/// The state of ContactForm
 class _ContactFormState extends State<ContactForm> {
   //controller
+  /// The mail form field
   late final MyFormField _mailField;
+  /// The phone number form field
   late final MyFormField _phoneNumberField;
 
   //validator
+  /// The state of the mail form field
   late bool _mailIsValid;
+  /// The state of the phone number form field
   late bool _phoneNumberIsValid;
 
   @override
@@ -73,6 +84,7 @@ class _ContactFormState extends State<ContactForm> {
     super.initState();
   }
 
+  /// Give the validity state of the form frame
   bool _formIsValid() {
     return _mailIsValid & _phoneNumberIsValid;
   }
