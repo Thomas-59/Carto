@@ -1,0 +1,46 @@
+name: Build Signed APK
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      - name: Decode and restore keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          echo $KEYSTORE_BASE64 | base64 --decode > Mobile/Carto/android/app/upload-keystore.jks
+
+      - name: Set up key.properties
+        run: |
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > Mobile/Carto/android/key.properties
+          echo "keyPassword=${{ secrets.KEY_ALIAS_PASSWORD }}" >> Mobile/Carto/android/key.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> Mobile/Carto/android/key.properties
+          echo "storeFile=upload-keystore.jks" >> Mobile/Carto/android/key.properties
+
+      - name: Install dependencies
+        run: flutter pub get
+        working-directory: Mobile/Carto
+
+      - name: Build signed APK
+        run: flutter build apk --release
+        working-directory: Mobile/Carto
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: signed-apk
+          path: Mobile/Carto/build/app/outputs/flutter-apk/app-release.apk
