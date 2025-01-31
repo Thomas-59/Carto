@@ -1,18 +1,26 @@
 import 'package:carto/views/widgets/constants.dart';
 import 'package:flutter/material.dart';
 
+/// The widget to show and pick opening hour
 class HourPiker extends StatefulWidget {
+  /// The action to take on hour change
   final ValueChanged<List<TimeOfDay>> onTimeChange;
+  /// The action to take on opening change
   final ValueChanged<bool> onOpeningChange;
+  /// The initial opening hour
   final TimeOfDay openingTime;
+  /// The initial closing hour
   final TimeOfDay closingTime;
+  /// The label of the day
   final String text;
-  final bool opened;
+  /// The initial opening state
+  final bool isClosed;
 
+  /// The initializer of the class
   const HourPiker({
     super.key,
     required this.text,
-    required this.opened,
+    required this.isClosed,
     required this.openingTime,
     required this.closingTime,
     required this.onTimeChange,
@@ -23,15 +31,19 @@ class HourPiker extends StatefulWidget {
   State<HourPiker> createState() => _HourPikerState();
 }
 
+/// The state of HourPiker
 class _HourPikerState extends State<HourPiker> {
+  /// The current opening hour
   late TimeOfDay _openingTime;
+  /// The current closing hour
   late TimeOfDay _closingTime;
-  late bool _opened;
+  /// The current opening state
+  late bool _isClosed;
 
   @override
   void initState() {
     super.initState();
-    _opened = widget.opened;
+    _isClosed = widget.isClosed;
     _openingTime = widget.openingTime;
     _closingTime = widget.closingTime;
   }
@@ -45,15 +57,15 @@ class _HourPikerState extends State<HourPiker> {
           Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            _setButton("ouvert", true),
-            _setButton("fermé", false),
+            _setButton("ouvert", false),
+            _setButton("fermé", true),
           ],),
           Visibility(
-            visible: _opened,
+            visible: !_isClosed,
             child:Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text("de"),
+                const Text("de"),
                 InkWell(
                   onTap: () async {
                     final TimeOfDay? pickedTime = await showTimePicker(
@@ -70,7 +82,7 @@ class _HourPikerState extends State<HourPiker> {
                   },
                   child: _setTime(_openingTime.hour, _openingTime.minute),
                 ),
-                Text("à"),
+                const Text("à"),
                 InkWell(
                   onTap: () async {
                     final TimeOfDay? pickedTime = await showTimePicker(
@@ -96,6 +108,7 @@ class _HourPikerState extends State<HourPiker> {
     );
   }
 
+  /// Give the widget which chose the opening state
   Widget _setButton(String title, bool value) {
     return Expanded(
       child: RadioListTile<bool>(
@@ -104,11 +117,11 @@ class _HourPikerState extends State<HourPiker> {
             style: const TextStyle(fontSize: 15)
         ),
         value: value,
-        groupValue: _opened,
+        groupValue: _isClosed,
         onChanged: (bool? value) {
           if (value != null) {
             setState(() {
-              _opened = value;
+              _isClosed = value;
               widget.onOpeningChange(value);
             });
           }
@@ -117,6 +130,7 @@ class _HourPikerState extends State<HourPiker> {
     );
   }
 
+  /// Give the widget representing a hour
   Widget _setTime(int hour, int minute) {
     return Row(
       children: [
@@ -127,6 +141,7 @@ class _HourPikerState extends State<HourPiker> {
     );
   }
 
+  /// Give the box representing a hour or a minute
   Widget _setBox(String title) {
     return Container(
       width: 60.0,

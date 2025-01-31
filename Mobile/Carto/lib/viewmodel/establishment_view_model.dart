@@ -1,80 +1,48 @@
 import 'package:carto/enum/price_enum.dart';
+import 'package:carto/utils/establishment_games.dart';
+import 'package:carto/utils/opening_hours.dart';
 import 'package:flutter/material.dart';
 
 import '../models/establishment.dart';
 import '../services/establishment_service.dart';
 
+/// The viewModel of the service to manage an establishment
 class EstablishmentViewModel {
+  /// The instance of the service who manage an establishment
   EstablishmentService establishmentService = EstablishmentService();
 
-  EstablishmentViewModel() {
-    establishmentService = EstablishmentService();
-  }
-
+  /// Add a establishment in the data base
   Future<BigInt> createEstablishment(
-      String name,
-      String address,
-      String site,
-      String description,
-      bool nearTransport,
-      bool pmrAccess,
-      PriceEnum gamePrice,
-      String mail,
-      String phoneNumber,
-      String longitude,
-      String latitude,
-      List<List<TimeOfDay>> weekOpeningHour,
-      List<bool> weekOpening,
-      List<String> gameTitles,
-      List<int> gameNumbers
-      ) {
-    
-    
+    String name,
+    String address,
+    String site,
+    String description,
+    bool nearTransport,
+    bool pmrAccess,
+    PriceEnum gamePrice,
+    String mail,
+    String phoneNumber,
+    String longitude,
+    String latitude,
+    WeekOpening weekOpeningHour,
+    EstablishmentGames games,
+  ) {
     List<DayOfTheWeekElemDto> days = [];
-    days.add(DayOfTheWeekElemDto(
-        DayOfTheWeek.monday,
-        convertToString(weekOpeningHour[0][0]),
-        convertToString(weekOpeningHour[0][1]),
-        !weekOpening[0]));
-    days.add(DayOfTheWeekElemDto(
-        DayOfTheWeek.tuesday,
-        convertToString(weekOpeningHour[1][0]),
-        convertToString(weekOpeningHour[1][1]),
-        !weekOpening[1]));
-    days.add(DayOfTheWeekElemDto(
-        DayOfTheWeek.wednesday,
-        convertToString(weekOpeningHour[2][0]),
-        convertToString(weekOpeningHour[2][1]),
-        !weekOpening[2]));
-    days.add(DayOfTheWeekElemDto(
-        DayOfTheWeek.thursday,
-        convertToString(weekOpeningHour[3][0]),
-        convertToString(weekOpeningHour[3][1]),
-        !weekOpening[3]));
-    days.add(DayOfTheWeekElemDto(
-        DayOfTheWeek.friday,
-        convertToString(weekOpeningHour[4][0]),
-        convertToString(weekOpeningHour[4][1]),
-        !weekOpening[4]));
-    days.add(DayOfTheWeekElemDto(
-        DayOfTheWeek.saturday,
-        convertToString(weekOpeningHour[5][0]),
-        convertToString(weekOpeningHour[5][1]),
-        !weekOpening[5]));
-    days.add(DayOfTheWeekElemDto(
-        DayOfTheWeek.sunday,
-        convertToString(weekOpeningHour[6][0]),
-        convertToString(weekOpeningHour[6][1]),
-        !weekOpening[6]));
+    days.add(_parseOpeningHours(weekOpeningHour.monday));
+    days.add(_parseOpeningHours(weekOpeningHour.tuesday));
+    days.add(_parseOpeningHours(weekOpeningHour.wednesday));
+    days.add(_parseOpeningHours(weekOpeningHour.thursday));
+    days.add(_parseOpeningHours(weekOpeningHour.friday));
+    days.add(_parseOpeningHours(weekOpeningHour.saturday));
+    days.add(_parseOpeningHours(weekOpeningHour.sunday));
 
-    List<GameTypeDto> games = [];
-    int i = 0;
-    while (i < gameTitles.length - 1) {
-      if (gameNumbers[i] > 0) {
-        games.add(
-            GameTypeDto(GameType.fromString(gameTitles[i]), gameNumbers[i]));
+    List<GameTypeDto> gamesDto = [];
+    for(EstablishmentGame game in games.games) {
+      if (game.numberOfGame > 0) {
+        gamesDto.add(
+          GameTypeDto(GameType.fromString(game.getName()), game.numberOfGame)
+        );
       }
-      i++;
     }
 
     Establishment establishment = Establishment(
@@ -91,16 +59,27 @@ class EstablishmentViewModel {
       double.parse(longitude),
       double.parse(latitude),
       days,
-      games,
+      gamesDto,
     );
     
     return establishmentService.createEstablishment(establishment);
   }
 
+  DayOfTheWeekElemDto _parseOpeningHours(OpeningHours day) {
+    return DayOfTheWeekElemDto(
+        DayOfTheWeek.fromString(day.dayOfTheWeek.value),
+        convertToString(day.openingTime),
+        convertToString(day.closingTime),
+        day.isClosed,
+    );
+  }
+
+  /// Give all certified establishment in the data base
   Future<List<Establishment>> getAllEstablishment(){
     return establishmentService.getAllEstablishment();
   }
 
+  /// Parse the time to a String
   String convertToString(TimeOfDay time) {
     String minRes;
     String hourRes;

@@ -1,41 +1,46 @@
 import 'package:counter/counter.dart';
 import 'package:flutter/cupertino.dart';
 
-class GameCounter extends StatelessWidget {
+/// The counter of a game
+class GameCounter extends StatefulWidget {
+  /// The action to take on value change
   final ValueChanged<int> onChange;
+  /// The label of the game
   final String title;
+  /// The minimal value
   final int min;
+  /// The maximal value
   final int max;
+  /// The initial value
   final int initial;
-  late int value;
 
-
-  GameCounter({
+  /// The initializer of the class
+  const GameCounter({
     super.key,
     required this.title,
-    required this.min,
-    required this.max,
+    required this.onChange,
+    this.min = 0,
+    this.max = 99,
     this.initial = 0,
-    this.onChange = _noOp
-  }) {
-    value = initial;
-  }
+  });
 
-  static void _noOp(int value) {
-    // Does nothing
-  }
+  @override
+  State<GameCounter> createState() => _GameCounterState();
+}
 
+/// The state of GameCounter
+class _GameCounterState extends State<GameCounter> {
   @override
   Widget build(BuildContext context) {
     return Padding( padding: const EdgeInsets.all(8.0),
       child :
       Row(
         children: [
-          Text(title),
+          Text(widget.title),
           Counter(
-            min: 0,
-            max: 99,
-            initial: initial,
+            min: widget.min,
+            max: widget.max,
+            initial: widget.initial,
             onValueChanged: _onValueChanged,
           ),
         ],
@@ -43,9 +48,8 @@ class GameCounter extends StatelessWidget {
     );
   }
 
+  /// The action to take on value change
   _onValueChanged(num value) {
-    this.value = value as int;
-    onChange(value);
+    widget.onChange(value as int);
   }
-
 }

@@ -5,15 +5,23 @@ import 'package:flutter/material.dart';
 
 import '../../services/account_service.dart';
 
+/// The page where the user can have access to most of the page or action
+/// related to the management of the account
 class ManagePage extends StatefulWidget {
+
+  /// The initializer of the class
   const ManagePage({super.key});
 
   @override
   State<ManagePage> createState() => _ManagePageState();
 }
 
+/// The state of the ManagePage stateful widget
 class _ManagePageState extends State<ManagePage> {
+  /// The view model to access to the service which communicate with the account
+  /// part of our API
   AccountViewModel accountViewModel = AccountViewModel();
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -62,6 +70,8 @@ class _ManagePageState extends State<ManagePage> {
     );
   }
 
+  /// Ask the user if he really want to suppress is account and act on is
+  /// response
   void _onDelete() {
     showDialog(
       context: context,
@@ -113,6 +123,7 @@ class _ManagePageState extends State<ManagePage> {
     );//Navigator.pop(context);
   }
 
+  /// Disconnect the account of the user from the application
   void _disconnect() {
     setState(() {
       AccountService().disconnect();

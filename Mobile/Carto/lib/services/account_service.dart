@@ -8,10 +8,14 @@ import 'package:dio/dio.dart';
 
 import 'package:flutter/foundation.dart';
 
+/// The service to manage a account
 class AccountService {
+  /// The dio service
   final Dio dio = Dio();
+  /// The base path to the service
   final String basePath = "https://carto.onrender.com/account";
 
+  /// Add an account in the data base
   Future<String?> createAccount(Account account) async {
     try {
       if (account.role == Role.manager && account.managerInformation == null) {
@@ -49,6 +53,7 @@ class AccountService {
     }
   }
 
+  /// Check if a user name already exists in the data base
   Future<String> checkUsernameExists(String username) async {
     try {
       final response = await dio.get('$basePath/check-username/$username');
@@ -66,6 +71,7 @@ class AccountService {
     }
   }
 
+  /// Check if the email is already linked to another account in the data base
   Future<String> checkEmailExists(String email) async {
     try {
       final response = await dio.get('$basePath/check-email/$email');
@@ -82,6 +88,7 @@ class AccountService {
     }
   }
 
+  /// Update the user account in the data base
   void updateAccount(Account account) async {
     Response<dynamic> response = queryUseToken(
         type: QueryEnum.put,
@@ -91,6 +98,7 @@ class AccountService {
     DataManager.account = response.data;
   }
 
+  /// Delete the user account of the data base
   void deleteAccount() async {
     queryUseToken(
         type: QueryEnum.delete,
@@ -99,6 +107,7 @@ class AccountService {
     disconnect();
   }
 
+  /// Give a token who contain the credential of the user who can be used to obtain the functional token
   Future<bool> getCredential(String usernameOrMail, String password) async {
     Dio tmpDio = Dio();
     String basicAuth =
@@ -114,6 +123,7 @@ class AccountService {
     return true;
   }
 
+  /// Give the functional token of the user
   Future<String> getToken() async {
     if(!DataManager.isLogged) throw BadCredentialException();
 
@@ -129,6 +139,7 @@ class AccountService {
     }
   }
 
+  /// Give the data of the logged user
   Future<Account> getAccount() async {
     Response<dynamic> response = await queryUseToken(
         type: QueryEnum.get,
@@ -139,6 +150,7 @@ class AccountService {
     return account;
   }
 
+  /// Log the user in the app
   Future<bool> logIn(String usernameOrMail, String password) async {
     bool success = await getCredential(usernameOrMail, password);
     if(success) {
@@ -148,6 +160,7 @@ class AccountService {
     return success;
   }
 
+  /// Send query who need the functional token and refresh the token if needed
   Future<Response<dynamic>> queryUseToken({
     required QueryEnum type,
     required String path,
@@ -161,6 +174,8 @@ class AccountService {
     }
   }
 
+
+  /// Send query who need the functional token
   Future<Response<dynamic>> _queryUseToken({
     required QueryEnum type,
     required String path,
@@ -179,6 +194,7 @@ class AccountService {
     }
   }
 
+  /// Disconnect the user from the app
   void disconnect() {
     DataManager.token = "";
     DataManager.credential = "";
@@ -187,6 +203,7 @@ class AccountService {
     DataManager.prefs.setString("credential", "");
   }
 
+  /// Ask the server to send a forgotten password if the email is linked to an account
   void forgottenPassword(String email) {
     dio.put("$basePath/forgottenPassword/$email");
   }

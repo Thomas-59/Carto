@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 typedef StringCallback = String? Function(String?);
 
+/// The default form field for password
 class SinglePasswordFormField extends StatefulWidget {
 
+  /// The initializer of the class
   const SinglePasswordFormField({
     super.key,
     required this.label,
@@ -17,11 +19,23 @@ class SinglePasswordFormField extends StatefulWidget {
     this.validator,
   });
 
+  /// The label of the field
   final String label;
-  final String? helperText, hintText;
+  /// The helper text
+  final String? helperText,
+  /// The hint text
+    hintText;
+  /// The controller of the form field
   final TextEditingController controller;
-  final bool isFeminine, canBeEmpty;
-  final int minLines, maxLines;
+  /// If the label if feminine (French particularity)
+  final bool isFeminine,
+  /// If the field can be empty
+    canBeEmpty;
+  /// The minimal line to show in the field
+  final int minLines,
+  /// The maximal line to show in the field
+    maxLines;
+  /// The call back to test the validity of the value
   final StringCallback? validator;
 
   @override
@@ -29,15 +43,15 @@ class SinglePasswordFormField extends StatefulWidget {
 
 }
 
+/// The state of SinglePasswordFormField
 class _MyFormFieldPassword extends State<SinglePasswordFormField> {
+  /// If the password is visible
   bool passwordVisible = false;
-  bool confirmationVisible = false;
 
   @override
   void initState() {
     super.initState();
     passwordVisible = true;
-    confirmationVisible = true;
   }
 
   @override
@@ -76,6 +90,7 @@ class _MyFormFieldPassword extends State<SinglePasswordFormField> {
     );
   }
 
+  /// Return a string with the message error if the value is not valid
   String? _validator(String? value) {
     if (widget.canBeEmpty ? false : (value == null || value.isEmpty)) {
       return 'Veuillez entrer ${widget.isFeminine ? "une" : "un"} '

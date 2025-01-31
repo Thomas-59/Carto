@@ -10,12 +10,18 @@ import 'package:flutter/material.dart';
 import '../../../viewmodel/account_view_model.dart';
 import 'form_fields/username_form_field.dart';
 
+/// The account form
 class AccountForm extends StatefulWidget {
+  /// The initial data of the account
   final Account? account;
+  /// The action to take on value change
   final ValueChanged<Account> onConfirmation;
+  /// The label to apply on the button
   final String buttonTitle;
+  /// If the form is for updating the data of the account
   final bool onUpdate;
 
+  /// The initializer
   const AccountForm({
     super.key,
     this.account,
@@ -30,19 +36,32 @@ class AccountForm extends StatefulWidget {
   }
 }
 
+/// The state of AccountForm
 class AccountFormState extends State<AccountForm> {
+  /// The key of the class
   final _formKey = GlobalKey<FormState>();
+  /// The view model to deal with account
   final AccountViewModel accountViewModel = AccountViewModel();
+  /// If the manager part if showed
   bool _showManagerFields = false;
+  /// The validity state of the form
   bool _isFormValid = false;
 
+  /// The user name field controller
   late final TextEditingController _usernameController;
+  /// The password field controller
   late final TextEditingController _passwordController;
+  /// The password verify field controller
   late final TextEditingController _passwordVerifyController;
+  /// The email address field controller
   late final TextEditingController _emailAddressController;
+  /// The phone number field controller
   late final TextEditingController _phoneController;
+  /// The siren number field controller
   late final TextEditingController _sirenNumController;
+  /// The surname field controller
   late final TextEditingController _surnameController;
+  /// The first name field controller
   late final TextEditingController _firstnameController;
 
   @override
@@ -76,6 +95,7 @@ class AccountFormState extends State<AccountForm> {
     super.dispose();
   }
 
+  /// The action to take on confirmation of the form
   void _onConfirmation() async {
     if (_formKey.currentState?.validate() == true) {
       Account newAccount = Account(
